@@ -1,0 +1,15 @@
+{
+  "cliVersion": "5.80.4",
+  "generatorName": "fernapi/fern-python-sdk",
+  "generatorVersion": "5.22.1",
+  "generatorConfig": {
+    "client_class_name": "AgentLine",
+    "package_name": "agentline_ai",
+    "timeout_in_seconds": 60
+  },
+  "originGitCommit": "26471731b1c64d4b7baf7782b76da34cfc5dfee9",
+  "originGitCommitIsDirty": false,
+  "invokedBy": "ci",
+  "ciProvider": "github",
+  "sdkVersion": "0.0.2"
+}
