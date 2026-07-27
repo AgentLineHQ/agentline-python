@@ -38,7 +38,7 @@ Instantiate and use the client with the following:
 from agentline_ai import AgentLine
 
 client = AgentLine(
-    token="<token>",
+    api_key="<token>",
 )
 
 client.agents.create(
@@ -69,7 +69,7 @@ import asyncio
 from agentline_ai import AsyncAgentLine
 
 client = AsyncAgentLine(
-    token="<token>",
+    api_key="<token>",
 )
 
 

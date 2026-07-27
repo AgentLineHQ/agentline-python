@@ -48,7 +48,7 @@ class NumbersClient:
         from agentline_ai import AgentLine
 
         client = AgentLine(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
         client.numbers.list()
         """
@@ -110,7 +110,7 @@ class NumbersClient:
         from agentline_ai import AgentLine
 
         client = AgentLine(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
         client.numbers.buy(
             agent_id="agent_id",
@@ -150,7 +150,7 @@ class NumbersClient:
         from agentline_ai import AgentLine
 
         client = AgentLine(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
         client.numbers.get(
             number_id="number_id",
@@ -188,7 +188,7 @@ class NumbersClient:
         from agentline_ai import AgentLine
 
         client = AgentLine(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
         client.numbers.reassign(
             number_id="number_id",
@@ -239,7 +239,7 @@ class AsyncNumbersClient:
         from agentline_ai import AsyncAgentLine
 
         client = AsyncAgentLine(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
 
 
@@ -309,7 +309,7 @@ class AsyncNumbersClient:
         from agentline_ai import AsyncAgentLine
 
         client = AsyncAgentLine(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
 
 
@@ -357,7 +357,7 @@ class AsyncNumbersClient:
         from agentline_ai import AsyncAgentLine
 
         client = AsyncAgentLine(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
 
 
@@ -403,7 +403,7 @@ class AsyncNumbersClient:
         from agentline_ai import AsyncAgentLine
 
         client = AsyncAgentLine(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
 
 

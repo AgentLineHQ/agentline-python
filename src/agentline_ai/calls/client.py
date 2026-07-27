@@ -72,7 +72,7 @@ class CallsClient:
         from agentline_ai import AgentLine
 
         client = AgentLine(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
         client.calls.list()
         """
@@ -144,7 +144,7 @@ class CallsClient:
         from agentline_ai import AgentLine
 
         client = AgentLine(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
         client.calls.create(
             agent_id="agent_id",
@@ -187,7 +187,7 @@ class CallsClient:
         from agentline_ai import AgentLine
 
         client = AgentLine(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
         client.calls.get(
             call_id="call_id",
@@ -257,7 +257,7 @@ class CallsClient:
         from agentline_ai import AgentLine
 
         client = AgentLine(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
         client.calls.push_context(
             call_id="call_id",
@@ -295,7 +295,7 @@ class CallsClient:
         from agentline_ai import AgentLine
 
         client = AgentLine(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
         client.calls.hangup(
             call_id="call_id",
@@ -330,7 +330,7 @@ class CallsClient:
         from agentline_ai import AgentLine
 
         client = AgentLine(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
         client.calls.get_transcript(
             call_id="call_id",
@@ -404,7 +404,7 @@ class AsyncCallsClient:
         from agentline_ai import AsyncAgentLine
 
         client = AsyncAgentLine(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
 
 
@@ -484,7 +484,7 @@ class AsyncCallsClient:
         from agentline_ai import AsyncAgentLine
 
         client = AsyncAgentLine(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
 
 
@@ -535,7 +535,7 @@ class AsyncCallsClient:
         from agentline_ai import AsyncAgentLine
 
         client = AsyncAgentLine(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
 
 
@@ -613,7 +613,7 @@ class AsyncCallsClient:
         from agentline_ai import AsyncAgentLine
 
         client = AsyncAgentLine(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
 
 
@@ -659,7 +659,7 @@ class AsyncCallsClient:
         from agentline_ai import AsyncAgentLine
 
         client = AsyncAgentLine(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
 
 
@@ -704,7 +704,7 @@ class AsyncCallsClient:
         from agentline_ai import AsyncAgentLine
 
         client = AsyncAgentLine(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
 
 

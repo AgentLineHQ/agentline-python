@@ -48,7 +48,7 @@ class VoiceClient:
         from agentline_ai import AgentLine
 
         client = AgentLine(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
         client.voice.get()
         """
@@ -78,7 +78,7 @@ class VoiceClient:
         from agentline_ai import AgentLine
 
         client = AgentLine(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
         client.voice.reset()
         """
@@ -121,7 +121,7 @@ class VoiceClient:
         from agentline_ai import AgentLine
 
         client = AgentLine(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
         client.voice.set(
             voice_id="voice_id",
@@ -156,7 +156,7 @@ class VoiceClient:
         from agentline_ai import AgentLine
 
         client = AgentLine(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
         client.voice.list()
         """
@@ -204,7 +204,7 @@ class AsyncVoiceClient:
         from agentline_ai import AsyncAgentLine
 
         client = AsyncAgentLine(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
 
 
@@ -242,7 +242,7 @@ class AsyncVoiceClient:
         from agentline_ai import AsyncAgentLine
 
         client = AsyncAgentLine(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
 
 
@@ -293,7 +293,7 @@ class AsyncVoiceClient:
         from agentline_ai import AsyncAgentLine
 
         client = AsyncAgentLine(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
 
 
@@ -336,7 +336,7 @@ class AsyncVoiceClient:
         from agentline_ai import AsyncAgentLine
 
         client = AsyncAgentLine(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
 
 

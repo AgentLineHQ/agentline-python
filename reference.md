@@ -35,7 +35,7 @@ from agentline_ai import AgentLine
 from agentline_ai.environment import AgentLineEnvironment
 
 client = AgentLine(
-    token="<token>",
+    api_key="<token>",
     environment=AgentLineEnvironment.PRODUCTION,
 )
 
@@ -102,7 +102,7 @@ from agentline_ai import AgentLine
 from agentline_ai.environment import AgentLineEnvironment
 
 client = AgentLine(
-    token="<token>",
+    api_key="<token>",
     environment=AgentLineEnvironment.PRODUCTION,
 )
 
@@ -179,7 +179,7 @@ from agentline_ai import AgentLine
 from agentline_ai.environment import AgentLineEnvironment
 
 client = AgentLine(
-    token="<token>",
+    api_key="<token>",
     environment=AgentLineEnvironment.PRODUCTION,
 )
 
@@ -259,7 +259,7 @@ from agentline_ai import AgentLine
 from agentline_ai.environment import AgentLineEnvironment
 
 client = AgentLine(
-    token="<token>",
+    api_key="<token>",
     environment=AgentLineEnvironment.PRODUCTION,
 )
 
@@ -327,7 +327,7 @@ from agentline_ai import AgentLine
 from agentline_ai.environment import AgentLineEnvironment
 
 client = AgentLine(
-    token="<token>",
+    api_key="<token>",
     environment=AgentLineEnvironment.PRODUCTION,
 )
 
@@ -402,7 +402,7 @@ from agentline_ai import AgentLine
 from agentline_ai.environment import AgentLineEnvironment
 
 client = AgentLine(
-    token="<token>",
+    api_key="<token>",
     environment=AgentLineEnvironment.PRODUCTION,
 )
 
@@ -526,7 +526,7 @@ from agentline_ai import AgentLine
 from agentline_ai.environment import AgentLineEnvironment
 
 client = AgentLine(
-    token="<token>",
+    api_key="<token>",
     environment=AgentLineEnvironment.PRODUCTION,
 )
 
@@ -603,7 +603,7 @@ from agentline_ai import AgentLine
 from agentline_ai.environment import AgentLineEnvironment
 
 client = AgentLine(
-    token="<token>",
+    api_key="<token>",
     environment=AgentLineEnvironment.PRODUCTION,
 )
 
@@ -681,7 +681,7 @@ from agentline_ai import AgentLine
 from agentline_ai.environment import AgentLineEnvironment
 
 client = AgentLine(
-    token="<token>",
+    api_key="<token>",
     environment=AgentLineEnvironment.PRODUCTION,
 )
 
@@ -816,7 +816,7 @@ from agentline_ai import AgentLine
 from agentline_ai.environment import AgentLineEnvironment
 
 client = AgentLine(
-    token="<token>",
+    api_key="<token>",
     environment=AgentLineEnvironment.PRODUCTION,
 )
 
@@ -884,7 +884,7 @@ from agentline_ai import AgentLine
 from agentline_ai.environment import AgentLineEnvironment
 
 client = AgentLine(
-    token="<token>",
+    api_key="<token>",
     environment=AgentLineEnvironment.PRODUCTION,
 )
 
@@ -959,7 +959,7 @@ from agentline_ai import AgentLine
 from agentline_ai.environment import AgentLineEnvironment
 
 client = AgentLine(
-    token="<token>",
+    api_key="<token>",
     environment=AgentLineEnvironment.PRODUCTION,
 )
 
@@ -1041,7 +1041,7 @@ from agentline_ai import AgentLine
 from agentline_ai.environment import AgentLineEnvironment
 
 client = AgentLine(
-    token="<token>",
+    api_key="<token>",
     environment=AgentLineEnvironment.PRODUCTION,
 )
 
@@ -1122,7 +1122,7 @@ from agentline_ai import AgentLine
 from agentline_ai.environment import AgentLineEnvironment
 
 client = AgentLine(
-    token="<token>",
+    api_key="<token>",
     environment=AgentLineEnvironment.PRODUCTION,
 )
 
@@ -1202,7 +1202,7 @@ from agentline_ai import AgentLine
 from agentline_ai.environment import AgentLineEnvironment
 
 client = AgentLine(
-    token="<token>",
+    api_key="<token>",
     environment=AgentLineEnvironment.PRODUCTION,
 )
 
@@ -1313,7 +1313,7 @@ from agentline_ai import AgentLine
 from agentline_ai.environment import AgentLineEnvironment
 
 client = AgentLine(
-    token="<token>",
+    api_key="<token>",
     environment=AgentLineEnvironment.PRODUCTION,
 )
 
@@ -1431,7 +1431,7 @@ from agentline_ai import AgentLine
 from agentline_ai.environment import AgentLineEnvironment
 
 client = AgentLine(
-    token="<token>",
+    api_key="<token>",
     environment=AgentLineEnvironment.PRODUCTION,
 )
 
@@ -1529,7 +1529,7 @@ from agentline_ai import AgentLine
 from agentline_ai.environment import AgentLineEnvironment
 
 client = AgentLine(
-    token="<token>",
+    api_key="<token>",
     environment=AgentLineEnvironment.PRODUCTION,
 )
 
@@ -1634,7 +1634,7 @@ from agentline_ai import AgentLine
 from agentline_ai.environment import AgentLineEnvironment
 
 client = AgentLine(
-    token="<token>",
+    api_key="<token>",
     environment=AgentLineEnvironment.PRODUCTION,
 )
 
@@ -1712,7 +1712,7 @@ from agentline_ai import AgentLine
 from agentline_ai.environment import AgentLineEnvironment
 
 client = AgentLine(
-    token="<token>",
+    api_key="<token>",
     environment=AgentLineEnvironment.PRODUCTION,
 )
 
@@ -1797,7 +1797,7 @@ from agentline_ai import AgentLine
 from agentline_ai.environment import AgentLineEnvironment
 
 client = AgentLine(
-    token="<token>",
+    api_key="<token>",
     environment=AgentLineEnvironment.PRODUCTION,
 )
 
@@ -1888,7 +1888,7 @@ from agentline_ai import AgentLine
 from agentline_ai.environment import AgentLineEnvironment
 
 client = AgentLine(
-    token="<token>",
+    api_key="<token>",
     environment=AgentLineEnvironment.PRODUCTION,
 )
 
@@ -1972,7 +1972,7 @@ from agentline_ai import AgentLine
 from agentline_ai.environment import AgentLineEnvironment
 
 client = AgentLine(
-    token="<token>",
+    api_key="<token>",
     environment=AgentLineEnvironment.PRODUCTION,
 )
 
@@ -2067,7 +2067,7 @@ from agentline_ai import AgentLine
 from agentline_ai.environment import AgentLineEnvironment
 
 client = AgentLine(
-    token="<token>",
+    api_key="<token>",
     environment=AgentLineEnvironment.PRODUCTION,
 )
 
@@ -2178,7 +2178,7 @@ from agentline_ai import AgentLine
 from agentline_ai.environment import AgentLineEnvironment
 
 client = AgentLine(
-    token="<token>",
+    api_key="<token>",
     environment=AgentLineEnvironment.PRODUCTION,
 )
 
@@ -2254,7 +2254,7 @@ from agentline_ai import AgentLine
 from agentline_ai.environment import AgentLineEnvironment
 
 client = AgentLine(
-    token="<token>",
+    api_key="<token>",
     environment=AgentLineEnvironment.PRODUCTION,
 )
 
@@ -2329,7 +2329,7 @@ from agentline_ai import AgentLine
 from agentline_ai.environment import AgentLineEnvironment
 
 client = AgentLine(
-    token="<token>",
+    api_key="<token>",
     environment=AgentLineEnvironment.PRODUCTION,
 )
 
@@ -2437,7 +2437,7 @@ from agentline_ai import AgentLine
 from agentline_ai.environment import AgentLineEnvironment
 
 client = AgentLine(
-    token="<token>",
+    api_key="<token>",
     environment=AgentLineEnvironment.PRODUCTION,
 )
 
@@ -2514,7 +2514,7 @@ from agentline_ai import AgentLine
 from agentline_ai.environment import AgentLineEnvironment
 
 client = AgentLine(
-    token="<token>",
+    api_key="<token>",
     environment=AgentLineEnvironment.PRODUCTION,
 )
 
@@ -2600,7 +2600,7 @@ from agentline_ai import AgentLine
 from agentline_ai.environment import AgentLineEnvironment
 
 client = AgentLine(
-    token="<token>",
+    api_key="<token>",
     environment=AgentLineEnvironment.PRODUCTION,
 )
 
@@ -2682,7 +2682,7 @@ from agentline_ai import AgentLine
 from agentline_ai.environment import AgentLineEnvironment
 
 client = AgentLine(
-    token="<token>",
+    api_key="<token>",
     environment=AgentLineEnvironment.PRODUCTION,
 )
 
@@ -2781,7 +2781,7 @@ from agentline_ai import AgentLine
 from agentline_ai.environment import AgentLineEnvironment
 
 client = AgentLine(
-    token="<token>",
+    api_key="<token>",
     environment=AgentLineEnvironment.PRODUCTION,
 )
 
@@ -2858,7 +2858,7 @@ from agentline_ai import AgentLine
 from agentline_ai.environment import AgentLineEnvironment
 
 client = AgentLine(
-    token="<token>",
+    api_key="<token>",
     environment=AgentLineEnvironment.PRODUCTION,
 )
 

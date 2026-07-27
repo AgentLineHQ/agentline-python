@@ -68,7 +68,7 @@ class EventsClient:
         from agentline_ai import AgentLine
 
         client = AgentLine(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
         client.events.poll()
         """
@@ -112,7 +112,7 @@ class EventsClient:
         from agentline_ai import AgentLine
 
         client = AgentLine(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
         client.events.peek()
         """
@@ -183,7 +183,7 @@ class AsyncEventsClient:
         from agentline_ai import AsyncAgentLine
 
         client = AsyncAgentLine(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
 
 
@@ -235,7 +235,7 @@ class AsyncEventsClient:
         from agentline_ai import AsyncAgentLine
 
         client = AsyncAgentLine(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
 
 

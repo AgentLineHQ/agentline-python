@@ -49,7 +49,7 @@ class AgentsClient:
         from agentline_ai import AgentLine
 
         client = AgentLine(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
         client.agents.list()
         """
@@ -119,7 +119,7 @@ class AgentsClient:
         from agentline_ai import AgentLine
 
         client = AgentLine(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
         client.agents.create(
             name="name",
@@ -161,7 +161,7 @@ class AgentsClient:
         from agentline_ai import AgentLine
 
         client = AgentLine(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
         client.agents.get(
             agent_id="agent_id",
@@ -195,7 +195,7 @@ class AgentsClient:
         from agentline_ai import AgentLine
 
         client = AgentLine(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
         client.agents.delete(
             agent_id="agent_id",
@@ -263,7 +263,7 @@ class AgentsClient:
         from agentline_ai import AgentLine
 
         client = AgentLine(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
         client.agents.update(
             agent_id="agent_id",
@@ -323,7 +323,7 @@ class AsyncAgentsClient:
         from agentline_ai import AsyncAgentLine
 
         client = AsyncAgentLine(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
 
 
@@ -401,7 +401,7 @@ class AsyncAgentsClient:
         from agentline_ai import AsyncAgentLine
 
         client = AsyncAgentLine(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
 
 
@@ -451,7 +451,7 @@ class AsyncAgentsClient:
         from agentline_ai import AsyncAgentLine
 
         client = AsyncAgentLine(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
 
 
@@ -493,7 +493,7 @@ class AsyncAgentsClient:
         from agentline_ai import AsyncAgentLine
 
         client = AsyncAgentLine(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
 
 
@@ -569,7 +569,7 @@ class AsyncAgentsClient:
         from agentline_ai import AsyncAgentLine
 
         client = AsyncAgentLine(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
 
 

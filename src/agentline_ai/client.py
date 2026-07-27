@@ -2,9 +2,11 @@
 
 from __future__ import annotations
 
+import os
 import typing
 
 import httpx
+from .core.api_error import ApiError
 from .core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .core.logging import LogConfig, Logger
 from .environment import AgentLineEnvironment
@@ -38,7 +40,7 @@ class AgentLine:
 
 
 
-    token : typing.Union[str, typing.Callable[[], str]]
+    api_key : typing.Optional[typing.Union[str, typing.Callable[[], str]]]
     headers : typing.Optional[typing.Dict[str, str]]
         Additional headers to send with every request.
 
@@ -68,7 +70,7 @@ class AgentLine:
     from agentline_ai import AgentLine
 
     client = AgentLine(
-        token="YOUR_TOKEN",
+        api_key="YOUR_API_KEY",
     )
     """
 
@@ -77,7 +79,7 @@ class AgentLine:
         *,
         base_url: typing.Optional[str] = None,
         environment: AgentLineEnvironment = AgentLineEnvironment.PRODUCTION,
-        token: typing.Union[str, typing.Callable[[], str]],
+        api_key: typing.Optional[typing.Union[str, typing.Callable[[], str]]] = os.getenv("AGENTLINE_API_KEY"),
         headers: typing.Optional[typing.Dict[str, str]] = None,
         timeout: typing.Optional[float] = None,
         max_retries: typing.Optional[int] = None,
@@ -89,9 +91,13 @@ class AgentLine:
     ):
         _defaulted_timeout = timeout if timeout is not None else 60 if httpx_client is None else None
         _defaulted_max_retries = max_retries if max_retries is not None else 2
+        if api_key is None:
+            raise ApiError(
+                body="The client must be instantiated be either passing in api_key or setting AGENTLINE_API_KEY"
+            )
         self._client_wrapper = SyncClientWrapper(
             base_url=_get_base_url(base_url=base_url, environment=environment),
-            token=token,
+            api_key=api_key,
             headers=headers,
             httpx_client=httpx_client
             if httpx_client is not None
@@ -214,7 +220,7 @@ class AsyncAgentLine:
 
 
 
-    token : typing.Union[str, typing.Callable[[], str]]
+    api_key : typing.Optional[typing.Union[str, typing.Callable[[], str]]]
     headers : typing.Optional[typing.Dict[str, str]]
         Additional headers to send with every request.
 
@@ -247,7 +253,7 @@ class AsyncAgentLine:
     from agentline_ai import AsyncAgentLine
 
     client = AsyncAgentLine(
-        token="YOUR_TOKEN",
+        api_key="YOUR_API_KEY",
     )
     """
 
@@ -256,7 +262,7 @@ class AsyncAgentLine:
         *,
         base_url: typing.Optional[str] = None,
         environment: AgentLineEnvironment = AgentLineEnvironment.PRODUCTION,
-        token: typing.Union[str, typing.Callable[[], str]],
+        api_key: typing.Optional[typing.Union[str, typing.Callable[[], str]]] = os.getenv("AGENTLINE_API_KEY"),
         headers: typing.Optional[typing.Dict[str, str]] = None,
         async_token: typing.Optional[typing.Callable[[], typing.Awaitable[str]]] = None,
         timeout: typing.Optional[float] = None,
@@ -269,9 +275,13 @@ class AsyncAgentLine:
     ):
         _defaulted_timeout = timeout if timeout is not None else 60 if httpx_client is None else None
         _defaulted_max_retries = max_retries if max_retries is not None else 2
+        if api_key is None:
+            raise ApiError(
+                body="The client must be instantiated be either passing in api_key or setting AGENTLINE_API_KEY"
+            )
         self._client_wrapper = AsyncClientWrapper(
             base_url=_get_base_url(base_url=base_url, environment=environment),
-            token=token,
+            api_key=api_key,
             headers=headers,
             async_token=async_token,
             httpx_client=httpx_client
