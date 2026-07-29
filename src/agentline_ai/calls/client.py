@@ -216,7 +216,7 @@ class CallsClient:
           1. **Push token** (preferred — no API key): the ``push_token`` from the
              ``call.utterance`` payload, via ``X-Push-Token`` header, ``?token=``
              query param, or ``push_token`` body field.
-          2. **Bearer API key**: ``Authorization: Bearer sk_live_...`` for the
+          2. **Bearer API key**: ``Authorization: Bearer al_live_...`` for the
              account that owns the call.
 
         Body — any of these keys works (``context`` is canonical):
@@ -570,7 +570,7 @@ class AsyncCallsClient:
           1. **Push token** (preferred — no API key): the ``push_token`` from the
              ``call.utterance`` payload, via ``X-Push-Token`` header, ``?token=``
              query param, or ``push_token`` body field.
-          2. **Bearer API key**: ``Authorization: Bearer sk_live_...`` for the
+          2. **Bearer API key**: ``Authorization: Bearer al_live_...`` for the
              account that owns the call.
 
         Body — any of these keys works (``context`` is canonical):
