@@ -202,6 +202,7 @@ class CallsClient:
         *,
         request: typing.Dict[str, typing.Any],
         token: typing.Optional[str] = None,
+        turn_id: typing.Optional[str] = None,
         push_token: typing.Optional[str] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> typing.Any:
@@ -210,7 +211,8 @@ class CallsClient:
 
         This is the required way for backend agents (Hermes, OpenClaw, etc.) to
         answer a live caller after a ``call.utterance`` event. Do your work, then
-        POST facts here — do NOT only send the answer to WhatsApp/SMS/chat.
+        POST a concise caller-ready response here. It is spoken verbatim and stored
+        as the assistant turn for later conversation context.
 
         AUTHENTICATION (one of):
           1. **Push token** (preferred — no API key): the ``push_token`` from the
@@ -220,16 +222,19 @@ class CallsClient:
              account that owns the call.
 
         Body — any of these keys works (``context`` is canonical):
-            {"context": "the facts/answer the voice agent should speak"}
+            {"context": "the exact short response the caller should hear"}
 
-        Other accepted keys: ``summary``, ``answer``, ``response``, ``message``,
-        ``reply``, ``text``, ``result``.
+        Other accepted keys: ``summary``, ``answer``, ``response``, ``reply``,
+        ``text``, ``result``.
+
+        Every response must include the exact ``turn_id`` from ``call.utterance``.
+        Late context is rejected instead of being applied to another question.
 
         Returns:
-            delivered=true, status="live"     — voice agent will speak it now
-            delivered=true, status="buffered" — caller moved on; held for their
-              next question (late pushes are NOT rejected)
-            HTTP 410                           — **call has ended.** STOP working
+            delivered=true, status="live"      — voice agent will speak it now
+            delivered=true, status="duplicate" — identical retry already accepted
+            HTTP 409                            — turn is stale/cancelled
+            HTTP 410                            — **call has ended.** STOP working
               on this request and abandon any in-flight lookup. No further context
               will be spoken.
 
@@ -241,6 +246,9 @@ class CallsClient:
 
         token : typing.Optional[str]
             Push token (alt to X-Push-Token header / body).
+
+        turn_id : typing.Optional[str]
+            Turn ID from call.utterance.
 
         push_token : typing.Optional[str]
 
@@ -265,7 +273,12 @@ class CallsClient:
         )
         """
         _response = self._raw_client.push_context(
-            call_id, request=request, token=token, push_token=push_token, request_options=request_options
+            call_id,
+            request=request,
+            token=token,
+            turn_id=turn_id,
+            push_token=push_token,
+            request_options=request_options,
         )
         return _response.data
 
@@ -556,6 +569,7 @@ class AsyncCallsClient:
         *,
         request: typing.Dict[str, typing.Any],
         token: typing.Optional[str] = None,
+        turn_id: typing.Optional[str] = None,
         push_token: typing.Optional[str] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> typing.Any:
@@ -564,7 +578,8 @@ class AsyncCallsClient:
 
         This is the required way for backend agents (Hermes, OpenClaw, etc.) to
         answer a live caller after a ``call.utterance`` event. Do your work, then
-        POST facts here — do NOT only send the answer to WhatsApp/SMS/chat.
+        POST a concise caller-ready response here. It is spoken verbatim and stored
+        as the assistant turn for later conversation context.
 
         AUTHENTICATION (one of):
           1. **Push token** (preferred — no API key): the ``push_token`` from the
@@ -574,16 +589,19 @@ class AsyncCallsClient:
              account that owns the call.
 
         Body — any of these keys works (``context`` is canonical):
-            {"context": "the facts/answer the voice agent should speak"}
+            {"context": "the exact short response the caller should hear"}
 
-        Other accepted keys: ``summary``, ``answer``, ``response``, ``message``,
-        ``reply``, ``text``, ``result``.
+        Other accepted keys: ``summary``, ``answer``, ``response``, ``reply``,
+        ``text``, ``result``.
+
+        Every response must include the exact ``turn_id`` from ``call.utterance``.
+        Late context is rejected instead of being applied to another question.
 
         Returns:
-            delivered=true, status="live"     — voice agent will speak it now
-            delivered=true, status="buffered" — caller moved on; held for their
-              next question (late pushes are NOT rejected)
-            HTTP 410                           — **call has ended.** STOP working
+            delivered=true, status="live"      — voice agent will speak it now
+            delivered=true, status="duplicate" — identical retry already accepted
+            HTTP 409                            — turn is stale/cancelled
+            HTTP 410                            — **call has ended.** STOP working
               on this request and abandon any in-flight lookup. No further context
               will be spoken.
 
@@ -595,6 +613,9 @@ class AsyncCallsClient:
 
         token : typing.Optional[str]
             Push token (alt to X-Push-Token header / body).
+
+        turn_id : typing.Optional[str]
+            Turn ID from call.utterance.
 
         push_token : typing.Optional[str]
 
@@ -627,7 +648,12 @@ class AsyncCallsClient:
         asyncio.run(main())
         """
         _response = await self._raw_client.push_context(
-            call_id, request=request, token=token, push_token=push_token, request_options=request_options
+            call_id,
+            request=request,
+            token=token,
+            turn_id=turn_id,
+            push_token=push_token,
+            request_options=request_options,
         )
         return _response.data
 

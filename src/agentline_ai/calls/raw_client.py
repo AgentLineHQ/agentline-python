@@ -277,6 +277,7 @@ class RawCallsClient:
         *,
         request: typing.Dict[str, typing.Any],
         token: typing.Optional[str] = None,
+        turn_id: typing.Optional[str] = None,
         push_token: typing.Optional[str] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[typing.Any]:
@@ -285,7 +286,8 @@ class RawCallsClient:
 
         This is the required way for backend agents (Hermes, OpenClaw, etc.) to
         answer a live caller after a ``call.utterance`` event. Do your work, then
-        POST facts here — do NOT only send the answer to WhatsApp/SMS/chat.
+        POST a concise caller-ready response here. It is spoken verbatim and stored
+        as the assistant turn for later conversation context.
 
         AUTHENTICATION (one of):
           1. **Push token** (preferred — no API key): the ``push_token`` from the
@@ -295,16 +297,19 @@ class RawCallsClient:
              account that owns the call.
 
         Body — any of these keys works (``context`` is canonical):
-            {"context": "the facts/answer the voice agent should speak"}
+            {"context": "the exact short response the caller should hear"}
 
-        Other accepted keys: ``summary``, ``answer``, ``response``, ``message``,
-        ``reply``, ``text``, ``result``.
+        Other accepted keys: ``summary``, ``answer``, ``response``, ``reply``,
+        ``text``, ``result``.
+
+        Every response must include the exact ``turn_id`` from ``call.utterance``.
+        Late context is rejected instead of being applied to another question.
 
         Returns:
-            delivered=true, status="live"     — voice agent will speak it now
-            delivered=true, status="buffered" — caller moved on; held for their
-              next question (late pushes are NOT rejected)
-            HTTP 410                           — **call has ended.** STOP working
+            delivered=true, status="live"      — voice agent will speak it now
+            delivered=true, status="duplicate" — identical retry already accepted
+            HTTP 409                            — turn is stale/cancelled
+            HTTP 410                            — **call has ended.** STOP working
               on this request and abandon any in-flight lookup. No further context
               will be spoken.
 
@@ -316,6 +321,9 @@ class RawCallsClient:
 
         token : typing.Optional[str]
             Push token (alt to X-Push-Token header / body).
+
+        turn_id : typing.Optional[str]
+            Turn ID from call.utterance.
 
         push_token : typing.Optional[str]
 
@@ -332,6 +340,7 @@ class RawCallsClient:
             method="POST",
             params={
                 "token": token,
+                "turn_id": turn_id,
             },
             json=request,
             headers={
@@ -755,6 +764,7 @@ class AsyncRawCallsClient:
         *,
         request: typing.Dict[str, typing.Any],
         token: typing.Optional[str] = None,
+        turn_id: typing.Optional[str] = None,
         push_token: typing.Optional[str] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[typing.Any]:
@@ -763,7 +773,8 @@ class AsyncRawCallsClient:
 
         This is the required way for backend agents (Hermes, OpenClaw, etc.) to
         answer a live caller after a ``call.utterance`` event. Do your work, then
-        POST facts here — do NOT only send the answer to WhatsApp/SMS/chat.
+        POST a concise caller-ready response here. It is spoken verbatim and stored
+        as the assistant turn for later conversation context.
 
         AUTHENTICATION (one of):
           1. **Push token** (preferred — no API key): the ``push_token`` from the
@@ -773,16 +784,19 @@ class AsyncRawCallsClient:
              account that owns the call.
 
         Body — any of these keys works (``context`` is canonical):
-            {"context": "the facts/answer the voice agent should speak"}
+            {"context": "the exact short response the caller should hear"}
 
-        Other accepted keys: ``summary``, ``answer``, ``response``, ``message``,
-        ``reply``, ``text``, ``result``.
+        Other accepted keys: ``summary``, ``answer``, ``response``, ``reply``,
+        ``text``, ``result``.
+
+        Every response must include the exact ``turn_id`` from ``call.utterance``.
+        Late context is rejected instead of being applied to another question.
 
         Returns:
-            delivered=true, status="live"     — voice agent will speak it now
-            delivered=true, status="buffered" — caller moved on; held for their
-              next question (late pushes are NOT rejected)
-            HTTP 410                           — **call has ended.** STOP working
+            delivered=true, status="live"      — voice agent will speak it now
+            delivered=true, status="duplicate" — identical retry already accepted
+            HTTP 409                            — turn is stale/cancelled
+            HTTP 410                            — **call has ended.** STOP working
               on this request and abandon any in-flight lookup. No further context
               will be spoken.
 
@@ -794,6 +808,9 @@ class AsyncRawCallsClient:
 
         token : typing.Optional[str]
             Push token (alt to X-Push-Token header / body).
+
+        turn_id : typing.Optional[str]
+            Turn ID from call.utterance.
 
         push_token : typing.Optional[str]
 
@@ -810,6 +827,7 @@ class AsyncRawCallsClient:
             method="POST",
             params={
                 "token": token,
+                "turn_id": turn_id,
             },
             json=request,
             headers={
