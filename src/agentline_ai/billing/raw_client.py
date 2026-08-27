@@ -22,10 +22,9 @@ class RawBillingClient:
         """
         Get your AI telephony account balance and rate card.
 
-        Returns the current balance, currency, billing rates for calls
-        and phone numbers, and how many call minutes or phone numbers
-        the balance can cover. Use this to check affordability before
-        making calls or buying numbers for your AI agents.
+        Returns the current balance, currency, billing rates for calls,
+        phone numbers, and inbound SMS, plus what the balance can cover.
+        Use this to check affordability before paid telephony operations.
 
         Parameters
         ----------
@@ -340,10 +339,9 @@ class AsyncRawBillingClient:
         """
         Get your AI telephony account balance and rate card.
 
-        Returns the current balance, currency, billing rates for calls
-        and phone numbers, and how many call minutes or phone numbers
-        the balance can cover. Use this to check affordability before
-        making calls or buying numbers for your AI agents.
+        Returns the current balance, currency, billing rates for calls,
+        phone numbers, and inbound SMS, plus what the balance can cover.
+        Use this to check affordability before paid telephony operations.
 
         Parameters
         ----------
