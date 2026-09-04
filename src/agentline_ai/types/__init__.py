@@ -6,6 +6,8 @@ import typing
 from importlib import import_module
 
 if typing.TYPE_CHECKING:
+    from .agent_id_poll_request import AgentIdPollRequest
+    from .agent_id_start_request import AgentIdStartRequest
     from .agent_out import AgentOut
     from .feedback_category import FeedbackCategory
     from .feedback_create import FeedbackCreate
@@ -19,6 +21,8 @@ if typing.TYPE_CHECKING:
     from .verify_request import VerifyRequest
     from .webhook_created import WebhookCreated
 _dynamic_imports: typing.Dict[str, str] = {
+    "AgentIdPollRequest": ".agent_id_poll_request",
+    "AgentIdStartRequest": ".agent_id_start_request",
     "AgentOut": ".agent_out",
     "FeedbackCategory": ".feedback_category",
     "FeedbackCreate": ".feedback_create",
@@ -56,6 +60,8 @@ def __dir__():
 
 
 __all__ = [
+    "AgentIdPollRequest",
+    "AgentIdStartRequest",
     "AgentOut",
     "FeedbackCategory",
     "FeedbackCreate",

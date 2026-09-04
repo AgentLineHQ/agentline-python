@@ -7,6 +7,8 @@ from importlib import import_module
 
 if typing.TYPE_CHECKING:
     from .types import (
+        AgentIdPollRequest,
+        AgentIdStartRequest,
         AgentOut,
         FeedbackCategory,
         FeedbackCreate,
@@ -27,6 +29,8 @@ if typing.TYPE_CHECKING:
     from .environment import AgentLineEnvironment
     from .version import __version__
 _dynamic_imports: typing.Dict[str, str] = {
+    "AgentIdPollRequest": ".types",
+    "AgentIdStartRequest": ".types",
     "AgentLine": ".client",
     "AgentLineEnvironment": ".environment",
     "AgentOut": ".types",
@@ -79,6 +83,8 @@ def __dir__():
 
 
 __all__ = [
+    "AgentIdPollRequest",
+    "AgentIdStartRequest",
     "AgentLine",
     "AgentLineEnvironment",
     "AgentOut",
