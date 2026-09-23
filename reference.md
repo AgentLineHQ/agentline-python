@@ -382,8 +382,9 @@ Fields:
   - system_prompt: Instructions that define the agent's personality and behavior on calls
   - initial_greeting: What the AI agent says when the call connects
   - voice_id: TTS voice preset (e.g. "female-1") or Cartesia UUID
-  - transfer_number: Phone number to transfer calls to (e.g. a human operator)
+  - transfer_number: Must be the owner phone. Live calls transfer only to owner_phone.
   - voicemail_message: Message the agent leaves if the call goes to voicemail
+  - owner_phone: Owner's E.164 number. Task mode, and the only transfer destination.
 </dd>
 </dl>
 </dd>
@@ -456,7 +457,7 @@ client.agents.create(
 <dl>
 <dd>
 
-**transfer_number:** `typing.Optional[str]` — Phone number in E.164 format to transfer calls to (e.g. a human operator fallback)
+**transfer_number:** `typing.Optional[str]` — Ignored unless it is the owner phone. Live transfers always dial owner_phone; a different number is rejected.
     
 </dd>
 </dl>
@@ -472,7 +473,7 @@ client.agents.create(
 <dl>
 <dd>
 
-**owner_phone:** `typing.Optional[str]` — Owner's phone number in E.164 format (e.g. '+12125551234'). Calls from this number enter task mode — the agent treats speech as executable instructions.
+**owner_phone:** `typing.Optional[str]` — Owner's phone number in E.164 format (e.g. '+12125551234'). Calls from this number enter task mode. This is also the only number a live call can be transferred to.
     
 </dd>
 </dl>
@@ -743,7 +744,7 @@ client.agents.update(
 <dl>
 <dd>
 
-**transfer_number:** `typing.Optional[str]` — Updated transfer phone number in E.164 format
+**transfer_number:** `typing.Optional[str]` — Must match owner_phone. A different number is rejected; setting owner_phone updates this to the same number.
     
 </dd>
 </dl>
@@ -759,7 +760,7 @@ client.agents.update(
 <dl>
 <dd>
 
-**owner_phone:** `typing.Optional[str]` — Updated owner phone number in E.164 format for task mode
+**owner_phone:** `typing.Optional[str]` — Updated owner phone in E.164. Also becomes the only live-call transfer destination.
     
 </dd>
 </dl>
@@ -1488,8 +1489,10 @@ Push context into a LIVE relay-mode call (mid-call context injection).
 
 This is the required way for backend agents (Hermes, OpenClaw, etc.) to
 answer a live caller after a ``call.utterance`` event. Do your work, then
-POST a concise caller-ready response here. It is spoken verbatim and stored
-as the assistant turn for later conversation context.
+POST facts for the hosted voice to speak. Send ``disposition: progress``
+as the work advances; the turn stays open. ``done``, ``failed``, or
+``facts`` settles it. The hosted voice speaks that text exactly and keeps it
+for the rest of the call.
 
 AUTHENTICATION (one of):
   1. **Push token** (preferred — no API key): the ``push_token`` from the

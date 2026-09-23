@@ -80,8 +80,9 @@ class AgentsClient:
           - system_prompt: Instructions that define the agent's personality and behavior on calls
           - initial_greeting: What the AI agent says when the call connects
           - voice_id: TTS voice preset (e.g. "female-1") or Cartesia UUID
-          - transfer_number: Phone number to transfer calls to (e.g. a human operator)
+          - transfer_number: Must be the owner phone. Live calls transfer only to owner_phone.
           - voicemail_message: Message the agent leaves if the call goes to voicemail
+          - owner_phone: Owner's E.164 number. Task mode, and the only transfer destination.
 
         Parameters
         ----------
@@ -98,13 +99,13 @@ class AgentsClient:
             TTS voice preset name (e.g. 'female-1', 'male-1') or Cartesia voice UUID; defaults to system voice if not set
 
         transfer_number : typing.Optional[str]
-            Phone number in E.164 format to transfer calls to (e.g. a human operator fallback)
+            Ignored unless it is the owner phone. Live transfers always dial owner_phone; a different number is rejected.
 
         voicemail_message : typing.Optional[str]
             Message the AI agent leaves if the call goes to voicemail
 
         owner_phone : typing.Optional[str]
-            Owner's phone number in E.164 format (e.g. '+12125551234'). Calls from this number enter task mode — the agent treats speech as executable instructions.
+            Owner's phone number in E.164 format (e.g. '+12125551234'). Calls from this number enter task mode. This is also the only number a live call can be transferred to.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -242,13 +243,13 @@ class AgentsClient:
             New TTS voice preset name or Cartesia voice UUID
 
         transfer_number : typing.Optional[str]
-            Updated transfer phone number in E.164 format
+            Must match owner_phone. A different number is rejected; setting owner_phone updates this to the same number.
 
         voicemail_message : typing.Optional[str]
             Updated voicemail message
 
         owner_phone : typing.Optional[str]
-            Updated owner phone number in E.164 format for task mode
+            Updated owner phone in E.164. Also becomes the only live-call transfer destination.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -360,8 +361,9 @@ class AsyncAgentsClient:
           - system_prompt: Instructions that define the agent's personality and behavior on calls
           - initial_greeting: What the AI agent says when the call connects
           - voice_id: TTS voice preset (e.g. "female-1") or Cartesia UUID
-          - transfer_number: Phone number to transfer calls to (e.g. a human operator)
+          - transfer_number: Must be the owner phone. Live calls transfer only to owner_phone.
           - voicemail_message: Message the agent leaves if the call goes to voicemail
+          - owner_phone: Owner's E.164 number. Task mode, and the only transfer destination.
 
         Parameters
         ----------
@@ -378,13 +380,13 @@ class AsyncAgentsClient:
             TTS voice preset name (e.g. 'female-1', 'male-1') or Cartesia voice UUID; defaults to system voice if not set
 
         transfer_number : typing.Optional[str]
-            Phone number in E.164 format to transfer calls to (e.g. a human operator fallback)
+            Ignored unless it is the owner phone. Live transfers always dial owner_phone; a different number is rejected.
 
         voicemail_message : typing.Optional[str]
             Message the AI agent leaves if the call goes to voicemail
 
         owner_phone : typing.Optional[str]
-            Owner's phone number in E.164 format (e.g. '+12125551234'). Calls from this number enter task mode — the agent treats speech as executable instructions.
+            Owner's phone number in E.164 format (e.g. '+12125551234'). Calls from this number enter task mode. This is also the only number a live call can be transferred to.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -546,13 +548,13 @@ class AsyncAgentsClient:
             New TTS voice preset name or Cartesia voice UUID
 
         transfer_number : typing.Optional[str]
-            Updated transfer phone number in E.164 format
+            Must match owner_phone. A different number is rejected; setting owner_phone updates this to the same number.
 
         voicemail_message : typing.Optional[str]
             Updated voicemail message
 
         owner_phone : typing.Optional[str]
-            Updated owner phone number in E.164 format for task mode
+            Updated owner phone in E.164. Also becomes the only live-call transfer destination.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.

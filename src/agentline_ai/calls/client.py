@@ -211,8 +211,10 @@ class CallsClient:
 
         This is the required way for backend agents (Hermes, OpenClaw, etc.) to
         answer a live caller after a ``call.utterance`` event. Do your work, then
-        POST a concise caller-ready response here. It is spoken verbatim and stored
-        as the assistant turn for later conversation context.
+        POST facts for the hosted voice to speak. Send ``disposition: progress``
+        as the work advances; the turn stays open. ``done``, ``failed``, or
+        ``facts`` settles it. The hosted voice speaks that text exactly and keeps it
+        for the rest of the call.
 
         AUTHENTICATION (one of):
           1. **Push token** (preferred — no API key): the ``push_token`` from the
@@ -578,8 +580,10 @@ class AsyncCallsClient:
 
         This is the required way for backend agents (Hermes, OpenClaw, etc.) to
         answer a live caller after a ``call.utterance`` event. Do your work, then
-        POST a concise caller-ready response here. It is spoken verbatim and stored
-        as the assistant turn for later conversation context.
+        POST facts for the hosted voice to speak. Send ``disposition: progress``
+        as the work advances; the turn stays open. ``done``, ``failed``, or
+        ``facts`` settles it. The hosted voice speaks that text exactly and keeps it
+        for the rest of the call.
 
         AUTHENTICATION (one of):
           1. **Push token** (preferred — no API key): the ``push_token`` from the

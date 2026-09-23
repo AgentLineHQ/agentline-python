@@ -40,7 +40,7 @@ class AgentOut(UniversalBaseModel):
 
     transfer_number: typing.Optional[str] = pydantic.Field(default=None)
     """
-    Phone number for call transfers
+    Always the owner phone. Live calls transfer only here.
     """
 
     voicemail_message: typing.Optional[str] = pydantic.Field(default=None)
@@ -50,7 +50,7 @@ class AgentOut(UniversalBaseModel):
 
     owner_phone: typing.Optional[str] = pydantic.Field(default=None)
     """
-    Owner's phone number for task mode
+    Owner's phone number for task mode and the only live-call transfer destination
     """
 
     created_at: dt.datetime = pydantic.Field()

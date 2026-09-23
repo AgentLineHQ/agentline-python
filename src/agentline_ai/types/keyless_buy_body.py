@@ -29,7 +29,7 @@ class KeylessBuyBody(UniversalBaseModel):
 
     transfer_number: typing.Optional[str] = pydantic.Field(default=None)
     """
-    E.164 fallback number for call transfers
+    Must be the owner phone. Live transfers dial only owner_phone.
     """
 
     voicemail_message: typing.Optional[str] = pydantic.Field(default=None)
@@ -39,7 +39,7 @@ class KeylessBuyBody(UniversalBaseModel):
 
     owner_phone: typing.Optional[str] = pydantic.Field(default=None)
     """
-    Owner's E.164 phone — calls from it enter task mode
+    Owner's E.164 phone. Calls from it enter task mode, and it is the only live-call transfer destination.
     """
 
     country: typing.Optional[str] = pydantic.Field(default=None)
