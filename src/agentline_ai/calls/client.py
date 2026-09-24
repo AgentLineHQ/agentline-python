@@ -211,10 +211,11 @@ class CallsClient:
 
         This is the required way for backend agents (Hermes, OpenClaw, etc.) to
         answer a live caller after a ``call.utterance`` event. Do your work, then
-        POST facts for the hosted voice to speak. Send ``disposition: progress``
+        POST facts for the hosted voice to phrase in its own words. Send ``disposition: progress``
         as the work advances; the turn stays open. ``done``, ``failed``, or
-        ``facts`` settles it. The hosted voice speaks that text exactly and keeps it
-        for the rest of the call.
+        ``facts`` settles it. The hosted voice keeps the facts for the rest of the call.
+        It does not read your text aloud. You receive this request only for something
+        the hosted voice does not know. Poll ``GET /v1/calls/{call_id}`` for updates.
 
         AUTHENTICATION (one of):
           1. **Push token** (preferred — no API key): the ``push_token`` from the
@@ -224,7 +225,7 @@ class CallsClient:
              account that owns the call.
 
         Body — any of these keys works (``context`` is canonical):
-            {"context": "the exact short response the caller should hear"}
+            {"context": "John emailed yesterday about an invoice."}
 
         Other accepted keys: ``summary``, ``answer``, ``response``, ``reply``,
         ``text``, ``result``.
@@ -580,10 +581,11 @@ class AsyncCallsClient:
 
         This is the required way for backend agents (Hermes, OpenClaw, etc.) to
         answer a live caller after a ``call.utterance`` event. Do your work, then
-        POST facts for the hosted voice to speak. Send ``disposition: progress``
+        POST facts for the hosted voice to phrase in its own words. Send ``disposition: progress``
         as the work advances; the turn stays open. ``done``, ``failed``, or
-        ``facts`` settles it. The hosted voice speaks that text exactly and keeps it
-        for the rest of the call.
+        ``facts`` settles it. The hosted voice keeps the facts for the rest of the call.
+        It does not read your text aloud. You receive this request only for something
+        the hosted voice does not know. Poll ``GET /v1/calls/{call_id}`` for updates.
 
         AUTHENTICATION (one of):
           1. **Push token** (preferred — no API key): the ``push_token`` from the
@@ -593,7 +595,7 @@ class AsyncCallsClient:
              account that owns the call.
 
         Body — any of these keys works (``context`` is canonical):
-            {"context": "the exact short response the caller should hear"}
+            {"context": "John emailed yesterday about an invoice."}
 
         Other accepted keys: ``summary``, ``answer``, ``response``, ``reply``,
         ``text``, ``result``.
