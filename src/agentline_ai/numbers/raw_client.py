@@ -164,6 +164,72 @@ class RawNumbersClient:
             )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
+    def attach(
+        self, *, phone_number: str, agent_id: str, request_options: typing.Optional[RequestOptions] = None
+    ) -> HttpResponse[typing.Any]:
+        """
+        Manually attach a number that was bought directly from SignalWire dashboard.
+        Each agent can only have ONE active number.
+
+        Query params:
+          - phone_number: E.164 format (e.g. "+12125551234")
+          - agent_id: agent to attach to
+
+        Parameters
+        ----------
+        phone_number : str
+
+        agent_id : str
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[typing.Any]
+            Successful Response
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            "v1/numbers/attach",
+            method="POST",
+            params={
+                "phone_number": phone_number,
+                "agent_id": agent_id,
+            },
+            request_options=request_options,
+        )
+        try:
+            if _response is None or not _response.text.strip():
+                return HttpResponse(response=_response, data=None)
+            if 200 <= _response.status_code < 300:
+                _data = typing.cast(
+                    typing.Any,
+                    parse_obj_as(
+                        type_=typing.Any,  # type: ignore
+                        object_=_response.json(),
+                    ),
+                )
+                return HttpResponse(response=_response, data=_data)
+            if _response.status_code == 422:
+                raise UnprocessableEntityError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        HttpValidationError,
+                        parse_obj_as(
+                            type_=HttpValidationError,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        except ValidationError as e:
+            raise ParsingError(
+                status_code=_response.status_code, headers=dict(_response.headers), body=_response.json(), cause=e
+            )
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
     def get(
         self, number_id: str, *, request_options: typing.Optional[RequestOptions] = None
     ) -> HttpResponse[typing.Any]:
@@ -400,6 +466,72 @@ class AsyncRawNumbersClient:
             },
             request_options=request_options,
             omit=OMIT,
+        )
+        try:
+            if _response is None or not _response.text.strip():
+                return AsyncHttpResponse(response=_response, data=None)
+            if 200 <= _response.status_code < 300:
+                _data = typing.cast(
+                    typing.Any,
+                    parse_obj_as(
+                        type_=typing.Any,  # type: ignore
+                        object_=_response.json(),
+                    ),
+                )
+                return AsyncHttpResponse(response=_response, data=_data)
+            if _response.status_code == 422:
+                raise UnprocessableEntityError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        HttpValidationError,
+                        parse_obj_as(
+                            type_=HttpValidationError,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        except ValidationError as e:
+            raise ParsingError(
+                status_code=_response.status_code, headers=dict(_response.headers), body=_response.json(), cause=e
+            )
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    async def attach(
+        self, *, phone_number: str, agent_id: str, request_options: typing.Optional[RequestOptions] = None
+    ) -> AsyncHttpResponse[typing.Any]:
+        """
+        Manually attach a number that was bought directly from SignalWire dashboard.
+        Each agent can only have ONE active number.
+
+        Query params:
+          - phone_number: E.164 format (e.g. "+12125551234")
+          - agent_id: agent to attach to
+
+        Parameters
+        ----------
+        phone_number : str
+
+        agent_id : str
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[typing.Any]
+            Successful Response
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            "v1/numbers/attach",
+            method="POST",
+            params={
+                "phone_number": phone_number,
+                "agent_id": agent_id,
+            },
+            request_options=request_options,
         )
         try:
             if _response is None or not _response.text.strip():

@@ -126,6 +126,48 @@ class NumbersClient:
         )
         return _response.data
 
+    def attach(
+        self, *, phone_number: str, agent_id: str, request_options: typing.Optional[RequestOptions] = None
+    ) -> typing.Any:
+        """
+        Manually attach a number that was bought directly from SignalWire dashboard.
+        Each agent can only have ONE active number.
+
+        Query params:
+          - phone_number: E.164 format (e.g. "+12125551234")
+          - agent_id: agent to attach to
+
+        Parameters
+        ----------
+        phone_number : str
+
+        agent_id : str
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        typing.Any
+            Successful Response
+
+        Examples
+        --------
+        from agentline_ai import AgentLine
+
+        client = AgentLine(
+            api_key="YOUR_API_KEY",
+        )
+        client.numbers.attach(
+            phone_number="phone_number",
+            agent_id="agent_id",
+        )
+        """
+        _response = self._raw_client.attach(
+            phone_number=phone_number, agent_id=agent_id, request_options=request_options
+        )
+        return _response.data
+
     def get(self, number_id: str, *, request_options: typing.Optional[RequestOptions] = None) -> typing.Any:
         """
         Get details of a specific phone number.
@@ -328,6 +370,56 @@ class AsyncNumbersClient:
             area_code=area_code,
             pattern=pattern,
             request_options=request_options,
+        )
+        return _response.data
+
+    async def attach(
+        self, *, phone_number: str, agent_id: str, request_options: typing.Optional[RequestOptions] = None
+    ) -> typing.Any:
+        """
+        Manually attach a number that was bought directly from SignalWire dashboard.
+        Each agent can only have ONE active number.
+
+        Query params:
+          - phone_number: E.164 format (e.g. "+12125551234")
+          - agent_id: agent to attach to
+
+        Parameters
+        ----------
+        phone_number : str
+
+        agent_id : str
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        typing.Any
+            Successful Response
+
+        Examples
+        --------
+        import asyncio
+
+        from agentline_ai import AsyncAgentLine
+
+        client = AsyncAgentLine(
+            api_key="YOUR_API_KEY",
+        )
+
+
+        async def main() -> None:
+            await client.numbers.attach(
+                phone_number="phone_number",
+                agent_id="agent_id",
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.attach(
+            phone_number=phone_number, agent_id=agent_id, request_options=request_options
         )
         return _response.data
 

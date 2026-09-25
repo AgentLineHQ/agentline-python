@@ -2418,6 +2418,93 @@ client.numbers.buy(
 </dl>
 </details>
 
+<details><summary><code>client.numbers.<a href="src/agentline_ai/numbers/client.py">attach</a>(...) -> typing.Any</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Manually attach a number that was bought directly from SignalWire dashboard.
+Each agent can only have ONE active number.
+
+Query params:
+  - phone_number: E.164 format (e.g. "+12125551234")
+  - agent_id: agent to attach to
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from agentline_ai import AgentLine
+from agentline_ai.environment import AgentLineEnvironment
+
+client = AgentLine(
+    api_key="<token>",
+    environment=AgentLineEnvironment.PRODUCTION,
+)
+
+client.numbers.attach(
+    phone_number="phone_number",
+    agent_id="agent_id",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**phone_number:** `str` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**agent_id:** `str` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 <details><summary><code>client.numbers.<a href="src/agentline_ai/numbers/client.py">get</a>(...) -> typing.Any</code></summary>
 <dl>
 <dd>
