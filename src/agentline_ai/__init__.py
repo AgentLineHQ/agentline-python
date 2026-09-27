@@ -30,6 +30,7 @@ if typing.TYPE_CHECKING:
         ValidationError,
         ValidationErrorLocItem,
         VerifyRequest,
+        WebhookCapabilities,
         WebhookCreated,
     )
     from .errors import UnprocessableEntityError
@@ -38,6 +39,7 @@ if typing.TYPE_CHECKING:
     from .client import AgentLine, AsyncAgentLine
     from .environment import AgentLineEnvironment
     from .version import __version__
+    from .webhooks import WebhookConfigProtocol
 _dynamic_imports: typing.Dict[str, str] = {
     "AgentIdPollRequest": ".types",
     "AgentIdStartRequest": ".types",
@@ -68,6 +70,8 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ValidationError": ".types",
     "ValidationErrorLocItem": ".types",
     "VerifyRequest": ".types",
+    "WebhookCapabilities": ".types",
+    "WebhookConfigProtocol": ".webhooks",
     "WebhookCreated": ".types",
     "__version__": ".version",
     "agents": ".agents",
@@ -132,6 +136,8 @@ __all__ = [
     "ValidationError",
     "ValidationErrorLocItem",
     "VerifyRequest",
+    "WebhookCapabilities",
+    "WebhookConfigProtocol",
     "WebhookCreated",
     "__version__",
     "agents",

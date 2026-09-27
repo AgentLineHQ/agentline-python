@@ -4,8 +4,10 @@ import typing
 
 from ..core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ..core.request_options import RequestOptions
+from ..types.webhook_capabilities import WebhookCapabilities
 from ..types.webhook_created import WebhookCreated
 from .raw_client import AsyncRawWebhooksClient, RawWebhooksClient
+from .types.webhook_config_protocol import WebhookConfigProtocol
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -67,6 +69,8 @@ class WebhooksClient:
         agent_id: str,
         secret: typing.Optional[str] = OMIT,
         signature_header: typing.Optional[str] = OMIT,
+        protocol: typing.Optional[WebhookConfigProtocol] = OMIT,
+        capabilities: typing.Optional[WebhookCapabilities] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> WebhookCreated:
         """
@@ -79,6 +83,15 @@ class WebhooksClient:
 
         - `agent_id`: the agent whose events this webhook receives (required).
         - `secret`:   HMAC signing secret. Omit to auto-generate.
+        - `protocol`: live relay protocol. `agentline-relay/2` sends typed POSTs
+          (`call.session.start`, `call.task.open`, `call.task.amend`,
+          `call.task.cancel`, `call.session.end`); answer via
+          `POST /v1/calls/{call_id}/context` and return 202 fast. Hosted bots such
+          as grokbot use this.
+        - `capabilities`: what the runtime supports (`supports_amend`,
+          `supports_cancel`, `briefing`, `streams_progress`). Without
+          `supports_amend`, follow-ups are merged into one task after the current
+          one settles.
 
         The response returns the full `secret` **once** — store it to verify the
         signature header on deliveries.
@@ -96,6 +109,12 @@ class WebhooksClient:
 
         signature_header : typing.Optional[str]
             Header name for the HMAC-SHA256 signature of the raw body. Defaults to 'X-Webhook-Signature' (natively verified by Hermes, OpenClaw, and other agent platforms). Set to 'X-Hub-Signature-256' for GitHub-style verification, or any custom header name your platform expects. Omit to keep the existing value when updating.
+
+        protocol : typing.Optional[WebhookConfigProtocol]
+            Live relay protocol. 'agentline-relay/1' (default): one call.utterance POST per task, answer in the response body or via push. 'agentline-relay/2': typed POSTs (call.session.start, call.task.open, call.task.amend, call.task.cancel, call.session.end); answer only via POST /v1/calls/{call_id}/context and return 202 quickly. Omit to keep the existing value when updating.
+
+        capabilities : typing.Optional[WebhookCapabilities]
+            Relay v2 capabilities. Omit to keep the existing value when updating.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -122,6 +141,8 @@ class WebhooksClient:
             agent_id=agent_id,
             secret=secret,
             signature_header=signature_header,
+            protocol=protocol,
+            capabilities=capabilities,
             request_options=request_options,
         )
         return _response.data
@@ -258,6 +279,8 @@ class AsyncWebhooksClient:
         agent_id: str,
         secret: typing.Optional[str] = OMIT,
         signature_header: typing.Optional[str] = OMIT,
+        protocol: typing.Optional[WebhookConfigProtocol] = OMIT,
+        capabilities: typing.Optional[WebhookCapabilities] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> WebhookCreated:
         """
@@ -270,6 +293,15 @@ class AsyncWebhooksClient:
 
         - `agent_id`: the agent whose events this webhook receives (required).
         - `secret`:   HMAC signing secret. Omit to auto-generate.
+        - `protocol`: live relay protocol. `agentline-relay/2` sends typed POSTs
+          (`call.session.start`, `call.task.open`, `call.task.amend`,
+          `call.task.cancel`, `call.session.end`); answer via
+          `POST /v1/calls/{call_id}/context` and return 202 fast. Hosted bots such
+          as grokbot use this.
+        - `capabilities`: what the runtime supports (`supports_amend`,
+          `supports_cancel`, `briefing`, `streams_progress`). Without
+          `supports_amend`, follow-ups are merged into one task after the current
+          one settles.
 
         The response returns the full `secret` **once** — store it to verify the
         signature header on deliveries.
@@ -287,6 +319,12 @@ class AsyncWebhooksClient:
 
         signature_header : typing.Optional[str]
             Header name for the HMAC-SHA256 signature of the raw body. Defaults to 'X-Webhook-Signature' (natively verified by Hermes, OpenClaw, and other agent platforms). Set to 'X-Hub-Signature-256' for GitHub-style verification, or any custom header name your platform expects. Omit to keep the existing value when updating.
+
+        protocol : typing.Optional[WebhookConfigProtocol]
+            Live relay protocol. 'agentline-relay/1' (default): one call.utterance POST per task, answer in the response body or via push. 'agentline-relay/2': typed POSTs (call.session.start, call.task.open, call.task.amend, call.task.cancel, call.session.end); answer only via POST /v1/calls/{call_id}/context and return 202 quickly. Omit to keep the existing value when updating.
+
+        capabilities : typing.Optional[WebhookCapabilities]
+            Relay v2 capabilities. Omit to keep the existing value when updating.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -321,6 +359,8 @@ class AsyncWebhooksClient:
             agent_id=agent_id,
             secret=secret,
             signature_header=signature_header,
+            protocol=protocol,
+            capabilities=capabilities,
             request_options=request_options,
         )
         return _response.data

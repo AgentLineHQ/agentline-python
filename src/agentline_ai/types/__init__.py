@@ -29,6 +29,7 @@ if typing.TYPE_CHECKING:
     from .validation_error import ValidationError
     from .validation_error_loc_item import ValidationErrorLocItem
     from .verify_request import VerifyRequest
+    from .webhook_capabilities import WebhookCapabilities
     from .webhook_created import WebhookCreated
 _dynamic_imports: typing.Dict[str, str] = {
     "AgentIdPollRequest": ".agent_id_poll_request",
@@ -54,6 +55,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ValidationError": ".validation_error",
     "ValidationErrorLocItem": ".validation_error_loc_item",
     "VerifyRequest": ".verify_request",
+    "WebhookCapabilities": ".webhook_capabilities",
     "WebhookCreated": ".webhook_created",
 }
 
@@ -103,5 +105,6 @@ __all__ = [
     "ValidationError",
     "ValidationErrorLocItem",
     "VerifyRequest",
+    "WebhookCapabilities",
     "WebhookCreated",
 ]

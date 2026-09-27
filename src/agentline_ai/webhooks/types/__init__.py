@@ -6,8 +6,8 @@ import typing
 from importlib import import_module
 
 if typing.TYPE_CHECKING:
-    from .types import WebhookConfigProtocol
-_dynamic_imports: typing.Dict[str, str] = {"WebhookConfigProtocol": ".types"}
+    from .webhook_config_protocol import WebhookConfigProtocol
+_dynamic_imports: typing.Dict[str, str] = {"WebhookConfigProtocol": ".webhook_config_protocol"}
 
 
 def __getattr__(attr_name: str) -> typing.Any:

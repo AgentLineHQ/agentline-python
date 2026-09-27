@@ -285,12 +285,20 @@ class RawCallsClient:
         Push context into a LIVE relay-mode call (mid-call context injection).
 
         This is the required way for backend agents (Hermes, OpenClaw, etc.) to
-        answer a live caller after a ``call.utterance`` event. Do your work, then
-        POST facts for the hosted voice to phrase in its own words. Send ``disposition: progress``
-        as the work advances; the turn stays open. ``done``, ``failed``, or
-        ``facts`` settles it. The hosted voice keeps the facts for the rest of the call.
-        It does not read your text aloud. You receive this request only for something
-        the hosted voice does not know. Poll ``GET /v1/calls/{call_id}`` for updates.
+        answer a live caller after a ``call.utterance`` / ``task.open``. Do your work,
+        then POST facts for the hosted voice to phrase in its own words. The update
+        reaches the live call immediately (relay bus), with no polling.
+
+        Dispositions:
+          - ``partial``: one real fact known so far. Spoken right away; the task stays open.
+          - ``progress``: a note that is not a fact yet. Not spoken; the task stays open.
+          - ``done`` / ``failed`` / ``noop``: settles the task.
+          - ``facts`` without ``turn_id``: call facts pushed any time (call-start
+            briefing, anticipations). The hosted voice answers from them without asking.
+            ``facts`` with an open task's ``turn_id`` settles that task (relay v1).
+
+        The hosted voice keeps the facts for the rest of the call. It does not read
+        your text aloud. Poll ``GET /v1/calls/{call_id}`` for updates.
 
         AUTHENTICATION (one of):
           1. **Push token** (preferred — no API key): the ``push_token`` from the
@@ -775,12 +783,20 @@ class AsyncRawCallsClient:
         Push context into a LIVE relay-mode call (mid-call context injection).
 
         This is the required way for backend agents (Hermes, OpenClaw, etc.) to
-        answer a live caller after a ``call.utterance`` event. Do your work, then
-        POST facts for the hosted voice to phrase in its own words. Send ``disposition: progress``
-        as the work advances; the turn stays open. ``done``, ``failed``, or
-        ``facts`` settles it. The hosted voice keeps the facts for the rest of the call.
-        It does not read your text aloud. You receive this request only for something
-        the hosted voice does not know. Poll ``GET /v1/calls/{call_id}`` for updates.
+        answer a live caller after a ``call.utterance`` / ``task.open``. Do your work,
+        then POST facts for the hosted voice to phrase in its own words. The update
+        reaches the live call immediately (relay bus), with no polling.
+
+        Dispositions:
+          - ``partial``: one real fact known so far. Spoken right away; the task stays open.
+          - ``progress``: a note that is not a fact yet. Not spoken; the task stays open.
+          - ``done`` / ``failed`` / ``noop``: settles the task.
+          - ``facts`` without ``turn_id``: call facts pushed any time (call-start
+            briefing, anticipations). The hosted voice answers from them without asking.
+            ``facts`` with an open task's ``turn_id`` settles that task (relay v1).
+
+        The hosted voice keeps the facts for the rest of the call. It does not read
+        your text aloud. Poll ``GET /v1/calls/{call_id}`` for updates.
 
         AUTHENTICATION (one of):
           1. **Push token** (preferred — no API key): the ``push_token`` from the

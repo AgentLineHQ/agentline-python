@@ -32,6 +32,16 @@ class WebhookCreated(UniversalBaseModel):
     Header name used for HMAC-SHA256 signature delivery.
     """
 
+    protocol: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    Live relay protocol.
+    """
+
+    capabilities: typing.Optional[typing.Dict[str, typing.Any]] = pydantic.Field(default=None)
+    """
+    Declared relay v2 capabilities.
+    """
+
     created_at: typing.Optional[dt.datetime] = pydantic.Field(default=None)
     """
     When the webhook was last (re)configured
