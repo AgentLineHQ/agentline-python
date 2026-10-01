@@ -24,7 +24,7 @@ class KeylessBuyBody(UniversalBaseModel):
 
     voice_id: typing.Optional[str] = pydantic.Field(default=None)
     """
-    TTS voice preset (e.g. 'female-1') or Cartesia UUID
+    TTS voice preset (e.g. 'female-1') or a voice UUID
     """
 
     transfer_number: typing.Optional[str] = pydantic.Field(default=None)

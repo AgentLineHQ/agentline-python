@@ -79,7 +79,7 @@ class AgentsClient:
           - name: Display name for the agent
           - system_prompt: Instructions that define the agent's personality and behavior on calls
           - initial_greeting: What the AI agent says when the call connects
-          - voice_id: TTS voice preset (e.g. "female-1") or Cartesia UUID
+          - voice_id: TTS voice preset (e.g. "female-1") or a voice UUID
           - transfer_number: Must be the owner phone. Live calls transfer only to owner_phone.
           - voicemail_message: Message the agent leaves if the call goes to voicemail
           - owner_phone: Owner's E.164 number. Task mode, and the only transfer destination.
@@ -96,7 +96,7 @@ class AgentsClient:
             Default opening line spoken on ALL calls (inbound and outbound), e.g. 'Hello, how can I help you today?'. Can be overridden per-call via POST /v1/calls.
 
         voice_id : typing.Optional[str]
-            TTS voice preset name (e.g. 'female-1', 'male-1') or Cartesia voice UUID; defaults to system voice if not set
+            TTS voice preset name (e.g. 'female-1', 'male-1') or a voice UUID; defaults to system voice if not set
 
         transfer_number : typing.Optional[str]
             Ignored unless it is the owner phone. Live transfers always dial owner_phone; a different number is rejected.
@@ -240,7 +240,7 @@ class AgentsClient:
             Updated default greeting for ALL future calls (inbound and outbound)
 
         voice_id : typing.Optional[str]
-            New TTS voice preset name or Cartesia voice UUID
+            New TTS voice preset name or voice UUID
 
         transfer_number : typing.Optional[str]
             Must match owner_phone. A different number is rejected; setting owner_phone updates this to the same number.
@@ -360,7 +360,7 @@ class AsyncAgentsClient:
           - name: Display name for the agent
           - system_prompt: Instructions that define the agent's personality and behavior on calls
           - initial_greeting: What the AI agent says when the call connects
-          - voice_id: TTS voice preset (e.g. "female-1") or Cartesia UUID
+          - voice_id: TTS voice preset (e.g. "female-1") or a voice UUID
           - transfer_number: Must be the owner phone. Live calls transfer only to owner_phone.
           - voicemail_message: Message the agent leaves if the call goes to voicemail
           - owner_phone: Owner's E.164 number. Task mode, and the only transfer destination.
@@ -377,7 +377,7 @@ class AsyncAgentsClient:
             Default opening line spoken on ALL calls (inbound and outbound), e.g. 'Hello, how can I help you today?'. Can be overridden per-call via POST /v1/calls.
 
         voice_id : typing.Optional[str]
-            TTS voice preset name (e.g. 'female-1', 'male-1') or Cartesia voice UUID; defaults to system voice if not set
+            TTS voice preset name (e.g. 'female-1', 'male-1') or a voice UUID; defaults to system voice if not set
 
         transfer_number : typing.Optional[str]
             Ignored unless it is the owner phone. Live transfers always dial owner_phone; a different number is rejected.
@@ -545,7 +545,7 @@ class AsyncAgentsClient:
             Updated default greeting for ALL future calls (inbound and outbound)
 
         voice_id : typing.Optional[str]
-            New TTS voice preset name or Cartesia voice UUID
+            New TTS voice preset name or voice UUID
 
         transfer_number : typing.Optional[str]
             Must match owner_phone. A different number is rejected; setting owner_phone updates this to the same number.

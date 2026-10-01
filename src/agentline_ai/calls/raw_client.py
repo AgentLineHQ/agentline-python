@@ -152,7 +152,7 @@ class RawCallsClient:
             Per-call greeting override. Replaces the agent's default greeting for this call ONLY. If omitted, the agent's default initial_greeting is used.
 
         voice_id : typing.Optional[str]
-            Override the TTS voice for this call: preset name (e.g. 'female-1') or Cartesia UUID
+            Override the TTS voice for this call: preset name (e.g. 'female-1') or a voice UUID
 
         from_number_id : typing.Optional[str]
             Specific phone number ID to call from; defaults to the agent's assigned number
@@ -648,7 +648,7 @@ class AsyncRawCallsClient:
             Per-call greeting override. Replaces the agent's default greeting for this call ONLY. If omitted, the agent's default initial_greeting is used.
 
         voice_id : typing.Optional[str]
-            Override the TTS voice for this call: preset name (e.g. 'female-1') or Cartesia UUID
+            Override the TTS voice for this call: preset name (e.g. 'female-1') or a voice UUID
 
         from_number_id : typing.Optional[str]
             Specific phone number ID to call from; defaults to the agent's assigned number

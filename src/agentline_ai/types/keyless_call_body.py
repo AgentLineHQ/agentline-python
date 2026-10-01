@@ -17,6 +17,11 @@ class KeylessCallBody(UniversalBaseModel):
     Destination phone number in E.164 format
     """
 
+    lease_token: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    lease_... token from numbers/buy. Calls bill prepaid credit; this endpoint does not take an x402 payment.
+    """
+
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
     else:

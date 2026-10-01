@@ -35,7 +35,7 @@ class AgentOut(UniversalBaseModel):
 
     voice_id: typing.Optional[str] = pydantic.Field(default=None)
     """
-    TTS voice preset or Cartesia UUID
+    TTS voice preset or voice UUID
     """
 
     transfer_number: typing.Optional[str] = pydantic.Field(default=None)

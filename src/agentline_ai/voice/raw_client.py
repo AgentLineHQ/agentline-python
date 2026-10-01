@@ -127,12 +127,12 @@ class RawVoiceClient:
 
         Accepts:
           - A preset name: "female-1", "female-2", "female-3", "male-1", "male-2", "male-3"
-          - A Cartesia voice UUID: "f786b574-daa5-4673-aa0c-cbe3e8534c02"
+          - A voice UUID: "f786b574-daa5-4673-aa0c-cbe3e8534c02"
 
         Parameters
         ----------
         voice_id : str
-            TTS voice preset name (e.g. 'female-1', 'male-1') or Cartesia voice UUID
+            TTS voice preset name (e.g. 'female-1', 'male-1') or a voice UUID
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -194,8 +194,8 @@ class RawVoiceClient:
         when configuring AI agents or making phone calls. Each voice defines
         how your AI agent sounds on the phone.
 
-        You can use a preset name (e.g. "female-1", "male-1") or pass any
-        valid Cartesia voice UUID directly as a voice_id.
+        You can use a preset name (e.g. "female-1", "male-1") or pass a
+        voice UUID directly as a voice_id.
 
         Parameters
         ----------
@@ -344,12 +344,12 @@ class AsyncRawVoiceClient:
 
         Accepts:
           - A preset name: "female-1", "female-2", "female-3", "male-1", "male-2", "male-3"
-          - A Cartesia voice UUID: "f786b574-daa5-4673-aa0c-cbe3e8534c02"
+          - A voice UUID: "f786b574-daa5-4673-aa0c-cbe3e8534c02"
 
         Parameters
         ----------
         voice_id : str
-            TTS voice preset name (e.g. 'female-1', 'male-1') or Cartesia voice UUID
+            TTS voice preset name (e.g. 'female-1', 'male-1') or a voice UUID
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -411,8 +411,8 @@ class AsyncRawVoiceClient:
         when configuring AI agents or making phone calls. Each voice defines
         how your AI agent sounds on the phone.
 
-        You can use a preset name (e.g. "female-1", "male-1") or pass any
-        valid Cartesia voice UUID directly as a voice_id.
+        You can use a preset name (e.g. "female-1", "male-1") or pass a
+        voice UUID directly as a voice_id.
 
         Parameters
         ----------

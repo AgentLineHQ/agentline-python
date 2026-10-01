@@ -168,7 +168,7 @@ class RawNumbersClient:
         self, *, phone_number: str, agent_id: str, request_options: typing.Optional[RequestOptions] = None
     ) -> HttpResponse[typing.Any]:
         """
-        Manually attach a number that was bought directly from SignalWire dashboard.
+        Manually attach a number that was bought outside this account.
         Each agent can only have ONE active number.
 
         Query params:
@@ -236,8 +236,7 @@ class RawNumbersClient:
         """
         Get details of a specific phone number.
 
-        Returns the phone number, its assigned AI agent, provider ID,
-        country, and current status.
+        Returns the phone number, its assigned AI agent, country, and current status.
 
         Parameters
         ----------
@@ -503,7 +502,7 @@ class AsyncRawNumbersClient:
         self, *, phone_number: str, agent_id: str, request_options: typing.Optional[RequestOptions] = None
     ) -> AsyncHttpResponse[typing.Any]:
         """
-        Manually attach a number that was bought directly from SignalWire dashboard.
+        Manually attach a number that was bought outside this account.
         Each agent can only have ONE active number.
 
         Query params:
@@ -571,8 +570,7 @@ class AsyncRawNumbersClient:
         """
         Get details of a specific phone number.
 
-        Returns the phone number, its assigned AI agent, provider ID,
-        country, and current status.
+        Returns the phone number, its assigned AI agent, country, and current status.
 
         Parameters
         ----------
