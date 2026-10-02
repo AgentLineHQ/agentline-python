@@ -7,13 +7,9 @@ from ..core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 
 
 class PayDiscoveryBody(UniversalBaseModel):
-    """
-    Optional POST body for the discovery probe (GET works identically).
-    """
-
     amount: typing.Optional[float] = pydantic.Field(default=None)
     """
-    Top-up amount in USD to advertise requirements for.
+    Recharge USD amount, $1–$1000; defaults to $1.
     """
 
     if IS_PYDANTIC_V2:

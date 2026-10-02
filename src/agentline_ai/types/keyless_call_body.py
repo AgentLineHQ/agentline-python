@@ -19,7 +19,7 @@ class KeylessCallBody(UniversalBaseModel):
 
     lease_token: typing.Optional[str] = pydantic.Field(default=None)
     """
-    lease_... token from numbers/buy. Calls bill prepaid credit; this endpoint does not take an x402 payment.
+    agent_... token from recharge or existing lease_... token. Calls bill prepaid credit.
     """
 
     if IS_PYDANTIC_V2:

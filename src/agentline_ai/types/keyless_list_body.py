@@ -18,7 +18,7 @@ class KeylessListBody(UniversalBaseModel):
 
     lease_token: typing.Optional[str] = pydantic.Field(default=None)
     """
-    lease_... token (free auth alternative)
+    agent_... or lease_... access token
     """
 
     if IS_PYDANTIC_V2:

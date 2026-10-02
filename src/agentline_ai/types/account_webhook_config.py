@@ -6,11 +6,10 @@ import pydantic
 from ..core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 
 
-class TopupRequest(UniversalBaseModel):
-    amount: float = pydantic.Field()
-    """
-    USD amount to top up (e.g. 5.00). 1 USDC ≈ $1.00.
-    """
+class AccountWebhookConfig(UniversalBaseModel):
+    url: str
+    secret: typing.Optional[str] = None
+    signature_header: typing.Optional[str] = None
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
