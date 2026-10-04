@@ -10,6 +10,7 @@ if typing.TYPE_CHECKING:
     from .agent_id_poll_request import AgentIdPollRequest
     from .agent_id_start_request import AgentIdStartRequest
     from .agent_out import AgentOut
+    from .api_key_webhook_config import ApiKeyWebhookConfig
     from .feedback_category import FeedbackCategory
     from .feedback_create import FeedbackCreate
     from .feedback_out import FeedbackOut
@@ -35,6 +36,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "AgentIdPollRequest": ".agent_id_poll_request",
     "AgentIdStartRequest": ".agent_id_start_request",
     "AgentOut": ".agent_out",
+    "ApiKeyWebhookConfig": ".api_key_webhook_config",
     "FeedbackCategory": ".feedback_category",
     "FeedbackCreate": ".feedback_create",
     "FeedbackOut": ".feedback_out",
@@ -84,6 +86,7 @@ __all__ = [
     "AgentIdPollRequest",
     "AgentIdStartRequest",
     "AgentOut",
+    "ApiKeyWebhookConfig",
     "FeedbackCategory",
     "FeedbackCreate",
     "FeedbackOut",
