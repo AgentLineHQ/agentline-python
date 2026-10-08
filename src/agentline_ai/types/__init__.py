@@ -7,10 +7,14 @@ from importlib import import_module
 
 if typing.TYPE_CHECKING:
     from .account_webhook_config import AccountWebhookConfig
+    from .action import Action
     from .agent_id_poll_request import AgentIdPollRequest
     from .agent_id_start_request import AgentIdStartRequest
     from .agent_out import AgentOut
     from .api_key_webhook_config import ApiKeyWebhookConfig
+    from .call_context import CallContext
+    from .call_context_disposition import CallContextDisposition
+    from .deletion import Deletion
     from .feedback_category import FeedbackCategory
     from .feedback_create import FeedbackCreate
     from .feedback_out import FeedbackOut
@@ -33,10 +37,14 @@ if typing.TYPE_CHECKING:
     from .webhook_created import WebhookCreated
 _dynamic_imports: typing.Dict[str, str] = {
     "AccountWebhookConfig": ".account_webhook_config",
+    "Action": ".action",
     "AgentIdPollRequest": ".agent_id_poll_request",
     "AgentIdStartRequest": ".agent_id_start_request",
     "AgentOut": ".agent_out",
     "ApiKeyWebhookConfig": ".api_key_webhook_config",
+    "CallContext": ".call_context",
+    "CallContextDisposition": ".call_context_disposition",
+    "Deletion": ".deletion",
     "FeedbackCategory": ".feedback_category",
     "FeedbackCreate": ".feedback_create",
     "FeedbackOut": ".feedback_out",
@@ -83,10 +91,14 @@ def __dir__():
 
 __all__ = [
     "AccountWebhookConfig",
+    "Action",
     "AgentIdPollRequest",
     "AgentIdStartRequest",
     "AgentOut",
     "ApiKeyWebhookConfig",
+    "CallContext",
+    "CallContextDisposition",
+    "Deletion",
     "FeedbackCategory",
     "FeedbackCreate",
     "FeedbackOut",

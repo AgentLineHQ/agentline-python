@@ -8,10 +8,14 @@ from importlib import import_module
 if typing.TYPE_CHECKING:
     from .types import (
         AccountWebhookConfig,
+        Action,
         AgentIdPollRequest,
         AgentIdStartRequest,
         AgentOut,
         ApiKeyWebhookConfig,
+        CallContext,
+        CallContextDisposition,
+        Deletion,
         FeedbackCategory,
         FeedbackCreate,
         FeedbackOut,
@@ -42,6 +46,7 @@ if typing.TYPE_CHECKING:
     from .webhooks import WebhookConfigProtocol
 _dynamic_imports: typing.Dict[str, str] = {
     "AccountWebhookConfig": ".types",
+    "Action": ".types",
     "AgentIdPollRequest": ".types",
     "AgentIdStartRequest": ".types",
     "AgentLine": ".client",
@@ -49,8 +54,11 @@ _dynamic_imports: typing.Dict[str, str] = {
     "AgentOut": ".types",
     "ApiKeyWebhookConfig": ".types",
     "AsyncAgentLine": ".client",
+    "CallContext": ".types",
+    "CallContextDisposition": ".types",
     "DefaultAioHttpClient": "._default_clients",
     "DefaultAsyncHttpxClient": "._default_clients",
+    "Deletion": ".types",
     "FeedbackCategory": ".types",
     "FeedbackCreate": ".types",
     "FeedbackOut": ".types",
@@ -108,6 +116,7 @@ def __dir__():
 
 __all__ = [
     "AccountWebhookConfig",
+    "Action",
     "AgentIdPollRequest",
     "AgentIdStartRequest",
     "AgentLine",
@@ -115,8 +124,11 @@ __all__ = [
     "AgentOut",
     "ApiKeyWebhookConfig",
     "AsyncAgentLine",
+    "CallContext",
+    "CallContextDisposition",
     "DefaultAioHttpClient",
     "DefaultAsyncHttpxClient",
+    "Deletion",
     "FeedbackCategory",
     "FeedbackCreate",
     "FeedbackOut",
