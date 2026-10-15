@@ -30,8 +30,11 @@ class VoiceClient:
         Get the current account-level default voice for AI phone agents.
 
         Returns which voice is used for all AI agents under this account
-        unless overridden at the agent level or per-call. Controls how
-        your AI agents sound during phone conversations.
+        unless overridden at the agent level or per-call.
+
+        Returns account_id, default_voice_id (the stored preset name or UUID,
+        null when none is set) and resolved_voice_id (the voice UUID calls will
+        actually use).
 
         Parameters
         ----------
@@ -61,7 +64,12 @@ class VoiceClient:
 
         Removes the account-level voice override so all AI agents fall back
         to the system default voice during phone calls (unless they have
-        their own voice_id configured).
+        their own voice_id configured), starting with their next call. The
+        previous value is not kept: read it with get_account_voice first if it
+        may be needed again.
+
+        Returns account_id, default_voice_id null, resolved_voice_id (the
+        system default) and a message.
 
         Parameters
         ----------
@@ -94,19 +102,19 @@ class VoiceClient:
         specific calls can still override this setting.
 
         Voice resolution priority:
-          1. Per-call voice_id (POST /v1/calls)
-          2. Agent voice_id (PATCH /v1/agents/{id})
-          3. Account default (this endpoint)  ← you are here
+          1. Per-call voice_id (make_outbound_call)
+          2. Agent voice_id (update_agent)
+          3. Account default (this tool)
           4. System default (Supportive Male)
 
-        Accepts:
-          - A preset name: "female-1", "female-2", "female-3", "male-1", "male-2", "male-3"
-          - A voice UUID: "f786b574-daa5-4673-aa0c-cbe3e8534c02"
+        Returns account_id, default_voice_id (as sent) and resolved_voice_id
+        (the UUID it resolves to). An unknown preset or malformed UUID returns
+        HTTP 400.
 
         Parameters
         ----------
         voice_id : str
-            TTS voice preset name (e.g. 'female-1', 'male-1') or a voice UUID
+            Default voice for the account: a preset_name such as 'female-1' or a voice_id UUID, both listed by list_available_voices.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -138,8 +146,10 @@ class VoiceClient:
         when configuring AI agents or making phone calls. Each voice defines
         how your AI agent sounds on the phone.
 
-        You can use a preset name (e.g. "female-1", "male-1") or pass a
-        voice UUID directly as a voice_id.
+        Returns {"voices": [...], "default_voice_id", "usage_hint"}: each voice
+        has preset_name (e.g. "female-1"), voice_id (UUID), name and description.
+        Pass either preset_name or voice_id as voice_id to create_agent,
+        update_agent, make_outbound_call or set_account_voice.
 
         Parameters
         ----------
@@ -184,8 +194,11 @@ class AsyncVoiceClient:
         Get the current account-level default voice for AI phone agents.
 
         Returns which voice is used for all AI agents under this account
-        unless overridden at the agent level or per-call. Controls how
-        your AI agents sound during phone conversations.
+        unless overridden at the agent level or per-call.
+
+        Returns account_id, default_voice_id (the stored preset name or UUID,
+        null when none is set) and resolved_voice_id (the voice UUID calls will
+        actually use).
 
         Parameters
         ----------
@@ -223,7 +236,12 @@ class AsyncVoiceClient:
 
         Removes the account-level voice override so all AI agents fall back
         to the system default voice during phone calls (unless they have
-        their own voice_id configured).
+        their own voice_id configured), starting with their next call. The
+        previous value is not kept: read it with get_account_voice first if it
+        may be needed again.
+
+        Returns account_id, default_voice_id null, resolved_voice_id (the
+        system default) and a message.
 
         Parameters
         ----------
@@ -264,19 +282,19 @@ class AsyncVoiceClient:
         specific calls can still override this setting.
 
         Voice resolution priority:
-          1. Per-call voice_id (POST /v1/calls)
-          2. Agent voice_id (PATCH /v1/agents/{id})
-          3. Account default (this endpoint)  ← you are here
+          1. Per-call voice_id (make_outbound_call)
+          2. Agent voice_id (update_agent)
+          3. Account default (this tool)
           4. System default (Supportive Male)
 
-        Accepts:
-          - A preset name: "female-1", "female-2", "female-3", "male-1", "male-2", "male-3"
-          - A voice UUID: "f786b574-daa5-4673-aa0c-cbe3e8534c02"
+        Returns account_id, default_voice_id (as sent) and resolved_voice_id
+        (the UUID it resolves to). An unknown preset or malformed UUID returns
+        HTTP 400.
 
         Parameters
         ----------
         voice_id : str
-            TTS voice preset name (e.g. 'female-1', 'male-1') or a voice UUID
+            Default voice for the account: a preset_name such as 'female-1' or a voice_id UUID, both listed by list_available_voices.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -316,8 +334,10 @@ class AsyncVoiceClient:
         when configuring AI agents or making phone calls. Each voice defines
         how your AI agent sounds on the phone.
 
-        You can use a preset name (e.g. "female-1", "male-1") or pass a
-        voice UUID directly as a voice_id.
+        Returns {"voices": [...], "default_voice_id", "usage_hint"}: each voice
+        has preset_name (e.g. "female-1"), voice_id (UUID), name and description.
+        Pass either preset_name or voice_id as voice_id to create_agent,
+        update_agent, make_outbound_call or set_account_voice.
 
         Parameters
         ----------

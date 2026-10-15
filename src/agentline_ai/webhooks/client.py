@@ -35,7 +35,12 @@ class WebhooksClient:
         List the account's per-agent webhook configuration(s).
 
         Secrets are **masked**. Pass `agent_id` to inspect a single agent's webhook.
-        The full secret is only ever shown once, on the POST that creates/replaces it.
+        The full secret is only ever shown once, by set_webhook.
+
+        Returns {"webhooks": [...], "count"}: each has agent_id, url, masked
+        secret, signature_header, protocol, capabilities and created_at. An empty
+        list means no webhook is set, so events wait for poll_events. HTTP 404 if
+        agent_id is not an agent on this account.
 
         Parameters
         ----------
@@ -79,22 +84,12 @@ class WebhooksClient:
         The configured URL receives ALL of that agent's event types — call lifecycle
         (`call.received`, `call.completed`, `call.failed`), SMS (`sms.received`),
         and future events — as signed JSON POSTs. Each agent may have at most one
-        webhook; POSTing again replaces it.
+        webhook; setting it again replaces the URL. Omitted secret,
+        signature_header, protocol and capabilities keep their current values.
 
-        - `agent_id`: the agent whose events this webhook receives (required).
-        - `secret`:   HMAC signing secret. Omit to auto-generate.
-        - `protocol`: live relay protocol. `agentline-relay/2` sends typed POSTs
-          (`call.session.start`, `call.task.open`, `call.task.amend`,
-          `call.task.cancel`, `call.session.end`); answer via
-          `POST /v1/calls/{call_id}/context` and return 202 fast. Hosted bots such
-          as grokbot use this.
-        - `capabilities`: what the runtime supports (`supports_amend`,
-          `supports_cancel`, `briefing`, `streams_progress`). Without
-          `supports_amend`, follow-ups are merged into one task after the current
-          one settles.
-
-        The response returns the full `secret` **once** — store it to verify the
-        signature header on deliveries.
+        Returns agent_id, url, the full secret (shown only here; get_webhook
+        masks it), signature_header, protocol, capabilities and created_at.
+        Store the secret to verify the signature header on deliveries.
 
         Parameters
         ----------
@@ -102,10 +97,10 @@ class WebhooksClient:
             HTTPS URL that will receive this agent's events as signed JSON POSTs. Setting this replaces any existing webhook for the agent.
 
         agent_id : str
-            ID of the agent whose events this webhook receives. Each agent may have at most one webhook.
+            ID (agt_...) of the agent whose events this webhook receives, from create_agent or list_agents. Each agent may have at most one webhook.
 
         secret : typing.Optional[str]
-            Optional HMAC signing secret. Auto-generated if omitted. Used to verify the signature header on delivered payloads.
+            Optional HMAC signing secret used to verify the signature header on delivered payloads. Omit to keep the current secret, or to auto-generate one for a new webhook.
 
         signature_header : typing.Optional[str]
             Header name for the HMAC-SHA256 signature of the raw body. Defaults to 'X-Webhook-Signature' (natively verified by Hermes, OpenClaw, and other agent platforms). Set to 'X-Hub-Signature-256' for GitHub-style verification, or any custom header name your platform expects. Omit to keep the existing value when updating.
@@ -190,7 +185,7 @@ class WebhooksClient:
         Parameters
         ----------
         agent_id : str
-            Agent whose webhook to test
+            Agent (agt_... from list_agents) whose configured webhook should receive the test event.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -237,7 +232,12 @@ class AsyncWebhooksClient:
         List the account's per-agent webhook configuration(s).
 
         Secrets are **masked**. Pass `agent_id` to inspect a single agent's webhook.
-        The full secret is only ever shown once, on the POST that creates/replaces it.
+        The full secret is only ever shown once, by set_webhook.
+
+        Returns {"webhooks": [...], "count"}: each has agent_id, url, masked
+        secret, signature_header, protocol, capabilities and created_at. An empty
+        list means no webhook is set, so events wait for poll_events. HTTP 404 if
+        agent_id is not an agent on this account.
 
         Parameters
         ----------
@@ -289,22 +289,12 @@ class AsyncWebhooksClient:
         The configured URL receives ALL of that agent's event types — call lifecycle
         (`call.received`, `call.completed`, `call.failed`), SMS (`sms.received`),
         and future events — as signed JSON POSTs. Each agent may have at most one
-        webhook; POSTing again replaces it.
+        webhook; setting it again replaces the URL. Omitted secret,
+        signature_header, protocol and capabilities keep their current values.
 
-        - `agent_id`: the agent whose events this webhook receives (required).
-        - `secret`:   HMAC signing secret. Omit to auto-generate.
-        - `protocol`: live relay protocol. `agentline-relay/2` sends typed POSTs
-          (`call.session.start`, `call.task.open`, `call.task.amend`,
-          `call.task.cancel`, `call.session.end`); answer via
-          `POST /v1/calls/{call_id}/context` and return 202 fast. Hosted bots such
-          as grokbot use this.
-        - `capabilities`: what the runtime supports (`supports_amend`,
-          `supports_cancel`, `briefing`, `streams_progress`). Without
-          `supports_amend`, follow-ups are merged into one task after the current
-          one settles.
-
-        The response returns the full `secret` **once** — store it to verify the
-        signature header on deliveries.
+        Returns agent_id, url, the full secret (shown only here; get_webhook
+        masks it), signature_header, protocol, capabilities and created_at.
+        Store the secret to verify the signature header on deliveries.
 
         Parameters
         ----------
@@ -312,10 +302,10 @@ class AsyncWebhooksClient:
             HTTPS URL that will receive this agent's events as signed JSON POSTs. Setting this replaces any existing webhook for the agent.
 
         agent_id : str
-            ID of the agent whose events this webhook receives. Each agent may have at most one webhook.
+            ID (agt_...) of the agent whose events this webhook receives, from create_agent or list_agents. Each agent may have at most one webhook.
 
         secret : typing.Optional[str]
-            Optional HMAC signing secret. Auto-generated if omitted. Used to verify the signature header on delivered payloads.
+            Optional HMAC signing secret used to verify the signature header on delivered payloads. Omit to keep the current secret, or to auto-generate one for a new webhook.
 
         signature_header : typing.Optional[str]
             Header name for the HMAC-SHA256 signature of the raw body. Defaults to 'X-Webhook-Signature' (natively verified by Hermes, OpenClaw, and other agent platforms). Set to 'X-Hub-Signature-256' for GitHub-style verification, or any custom header name your platform expects. Omit to keep the existing value when updating.
@@ -416,7 +406,7 @@ class AsyncWebhooksClient:
         Parameters
         ----------
         agent_id : str
-            Agent whose webhook to test
+            Agent (agt_... from list_agents) whose configured webhook should receive the test event.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.

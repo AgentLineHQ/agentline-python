@@ -71,18 +71,13 @@ class AgentsClient:
         """
         Create a new AI voice agent for telephony.
 
-        Sets up a new AI phone agent with a custom system prompt, voice,
-        and greeting. Once created, buy a phone number and attach it to
-        this agent so it can make and receive calls autonomously.
+        Adds an agent to the account with its own system prompt, voice and
+        greeting. Creating an agent is free; it cannot call until it has a
+        number, so call buy_phone_number next with the returned id as agent_id.
 
-        Fields:
-          - name: Display name for the agent
-          - system_prompt: Instructions that define the agent's personality and behavior on calls
-          - initial_greeting: What the AI agent says when the call connects
-          - voice_id: TTS voice preset (e.g. "female-1") or a voice UUID
-          - transfer_number: Must be the owner phone. Live calls transfer only to owner_phone.
-          - voicemail_message: Message the agent leaves if the call goes to voicemail
-          - owner_phone: Owner's E.164 number. Task mode, and the only transfer destination.
+        Returns the new agent, including its id (agt_...). A voice_id that is
+        not a preset from list_available_voices or a voice UUID is rejected, as
+        is a transfer_number that differs from owner_phone (HTTP 400).
 
         Parameters
         ----------
@@ -99,7 +94,7 @@ class AgentsClient:
             TTS voice preset name (e.g. 'female-1', 'male-1') or a voice UUID; defaults to system voice if not set
 
         transfer_number : typing.Optional[str]
-            Ignored unless it is the owner phone. Live transfers always dial owner_phone; a different number is rejected.
+            Number a live call is transferred to. Only the owner phone is allowed, so leave it out or send the same E.164 number as owner_phone; setting owner_phone fills it in.
 
         voicemail_message : typing.Optional[str]
             Message the AI agent leaves if the call goes to voicemail
@@ -148,6 +143,7 @@ class AgentsClient:
         Parameters
         ----------
         agent_id : str
+            Agent ID (agt_...) returned by create_agent or list_agents.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -175,13 +171,17 @@ class AgentsClient:
         """
         Delete an AI voice agent.
 
-        Permanently removes the agent, its calls, messages, and conversations,
-        and detaches any phone numbers assigned to it. Detached numbers remain
-        active on your account and can be reassigned to another agent.
+        Permanently removes the agent with its calls and transcripts, messages,
+        conversations, contacts and webhook. Cannot be undone. Phone numbers
+        assigned to it are detached, not released: they stay active
+        on your account and can be reassigned to another agent.
+
+        Returns {"deleted": true, "agent_id": ...}.
 
         Parameters
         ----------
         agent_id : str
+            Agent ID (agt_...) returned by create_agent or list_agents.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -221,14 +221,17 @@ class AgentsClient:
         """
         Update an AI voice agent's configuration.
 
-        Modify any combination of the agent's settings: system prompt,
-        voice, greeting, transfer number, or voicemail message.
-        Changes take effect on the next call the agent handles.
-        Only include the fields you want to change — unset fields are preserved.
+        Overwrites the fields you send; omitted fields keep their values and the
+        old values are not kept. Changes apply to the next inbound or outbound
+        call the agent handles; calls already in progress are unaffected.
+
+        Returns the full updated agent. Sending no fields, an unknown voice_id or
+        a transfer_number other than owner_phone returns HTTP 400.
 
         Parameters
         ----------
         agent_id : str
+            Agent ID (agt_...) returned by create_agent or list_agents.
 
         name : typing.Optional[str]
             New display name for the AI voice agent
@@ -243,7 +246,7 @@ class AgentsClient:
             New TTS voice preset name or voice UUID
 
         transfer_number : typing.Optional[str]
-            Must match owner_phone. A different number is rejected; setting owner_phone updates this to the same number.
+            Number a live call is transferred to. Only the owner phone is allowed, so send the same E.164 number as owner_phone (current or in this request); setting owner_phone updates it automatically.
 
         voicemail_message : typing.Optional[str]
             Updated voicemail message
@@ -352,18 +355,13 @@ class AsyncAgentsClient:
         """
         Create a new AI voice agent for telephony.
 
-        Sets up a new AI phone agent with a custom system prompt, voice,
-        and greeting. Once created, buy a phone number and attach it to
-        this agent so it can make and receive calls autonomously.
+        Adds an agent to the account with its own system prompt, voice and
+        greeting. Creating an agent is free; it cannot call until it has a
+        number, so call buy_phone_number next with the returned id as agent_id.
 
-        Fields:
-          - name: Display name for the agent
-          - system_prompt: Instructions that define the agent's personality and behavior on calls
-          - initial_greeting: What the AI agent says when the call connects
-          - voice_id: TTS voice preset (e.g. "female-1") or a voice UUID
-          - transfer_number: Must be the owner phone. Live calls transfer only to owner_phone.
-          - voicemail_message: Message the agent leaves if the call goes to voicemail
-          - owner_phone: Owner's E.164 number. Task mode, and the only transfer destination.
+        Returns the new agent, including its id (agt_...). A voice_id that is
+        not a preset from list_available_voices or a voice UUID is rejected, as
+        is a transfer_number that differs from owner_phone (HTTP 400).
 
         Parameters
         ----------
@@ -380,7 +378,7 @@ class AsyncAgentsClient:
             TTS voice preset name (e.g. 'female-1', 'male-1') or a voice UUID; defaults to system voice if not set
 
         transfer_number : typing.Optional[str]
-            Ignored unless it is the owner phone. Live transfers always dial owner_phone; a different number is rejected.
+            Number a live call is transferred to. Only the owner phone is allowed, so leave it out or send the same E.164 number as owner_phone; setting owner_phone fills it in.
 
         voicemail_message : typing.Optional[str]
             Message the AI agent leaves if the call goes to voicemail
@@ -437,6 +435,7 @@ class AsyncAgentsClient:
         Parameters
         ----------
         agent_id : str
+            Agent ID (agt_...) returned by create_agent or list_agents.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -472,13 +471,17 @@ class AsyncAgentsClient:
         """
         Delete an AI voice agent.
 
-        Permanently removes the agent, its calls, messages, and conversations,
-        and detaches any phone numbers assigned to it. Detached numbers remain
-        active on your account and can be reassigned to another agent.
+        Permanently removes the agent with its calls and transcripts, messages,
+        conversations, contacts and webhook. Cannot be undone. Phone numbers
+        assigned to it are detached, not released: they stay active
+        on your account and can be reassigned to another agent.
+
+        Returns {"deleted": true, "agent_id": ...}.
 
         Parameters
         ----------
         agent_id : str
+            Agent ID (agt_...) returned by create_agent or list_agents.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -526,14 +529,17 @@ class AsyncAgentsClient:
         """
         Update an AI voice agent's configuration.
 
-        Modify any combination of the agent's settings: system prompt,
-        voice, greeting, transfer number, or voicemail message.
-        Changes take effect on the next call the agent handles.
-        Only include the fields you want to change — unset fields are preserved.
+        Overwrites the fields you send; omitted fields keep their values and the
+        old values are not kept. Changes apply to the next inbound or outbound
+        call the agent handles; calls already in progress are unaffected.
+
+        Returns the full updated agent. Sending no fields, an unknown voice_id or
+        a transfer_number other than owner_phone returns HTTP 400.
 
         Parameters
         ----------
         agent_id : str
+            Agent ID (agt_...) returned by create_agent or list_agents.
 
         name : typing.Optional[str]
             New display name for the AI voice agent
@@ -548,7 +554,7 @@ class AsyncAgentsClient:
             New TTS voice preset name or voice UUID
 
         transfer_number : typing.Optional[str]
-            Must match owner_phone. A different number is rejected; setting owner_phone updates this to the same number.
+            Number a live call is transferred to. Only the owner phone is allowed, so send the same E.164 number as owner_phone (current or in this request); setting owner_phone updates it automatically.
 
         voicemail_message : typing.Optional[str]
             Updated voicemail message

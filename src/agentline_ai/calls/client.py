@@ -48,16 +48,16 @@ class CallsClient:
         Parameters
         ----------
         agent_id : typing.Optional[str]
-            Filter calls by AI agent ID
+            Only calls handled by this agent (agt_... from list_agents). Omit for every agent on the account.
 
         status : typing.Optional[str]
-            Filter by call status: 'initiated', 'in-progress', 'completed', or 'failed'
+            Only calls in this exact status, e.g. 'completed' or 'failed'. Other statuses: 'initiated', 'in-progress', 'busy', 'no-answer', 'canceled'.
 
         limit : typing.Optional[int]
-            Maximum number of calls to return (1-200)
+            Page size: how many calls to return, newest first.
 
         offset : typing.Optional[int]
-            Number of calls to skip for pagination
+            How many calls to skip, to page past earlier results.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -95,21 +95,20 @@ class CallsClient:
         """
         Make an outbound phone call from your AI agent.
 
-        Initiates a real phone call from the AI agent's phone number to the
-        specified destination. The agent uses its configured system prompt,
-        voice, and greeting to conduct the conversation autonomously.
+        Dials a real person or business from the agent's number. The agent holds
+        the whole conversation on its own with its system prompt, voice and
+        greeting (or this call's overrides). The call reaches a third party and
+        is billed to the account at $0.10 per minute, first minute charged in
+        full, so confirm with the user first. Not idempotent: every successful
+        call dials again.
 
-        The AI agent handles the entire call — speech-to-text, LLM reasoning,
-        and text-to-speech — in real time. The call transcript is saved
-        automatically and can be retrieved via GET /v1/calls/{call_id}/transcript.
+        Prerequisites: an agent with an active number from buy_phone_number
+        (HTTP 400 otherwise) and at least $0.50 of balance (HTTP 402 otherwise).
 
-        Request body:
-          - agent_id: the AI agent making the call
-          - to_number: destination phone number in E.164 format (e.g. "+12125551234")
-          - from_number_id: (optional) specific number to call from
-          - system_prompt: (optional) override the agent's default prompt for this call
-          - initial_greeting: (optional) override the agent's greeting for this call
-          - voice_id: (optional) override the voice for this call
+        Returns right after dialing with the call id (call_...), agent_id,
+        from_number, to_number, direction, status and started_at; the call runs
+        on its own. Check get_call_details for progress and call
+        get_call_transcript once status is completed.
 
         Parameters
         ----------
@@ -173,6 +172,7 @@ class CallsClient:
         Parameters
         ----------
         call_id : str
+            Call ID (call_...) from make_outbound_call, list_calls or a call event.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -209,57 +209,40 @@ class CallsClient:
         """
         Push context into a LIVE relay-mode call (mid-call context injection).
 
-        This is the required way for backend agents (Hermes, OpenClaw, etc.) to
-        answer a live caller after a ``call.utterance`` / ``task.open``. Do your work,
-        then POST facts for the hosted voice to phrase in its own words. The update
-        reaches the live call immediately (relay bus), with no polling.
+        A call.utterance or call.task.open event means a live caller is waiting.
+        Do the work, then push the facts; they reach the call immediately. The
+        hosted voice phrases them in its own words (it never reads your text
+        aloud) and keeps them for the rest of the call.
 
-        Dispositions:
-          - ``partial``: one real fact known so far. Spoken right away; the task stays open.
-          - ``progress``: a note that is not a fact yet. Not spoken; the task stays open.
-          - ``done`` / ``failed`` / ``noop``: settles the task.
-          - ``facts`` without ``turn_id``: call facts pushed any time (call-start
-            briefing, anticipations). The hosted voice answers from them without asking.
-            ``facts`` with an open task's ``turn_id`` settles that task (relay v1).
+        Body fields (send as arguments next to call_id):
+          - context: the facts, e.g. "John emailed yesterday about an invoice."
+            Aliases: summary, answer, response, reply, text, result, message.
+          - disposition: partial (one real fact so far; spoken now, task stays
+            open), progress (a note, not spoken, task stays open), done (default),
+            failed or noop (settle the task; noop needs no context), or facts
+            (call facts at any time without turn_id, e.g. a call-start briefing).
+          - turn_id, push_token: as the parameters below.
 
-        The hosted voice keeps the facts for the rest of the call. It does not read
-        your text aloud. Poll ``GET /v1/calls/{call_id}`` for updates.
+        Auth: pass the event's push_token as token. An AgentLine API key as
+        Authorization: Bearer also works; OAuth tokens do not.
 
-        AUTHENTICATION (one of):
-          1. **Push token** (preferred — no API key): the ``push_token`` from the
-             ``call.utterance`` payload, via ``X-Push-Token`` header, ``?token=``
-             query param, or ``push_token`` body field.
-          2. **Bearer API key**: ``Authorization: Bearer al_live_...`` for the
-             account that owns the call.
-
-        Body — any of these keys works (``context`` is canonical):
-            {"context": "John emailed yesterday about an invoice."}
-
-        Other accepted keys: ``summary``, ``answer``, ``response``, ``reply``,
-        ``text``, ``result``.
-
-        Every response must include the exact ``turn_id`` from ``call.utterance``.
-        Late context is rejected instead of being applied to another question.
-
-        Returns:
-            delivered=true, status="live"      — voice agent will speak it now
-            delivered=true, status="duplicate" — identical retry already accepted
-            HTTP 409                            — turn is stale/cancelled
-            HTTP 410                            — **call has ended.** STOP working
-              on this request and abandon any in-flight lookup. No further context
-              will be spoken.
+        Returns {"delivered": true, "status", "call_id", "turn_id"}; status
+        "duplicate" means an identical retry was already accepted. HTTP 409: the
+        turn is stale or cancelled, so do not reuse this context. HTTP 410: the
+        call ended; stop working on this request.
 
         Parameters
         ----------
         call_id : str
+            ID (call_...) of the live call, from the call.utterance or call.task.open event.
 
         request : typing.Dict[str, typing.Any]
 
         token : typing.Optional[str]
-            Push token (alt to X-Push-Token header / body).
+            The push_token from the call.utterance or call.task.open event. Authorizes this push for that call; same as the X-Push-Token header or a push_token body field.
 
         turn_id : typing.Optional[str]
-            Turn ID from call.utterance.
+            The exact turn_id from the event, identifying the question being answered. Can also be sent in the body. Required except for disposition=facts.
 
         push_token : typing.Optional[str]
 
@@ -305,6 +288,7 @@ class CallsClient:
         Parameters
         ----------
         call_id : str
+            Call ID (call_...) from make_outbound_call, list_calls or a call event.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -340,6 +324,7 @@ class CallsClient:
         Parameters
         ----------
         call_id : str
+            Call ID (call_...) from make_outbound_call, list_calls or a call event.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -402,16 +387,16 @@ class AsyncCallsClient:
         Parameters
         ----------
         agent_id : typing.Optional[str]
-            Filter calls by AI agent ID
+            Only calls handled by this agent (agt_... from list_agents). Omit for every agent on the account.
 
         status : typing.Optional[str]
-            Filter by call status: 'initiated', 'in-progress', 'completed', or 'failed'
+            Only calls in this exact status, e.g. 'completed' or 'failed'. Other statuses: 'initiated', 'in-progress', 'busy', 'no-answer', 'canceled'.
 
         limit : typing.Optional[int]
-            Maximum number of calls to return (1-200)
+            Page size: how many calls to return, newest first.
 
         offset : typing.Optional[int]
-            Number of calls to skip for pagination
+            How many calls to skip, to page past earlier results.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -457,21 +442,20 @@ class AsyncCallsClient:
         """
         Make an outbound phone call from your AI agent.
 
-        Initiates a real phone call from the AI agent's phone number to the
-        specified destination. The agent uses its configured system prompt,
-        voice, and greeting to conduct the conversation autonomously.
+        Dials a real person or business from the agent's number. The agent holds
+        the whole conversation on its own with its system prompt, voice and
+        greeting (or this call's overrides). The call reaches a third party and
+        is billed to the account at $0.10 per minute, first minute charged in
+        full, so confirm with the user first. Not idempotent: every successful
+        call dials again.
 
-        The AI agent handles the entire call — speech-to-text, LLM reasoning,
-        and text-to-speech — in real time. The call transcript is saved
-        automatically and can be retrieved via GET /v1/calls/{call_id}/transcript.
+        Prerequisites: an agent with an active number from buy_phone_number
+        (HTTP 400 otherwise) and at least $0.50 of balance (HTTP 402 otherwise).
 
-        Request body:
-          - agent_id: the AI agent making the call
-          - to_number: destination phone number in E.164 format (e.g. "+12125551234")
-          - from_number_id: (optional) specific number to call from
-          - system_prompt: (optional) override the agent's default prompt for this call
-          - initial_greeting: (optional) override the agent's greeting for this call
-          - voice_id: (optional) override the voice for this call
+        Returns right after dialing with the call id (call_...), agent_id,
+        from_number, to_number, direction, status and started_at; the call runs
+        on its own. Check get_call_details for progress and call
+        get_call_transcript once status is completed.
 
         Parameters
         ----------
@@ -543,6 +527,7 @@ class AsyncCallsClient:
         Parameters
         ----------
         call_id : str
+            Call ID (call_...) from make_outbound_call, list_calls or a call event.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -587,57 +572,40 @@ class AsyncCallsClient:
         """
         Push context into a LIVE relay-mode call (mid-call context injection).
 
-        This is the required way for backend agents (Hermes, OpenClaw, etc.) to
-        answer a live caller after a ``call.utterance`` / ``task.open``. Do your work,
-        then POST facts for the hosted voice to phrase in its own words. The update
-        reaches the live call immediately (relay bus), with no polling.
+        A call.utterance or call.task.open event means a live caller is waiting.
+        Do the work, then push the facts; they reach the call immediately. The
+        hosted voice phrases them in its own words (it never reads your text
+        aloud) and keeps them for the rest of the call.
 
-        Dispositions:
-          - ``partial``: one real fact known so far. Spoken right away; the task stays open.
-          - ``progress``: a note that is not a fact yet. Not spoken; the task stays open.
-          - ``done`` / ``failed`` / ``noop``: settles the task.
-          - ``facts`` without ``turn_id``: call facts pushed any time (call-start
-            briefing, anticipations). The hosted voice answers from them without asking.
-            ``facts`` with an open task's ``turn_id`` settles that task (relay v1).
+        Body fields (send as arguments next to call_id):
+          - context: the facts, e.g. "John emailed yesterday about an invoice."
+            Aliases: summary, answer, response, reply, text, result, message.
+          - disposition: partial (one real fact so far; spoken now, task stays
+            open), progress (a note, not spoken, task stays open), done (default),
+            failed or noop (settle the task; noop needs no context), or facts
+            (call facts at any time without turn_id, e.g. a call-start briefing).
+          - turn_id, push_token: as the parameters below.
 
-        The hosted voice keeps the facts for the rest of the call. It does not read
-        your text aloud. Poll ``GET /v1/calls/{call_id}`` for updates.
+        Auth: pass the event's push_token as token. An AgentLine API key as
+        Authorization: Bearer also works; OAuth tokens do not.
 
-        AUTHENTICATION (one of):
-          1. **Push token** (preferred — no API key): the ``push_token`` from the
-             ``call.utterance`` payload, via ``X-Push-Token`` header, ``?token=``
-             query param, or ``push_token`` body field.
-          2. **Bearer API key**: ``Authorization: Bearer al_live_...`` for the
-             account that owns the call.
-
-        Body — any of these keys works (``context`` is canonical):
-            {"context": "John emailed yesterday about an invoice."}
-
-        Other accepted keys: ``summary``, ``answer``, ``response``, ``reply``,
-        ``text``, ``result``.
-
-        Every response must include the exact ``turn_id`` from ``call.utterance``.
-        Late context is rejected instead of being applied to another question.
-
-        Returns:
-            delivered=true, status="live"      — voice agent will speak it now
-            delivered=true, status="duplicate" — identical retry already accepted
-            HTTP 409                            — turn is stale/cancelled
-            HTTP 410                            — **call has ended.** STOP working
-              on this request and abandon any in-flight lookup. No further context
-              will be spoken.
+        Returns {"delivered": true, "status", "call_id", "turn_id"}; status
+        "duplicate" means an identical retry was already accepted. HTTP 409: the
+        turn is stale or cancelled, so do not reuse this context. HTTP 410: the
+        call ended; stop working on this request.
 
         Parameters
         ----------
         call_id : str
+            ID (call_...) of the live call, from the call.utterance or call.task.open event.
 
         request : typing.Dict[str, typing.Any]
 
         token : typing.Optional[str]
-            Push token (alt to X-Push-Token header / body).
+            The push_token from the call.utterance or call.task.open event. Authorizes this push for that call; same as the X-Push-Token header or a push_token body field.
 
         turn_id : typing.Optional[str]
-            Turn ID from call.utterance.
+            The exact turn_id from the event, identifying the question being answered. Can also be sent in the body. Required except for disposition=facts.
 
         push_token : typing.Optional[str]
 
@@ -691,6 +659,7 @@ class AsyncCallsClient:
         Parameters
         ----------
         call_id : str
+            Call ID (call_...) from make_outbound_call, list_calls or a call event.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -736,6 +705,7 @@ class AsyncCallsClient:
         Parameters
         ----------
         call_id : str
+            Call ID (call_...) from make_outbound_call, list_calls or a call event.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.

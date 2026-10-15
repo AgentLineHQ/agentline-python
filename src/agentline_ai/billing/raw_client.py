@@ -76,7 +76,7 @@ class RawBillingClient:
         Parameters
         ----------
         period : typing.Optional[str]
-            Time period: 'current_month', 'last_month', 'all_time', or 'YYYY-MM'
+            Which spending to total: 'current_month', 'last_month', 'all_time', or one calendar month as 'YYYY-MM' (e.g. '2026-09'). Unrecognized values fall back to the current month.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -393,7 +393,7 @@ class AsyncRawBillingClient:
         Parameters
         ----------
         period : typing.Optional[str]
-            Time period: 'current_month', 'last_month', 'all_time', or 'YYYY-MM'
+            Which spending to total: 'current_month', 'last_month', 'all_time', or one calendar month as 'YYYY-MM' (e.g. '2026-09'). Unrecognized values fall back to the current month.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.

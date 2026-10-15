@@ -14,6 +14,10 @@ if typing.TYPE_CHECKING:
     from .api_key_webhook_config import ApiKeyWebhookConfig
     from .call_context import CallContext
     from .call_context_disposition import CallContextDisposition
+    from .contact_create import ContactCreate
+    from .contact_list import ContactList
+    from .contact_out import ContactOut
+    from .contact_update import ContactUpdate
     from .deletion import Deletion
     from .feedback_category import FeedbackCategory
     from .feedback_create import FeedbackCreate
@@ -44,6 +48,10 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ApiKeyWebhookConfig": ".api_key_webhook_config",
     "CallContext": ".call_context",
     "CallContextDisposition": ".call_context_disposition",
+    "ContactCreate": ".contact_create",
+    "ContactList": ".contact_list",
+    "ContactOut": ".contact_out",
+    "ContactUpdate": ".contact_update",
     "Deletion": ".deletion",
     "FeedbackCategory": ".feedback_category",
     "FeedbackCreate": ".feedback_create",
@@ -98,6 +106,10 @@ __all__ = [
     "ApiKeyWebhookConfig",
     "CallContext",
     "CallContextDisposition",
+    "ContactCreate",
+    "ContactList",
+    "ContactOut",
+    "ContactUpdate",
     "Deletion",
     "FeedbackCategory",
     "FeedbackCreate",

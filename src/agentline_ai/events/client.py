@@ -35,25 +35,23 @@ class EventsClient:
 
         Returns pending events such as call completions, transcripts, and
         failures. Events are consumed on retrieval (one-time read) — once
-        polled, they are automatically deleted from the mailbox.
+        polled, they are automatically deleted from the mailbox, so process or
+        store them. Use peek_events to look without consuming.
 
-        Your AI agent should call this endpoint periodically to receive
-        notifications about completed calls and their transcripts.
-
-        Filters:
-          - agent_id: only events for a specific AI agent
-          - event_type: e.g. "call.completed", "call.failed"
+        Returns {"events": [...], "count"}: each event has event_id, agent_id,
+        event_type, payload and created_at, oldest first. An empty list means
+        nothing is pending. Agents with a webhook receive events there instead.
 
         Parameters
         ----------
         agent_id : typing.Optional[str]
-            Filter events by AI agent ID
+            Only events for this agent (agt_... from list_agents). Omit for every agent on the account.
 
         event_type : typing.Optional[str]
-            Filter by event type (e.g. 'call.completed', 'call.failed')
+            Only events of this exact type, e.g. 'call.completed', 'call.failed', 'call.received' or 'sms.received'.
 
         limit : typing.Optional[int]
-            Maximum number of events to return (1-200)
+            Most events to claim in this call, oldest first. Events past the limit stay queued for the next poll.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -91,13 +89,18 @@ class EventsClient:
         without removing them from the mailbox. Useful for checking if
         there are events to process before committing to retrieve them.
 
+        Returns {"pending_count", "events"}: pending_count counts every queued
+        event for the account (or agent_id); events lists event_id, agent_id,
+        event_type and created_at, without payloads. Call poll_events to get the
+        payloads.
+
         Parameters
         ----------
         agent_id : typing.Optional[str]
-            Filter events by AI agent ID
+            Only events for this agent (agt_... from list_agents). Omit for every agent on the account.
 
         limit : typing.Optional[int]
-            Maximum number of events to preview (1-200)
+            Most events to list, oldest first. Does not change pending_count.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -148,25 +151,23 @@ class AsyncEventsClient:
 
         Returns pending events such as call completions, transcripts, and
         failures. Events are consumed on retrieval (one-time read) — once
-        polled, they are automatically deleted from the mailbox.
+        polled, they are automatically deleted from the mailbox, so process or
+        store them. Use peek_events to look without consuming.
 
-        Your AI agent should call this endpoint periodically to receive
-        notifications about completed calls and their transcripts.
-
-        Filters:
-          - agent_id: only events for a specific AI agent
-          - event_type: e.g. "call.completed", "call.failed"
+        Returns {"events": [...], "count"}: each event has event_id, agent_id,
+        event_type, payload and created_at, oldest first. An empty list means
+        nothing is pending. Agents with a webhook receive events there instead.
 
         Parameters
         ----------
         agent_id : typing.Optional[str]
-            Filter events by AI agent ID
+            Only events for this agent (agt_... from list_agents). Omit for every agent on the account.
 
         event_type : typing.Optional[str]
-            Filter by event type (e.g. 'call.completed', 'call.failed')
+            Only events of this exact type, e.g. 'call.completed', 'call.failed', 'call.received' or 'sms.received'.
 
         limit : typing.Optional[int]
-            Maximum number of events to return (1-200)
+            Most events to claim in this call, oldest first. Events past the limit stay queued for the next poll.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -212,13 +213,18 @@ class AsyncEventsClient:
         without removing them from the mailbox. Useful for checking if
         there are events to process before committing to retrieve them.
 
+        Returns {"pending_count", "events"}: pending_count counts every queued
+        event for the account (or agent_id); events lists event_id, agent_id,
+        event_type and created_at, without payloads. Call poll_events to get the
+        payloads.
+
         Parameters
         ----------
         agent_id : typing.Optional[str]
-            Filter events by AI agent ID
+            Only events for this agent (agt_... from list_agents). Omit for every agent on the account.
 
         limit : typing.Optional[int]
-            Maximum number of events to preview (1-200)
+            Most events to list, oldest first. Does not change pending_count.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.

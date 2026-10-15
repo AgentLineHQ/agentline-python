@@ -11,7 +11,7 @@ from .feedback_severity import FeedbackSeverity
 class FeedbackCreate(UniversalBaseModel):
     category: FeedbackCategory = pydantic.Field()
     """
-    Type of feedback: 'bug' (something broken / not working), 'feature_request' (want a new capability), 'difficulty' (hard or confusing to use), or 'feedback' (general comment or praise)
+    Kind of report: bug (something broken), feature_request (a missing capability), difficulty (hard or confusing to use) or feedback (general comment or praise)
     """
 
     message: str = pydantic.Field()
@@ -21,17 +21,17 @@ class FeedbackCreate(UniversalBaseModel):
 
     subject: typing.Optional[str] = pydantic.Field(default=None)
     """
-    Short summary title for the feedback (optional)
+    Short summary shown as the title, e.g. 'Outbound call drops after greeting'. When omitted the feedback is saved without a subject.
     """
 
     severity: typing.Optional[FeedbackSeverity] = pydantic.Field(default=None)
     """
-    Impact level, mainly relevant for bugs: 'low', 'normal', 'high', or 'critical'
+    How much the issue affects you; mainly relevant for bugs
     """
 
     agent_id: typing.Optional[str] = pydantic.Field(default=None)
     """
-    ID of the AI agent this feedback relates to, if applicable
+    Agent the feedback is about (agt_... from list_agents), if any. Must be an agent on this account.
     """
 
     contact_email: typing.Optional[str] = pydantic.Field(default=None)

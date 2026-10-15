@@ -77,19 +77,22 @@ class RawNumbersClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[typing.Any]:
         """
-        Buy a US phone number for your AI agent.
+        Buy a US or Canada phone number for your AI agent.
 
-        Searches for and purchases a real US phone number from the telephony
-        provider, then attaches it to the specified AI agent. Once attached,
-        the agent can make outbound calls and receive inbound calls on this number.
+        Buys a real +1 number from the carrier, attaches it to the agent and
+        charges $2.00 to the account balance. Once attached, the agent can make
+        outbound calls and answers inbound calls on this number. Not idempotent:
+        every successful call buys and charges for another number.
 
-        Each AI agent can only have ONE active phone number. Costs $2.00 per number.
+        Prerequisites: an agent from create_agent with no active number (each
+        agent has at most one; a second purchase returns HTTP 409) and at least
+        $2.00 of balance (HTTP 402 otherwise; see get_account_balance).
 
-        Request body:
-          - agent_id: str (required) — the AI agent to assign this number to
-          - country: str (must be "US")
-          - number_type: "local" | "tollfree"
-          - area_code: preferred 3-digit US area code (e.g. "212" for NYC, "415" for SF)
+        Returns the number's id (num_..., used by release_phone_number and as
+        from_number_id), phone_number, country, number_type, status, cost,
+        balance_remaining and a private number card link (card_url,
+        card_image_url, card_url_expires_at). If the account has an owner email,
+        the card link is also emailed there.
 
         Parameters
         ----------
@@ -100,13 +103,13 @@ class RawNumbersClient:
             Country code for the phone number (currently only 'US' is supported)
 
         number_type : typing.Optional[str]
-            Type of phone number: 'local' or 'tollfree'
+            'local' for a number in a geographic area code, or 'tollfree' for a toll-free 8xx number
 
         area_code : typing.Optional[str]
-            Preferred 3-digit US area code (e.g. '212' for NYC, '415' for SF, '310' for LA)
+            For local numbers, the area code the number should be in, written as 3 digits (US e.g. '212' NYC, '415' SF; Canada e.g. '416' Toronto, '604' Vancouver, '514' Montreal); other values make the purchase fail. For tollfree, a prefix such as '800' or '888' narrows the search and other values are ignored. Omit to take any available number.
 
         pattern : typing.Optional[str]
-            Legacy digit pattern match (prefer area_code instead)
+            Legacy search: digits the local number must contain, e.g. '555'. Used only for local numbers when area_code is omitted; prefer area_code.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -411,19 +414,22 @@ class AsyncRawNumbersClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[typing.Any]:
         """
-        Buy a US phone number for your AI agent.
+        Buy a US or Canada phone number for your AI agent.
 
-        Searches for and purchases a real US phone number from the telephony
-        provider, then attaches it to the specified AI agent. Once attached,
-        the agent can make outbound calls and receive inbound calls on this number.
+        Buys a real +1 number from the carrier, attaches it to the agent and
+        charges $2.00 to the account balance. Once attached, the agent can make
+        outbound calls and answers inbound calls on this number. Not idempotent:
+        every successful call buys and charges for another number.
 
-        Each AI agent can only have ONE active phone number. Costs $2.00 per number.
+        Prerequisites: an agent from create_agent with no active number (each
+        agent has at most one; a second purchase returns HTTP 409) and at least
+        $2.00 of balance (HTTP 402 otherwise; see get_account_balance).
 
-        Request body:
-          - agent_id: str (required) — the AI agent to assign this number to
-          - country: str (must be "US")
-          - number_type: "local" | "tollfree"
-          - area_code: preferred 3-digit US area code (e.g. "212" for NYC, "415" for SF)
+        Returns the number's id (num_..., used by release_phone_number and as
+        from_number_id), phone_number, country, number_type, status, cost,
+        balance_remaining and a private number card link (card_url,
+        card_image_url, card_url_expires_at). If the account has an owner email,
+        the card link is also emailed there.
 
         Parameters
         ----------
@@ -434,13 +440,13 @@ class AsyncRawNumbersClient:
             Country code for the phone number (currently only 'US' is supported)
 
         number_type : typing.Optional[str]
-            Type of phone number: 'local' or 'tollfree'
+            'local' for a number in a geographic area code, or 'tollfree' for a toll-free 8xx number
 
         area_code : typing.Optional[str]
-            Preferred 3-digit US area code (e.g. '212' for NYC, '415' for SF, '310' for LA)
+            For local numbers, the area code the number should be in, written as 3 digits (US e.g. '212' NYC, '415' SF; Canada e.g. '416' Toronto, '604' Vancouver, '514' Montreal); other values make the purchase fail. For tollfree, a prefix such as '800' or '888' narrows the search and other values are ignored. Omit to take any available number.
 
         pattern : typing.Optional[str]
-            Legacy digit pattern match (prefer area_code instead)
+            Legacy search: digits the local number must contain, e.g. '555'. Used only for local numbers when area_code is omitted; prefer area_code.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
