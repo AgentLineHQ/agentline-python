@@ -77,12 +77,12 @@ class RawNumbersClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[typing.Any]:
         """
-        Buy a US phone number for your AI agent.
+        Buy a US or Canadian phone number for your AI agent.
 
         Buys a real +1 number from the carrier, attaches it to the agent and
         uses an included subscription number, or charges $2.00 to the wallet. Once attached, the agent can make
-        outbound calls and answers inbound calls on this number. Not idempotent:
-        every successful call buys and charges for another number.
+        outbound calls and answers inbound calls on this number. Existing numbers retain their carrier.
+        Each agent can have only one active number.
 
         Prerequisites: an agent from create_agent with no active number (each
         agent has at most one; a second purchase returns HTTP 409), plus a remaining
@@ -101,7 +101,7 @@ class RawNumbersClient:
             ID of the AI agent to assign this phone number to (e.g. 'agt_abc123')
 
         country : typing.Optional[str]
-            Country code for the phone number (currently only 'US' is supported)
+            Country code for the phone number ('US' or 'CA')
 
         number_type : typing.Optional[str]
             'local' for a number in a geographic area code, or 'tollfree' for a toll-free 8xx number
@@ -169,7 +169,12 @@ class RawNumbersClient:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     def attach(
-        self, *, phone_number: str, agent_id: str, request_options: typing.Optional[RequestOptions] = None
+        self,
+        *,
+        phone_number: str,
+        agent_id: str,
+        country: typing.Optional[str] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[typing.Any]:
         """
         Manually attach a number that was bought outside this account.
@@ -178,12 +183,15 @@ class RawNumbersClient:
         Query params:
           - phone_number: E.164 format (e.g. "+12125551234")
           - agent_id: agent to attach to
+          - country: "US" (default) or "CA" — both are +1, so say which
 
         Parameters
         ----------
         phone_number : str
 
         agent_id : str
+
+        country : typing.Optional[str]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -199,6 +207,7 @@ class RawNumbersClient:
             params={
                 "phone_number": phone_number,
                 "agent_id": agent_id,
+                "country": country,
             },
             request_options=request_options,
         )
@@ -415,12 +424,12 @@ class AsyncRawNumbersClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[typing.Any]:
         """
-        Buy a US phone number for your AI agent.
+        Buy a US or Canadian phone number for your AI agent.
 
         Buys a real +1 number from the carrier, attaches it to the agent and
         uses an included subscription number, or charges $2.00 to the wallet. Once attached, the agent can make
-        outbound calls and answers inbound calls on this number. Not idempotent:
-        every successful call buys and charges for another number.
+        outbound calls and answers inbound calls on this number. Existing numbers retain their carrier.
+        Each agent can have only one active number.
 
         Prerequisites: an agent from create_agent with no active number (each
         agent has at most one; a second purchase returns HTTP 409), plus a remaining
@@ -439,7 +448,7 @@ class AsyncRawNumbersClient:
             ID of the AI agent to assign this phone number to (e.g. 'agt_abc123')
 
         country : typing.Optional[str]
-            Country code for the phone number (currently only 'US' is supported)
+            Country code for the phone number ('US' or 'CA')
 
         number_type : typing.Optional[str]
             'local' for a number in a geographic area code, or 'tollfree' for a toll-free 8xx number
@@ -507,7 +516,12 @@ class AsyncRawNumbersClient:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def attach(
-        self, *, phone_number: str, agent_id: str, request_options: typing.Optional[RequestOptions] = None
+        self,
+        *,
+        phone_number: str,
+        agent_id: str,
+        country: typing.Optional[str] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[typing.Any]:
         """
         Manually attach a number that was bought outside this account.
@@ -516,12 +530,15 @@ class AsyncRawNumbersClient:
         Query params:
           - phone_number: E.164 format (e.g. "+12125551234")
           - agent_id: agent to attach to
+          - country: "US" (default) or "CA" — both are +1, so say which
 
         Parameters
         ----------
         phone_number : str
 
         agent_id : str
+
+        country : typing.Optional[str]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -537,6 +554,7 @@ class AsyncRawNumbersClient:
             params={
                 "phone_number": phone_number,
                 "agent_id": agent_id,
+                "country": country,
             },
             request_options=request_options,
         )
