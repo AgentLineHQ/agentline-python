@@ -66,16 +66,17 @@ class NumbersClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> typing.Any:
         """
-        Buy a US or Canada phone number for your AI agent.
+        Buy a US phone number for your AI agent.
 
         Buys a real +1 number from the carrier, attaches it to the agent and
-        charges $2.00 to the account balance. Once attached, the agent can make
+        uses an included subscription number, or charges $2.00 to the wallet. Once attached, the agent can make
         outbound calls and answers inbound calls on this number. Not idempotent:
         every successful call buys and charges for another number.
 
         Prerequisites: an agent from create_agent with no active number (each
-        agent has at most one; a second purchase returns HTTP 409) and at least
-        $2.00 of balance (HTTP 402 otherwise; see get_account_balance).
+        agent has at most one; a second purchase returns HTTP 409), plus a remaining
+        subscription number allowance or $2.00 in the wallet
+        (HTTP 402 otherwise; see get_account_balance).
 
         Returns the number's id (num_..., used by release_phone_number and as
         from_number_id), phone_number, country, number_type, status, cost,
@@ -307,16 +308,17 @@ class AsyncNumbersClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> typing.Any:
         """
-        Buy a US or Canada phone number for your AI agent.
+        Buy a US phone number for your AI agent.
 
         Buys a real +1 number from the carrier, attaches it to the agent and
-        charges $2.00 to the account balance. Once attached, the agent can make
+        uses an included subscription number, or charges $2.00 to the wallet. Once attached, the agent can make
         outbound calls and answers inbound calls on this number. Not idempotent:
         every successful call buys and charges for another number.
 
         Prerequisites: an agent from create_agent with no active number (each
-        agent has at most one; a second purchase returns HTTP 409) and at least
-        $2.00 of balance (HTTP 402 otherwise; see get_account_balance).
+        agent has at most one; a second purchase returns HTTP 409), plus a remaining
+        subscription number allowance or $2.00 in the wallet
+        (HTTP 402 otherwise; see get_account_balance).
 
         Returns the number's id (num_..., used by release_phone_number and as
         from_number_id), phone_number, country, number_type, status, cost,

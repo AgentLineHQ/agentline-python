@@ -1298,7 +1298,9 @@ full, so confirm with the user first. Not idempotent: every successful
 call dials again.
 
 Prerequisites: an agent with an active number from buy_phone_number
-(HTTP 400 otherwise) and at least $0.50 of balance (HTTP 402 otherwise).
+(HTTP 400 otherwise), plus remaining subscription minutes or at least
+$0.50 of wallet balance (HTTP 402 otherwise). Included minutes are used
+first; only uncovered call time is charged to the wallet.
 
 Returns right after dialing with the call id (call_...), agent_id,
 from_number, to_number, direction, status and started_at; the call runs
@@ -2315,16 +2317,17 @@ client.numbers.list()
 <dl>
 <dd>
 
-Buy a US or Canada phone number for your AI agent.
+Buy a US phone number for your AI agent.
 
 Buys a real +1 number from the carrier, attaches it to the agent and
-charges $2.00 to the account balance. Once attached, the agent can make
+uses an included subscription number, or charges $2.00 to the wallet. Once attached, the agent can make
 outbound calls and answers inbound calls on this number. Not idempotent:
 every successful call buys and charges for another number.
 
 Prerequisites: an agent from create_agent with no active number (each
-agent has at most one; a second purchase returns HTTP 409) and at least
-$2.00 of balance (HTTP 402 otherwise; see get_account_balance).
+agent has at most one; a second purchase returns HTTP 409), plus a remaining
+subscription number allowance or $2.00 in the wallet
+(HTTP 402 otherwise; see get_account_balance).
 
 Returns the number's id (num_..., used by release_phone_number and as
 from_number_id), phone_number, country, number_type, status, cost,

@@ -103,7 +103,9 @@ class CallsClient:
         call dials again.
 
         Prerequisites: an agent with an active number from buy_phone_number
-        (HTTP 400 otherwise) and at least $0.50 of balance (HTTP 402 otherwise).
+        (HTTP 400 otherwise), plus remaining subscription minutes or at least
+        $0.50 of wallet balance (HTTP 402 otherwise). Included minutes are used
+        first; only uncovered call time is charged to the wallet.
 
         Returns right after dialing with the call id (call_...), agent_id,
         from_number, to_number, direction, status and started_at; the call runs
@@ -450,7 +452,9 @@ class AsyncCallsClient:
         call dials again.
 
         Prerequisites: an agent with an active number from buy_phone_number
-        (HTTP 400 otherwise) and at least $0.50 of balance (HTTP 402 otherwise).
+        (HTTP 400 otherwise), plus remaining subscription minutes or at least
+        $0.50 of wallet balance (HTTP 402 otherwise). Included minutes are used
+        first; only uncovered call time is charged to the wallet.
 
         Returns right after dialing with the call id (call_...), agent_id,
         from_number, to_number, direction, status and started_at; the call runs
