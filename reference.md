@@ -2317,12 +2317,12 @@ client.numbers.list()
 <dl>
 <dd>
 
-Buy a US or Canadian phone number for your AI agent.
+Buy a US phone number for your AI agent.
 
 Buys a real +1 number from the carrier, attaches it to the agent and
 uses an included subscription number, or charges $2.00 to the wallet. Once attached, the agent can make
-outbound calls and answers inbound calls on this number. Existing numbers retain their carrier.
-Each agent can have only one active number.
+outbound calls and answers inbound calls on this number. Not idempotent:
+every successful call buys and charges for another number.
 
 Prerequisites: an agent from create_agent with no active number (each
 agent has at most one; a second purchase returns HTTP 409), plus a remaining
@@ -2382,7 +2382,7 @@ client.numbers.buy(
 <dl>
 <dd>
 
-**country:** `typing.Optional[str]` — Country code for the phone number ('US' or 'CA')
+**country:** `typing.Optional[str]` — Country code for the phone number (currently only 'US' is supported)
     
 </dd>
 </dl>
@@ -2444,7 +2444,6 @@ Each agent can only have ONE active number.
 Query params:
   - phone_number: E.164 format (e.g. "+12125551234")
   - agent_id: agent to attach to
-  - country: "US" (default) or "CA" — both are +1, so say which
 </dd>
 </dl>
 </dd>
@@ -2495,14 +2494,6 @@ client.numbers.attach(
 <dd>
 
 **agent_id:** `str` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**country:** `typing.Optional[str]` 
     
 </dd>
 </dl>
