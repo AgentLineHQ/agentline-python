@@ -124,7 +124,7 @@ class RawCallsClient:
         Dials a real person or business from the agent's number. The agent holds
         the whole conversation on its own with its system prompt, voice and
         greeting (or this call's overrides). The call reaches a third party and
-        is billed to the account at $0.10 per minute, first minute charged in
+        is billed to the account at $0.12 per minute, first minute charged in
         full, so confirm with the user first. Not idempotent: every successful
         call dials again.
 
@@ -607,7 +607,7 @@ class AsyncRawCallsClient:
         Dials a real person or business from the agent's number. The agent holds
         the whole conversation on its own with its system prompt, voice and
         greeting (or this call's overrides). The call reaches a third party and
-        is billed to the account at $0.10 per minute, first minute charged in
+        is billed to the account at $0.12 per minute, first minute charged in
         full, so confirm with the user first. Not idempotent: every successful
         call dials again.
 

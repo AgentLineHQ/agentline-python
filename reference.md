@@ -1293,7 +1293,7 @@ Make an outbound phone call from your AI agent.
 Dials a real person or business from the agent's number. The agent holds
 the whole conversation on its own with its system prompt, voice and
 greeting (or this call's overrides). The call reaches a third party and
-is billed to the account at $0.10 per minute, first minute charged in
+is billed to the account at $0.12 per minute, first minute charged in
 full, so confirm with the user first. Not idempotent: every successful
 call dials again.
 
@@ -2320,13 +2320,13 @@ client.numbers.list()
 Buy a US or Canadian phone number for your AI agent.
 
 Buys a real +1 number from the carrier, attaches it to the agent and
-uses an included subscription number, or charges $2.00 to the wallet. Once attached, the agent can make
+uses an included subscription number, or charges $3.00 to the wallet. Once attached, the agent can make
 outbound calls and answers inbound calls on this number. Existing numbers retain their carrier.
 Each agent can have only one active number.
 
 Prerequisites: an agent from create_agent with no active number (each
 agent has at most one; a second purchase returns HTTP 409), plus a remaining
-subscription number allowance or $2.00 in the wallet
+subscription number allowance or $3.00 in the wallet
 (HTTP 402 otherwise; see get_account_balance).
 
 Returns the number's id (num_..., used by release_phone_number and as
