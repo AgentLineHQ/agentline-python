@@ -44,7 +44,7 @@ class KeylessBuyBody(UniversalBaseModel):
 
     country: typing.Optional[str] = pydantic.Field(default=None)
     """
-    Country code (only 'US' supported)
+    Country code: 'US' or 'CA'
     """
 
     number_type: typing.Optional[str] = pydantic.Field(default=None)
@@ -54,7 +54,7 @@ class KeylessBuyBody(UniversalBaseModel):
 
     area_code: typing.Optional[str] = pydantic.Field(default=None)
     """
-    Preferred 3-digit US area code
+    Preferred 3-digit US or Canada area code
     """
 
     if IS_PYDANTIC_V2:

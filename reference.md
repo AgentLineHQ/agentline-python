@@ -806,7 +806,7 @@ client.agents.update(
 Get your AI telephony account balance and rate card.
 
 Returns the current balance, currency, billing rates for calls,
-phone numbers, and inbound SMS, plus what the balance can cover.
+phone numbers, and SMS, plus what the balance can cover.
 Use this to check affordability before paid telephony operations.
 </dd>
 </dl>
