@@ -14,7 +14,7 @@ class VerifyRequest(UniversalBaseModel):
 
     otp: str = pydantic.Field()
     """
-    One-time code received via email
+    One-time code received via email, exactly as it appears in the message
     """
 
     if IS_PYDANTIC_V2:
