@@ -73,10 +73,15 @@ class NumbersClient:
         outbound calls and answers inbound calls on this number. Existing numbers retain their carrier.
         Each agent can have only one active number.
 
+        Free trial: during the 7-day trial every new account gets its first local
+        number free (cost 0, trial true, trial_ends_at). It stays with the account
+        after a top-up or plan purchase; otherwise it is detached from the account
+        when the trial ends.
+
         Prerequisites: an agent from create_agent with no active number (each
-        agent has at most one; a second purchase returns HTTP 409), plus a remaining
-        subscription number allowance or $3.00 in the wallet
-        (HTTP 402 otherwise; see get_account_balance).
+        agent has at most one; a second purchase returns HTTP 409), plus the
+        trial's free number, a remaining subscription number allowance or $3.00 in
+        the wallet (HTTP 402 otherwise; see get_account_balance).
 
         Returns the number's id (num_..., used by release_phone_number and as
         from_number_id), phone_number, country, number_type, status, cost,
@@ -323,10 +328,15 @@ class AsyncNumbersClient:
         outbound calls and answers inbound calls on this number. Existing numbers retain their carrier.
         Each agent can have only one active number.
 
+        Free trial: during the 7-day trial every new account gets its first local
+        number free (cost 0, trial true, trial_ends_at). It stays with the account
+        after a top-up or plan purchase; otherwise it is detached from the account
+        when the trial ends.
+
         Prerequisites: an agent from create_agent with no active number (each
-        agent has at most one; a second purchase returns HTTP 409), plus a remaining
-        subscription number allowance or $3.00 in the wallet
-        (HTTP 402 otherwise; see get_account_balance).
+        agent has at most one; a second purchase returns HTTP 409), plus the
+        trial's free number, a remaining subscription number allowance or $3.00 in
+        the wallet (HTTP 402 otherwise; see get_account_balance).
 
         Returns the number's id (num_..., used by release_phone_number and as
         from_number_id), phone_number, country, number_type, status, cost,

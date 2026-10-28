@@ -808,6 +808,11 @@ Get your AI telephony account balance and rate card.
 Returns the current balance, currency, billing rates for calls,
 phone numbers, and SMS, plus what the balance can cover.
 Use this to check affordability before paid telephony operations.
+
+trial is null, or the account's 7-day free trial: status (active,
+converted or expired), ends_at, call_seconds_remaining, sms_remaining
+and number_id of the free trial number. A top-up or plan converts the
+trial and keeps the number; an expired trial's number is detached.
 </dd>
 </dl>
 </dd>
@@ -2326,10 +2331,15 @@ uses an included subscription number, or charges $3.00 to the wallet. Once attac
 outbound calls and answers inbound calls on this number. Existing numbers retain their carrier.
 Each agent can have only one active number.
 
+Free trial: during the 7-day trial every new account gets its first local
+number free (cost 0, trial true, trial_ends_at). It stays with the account
+after a top-up or plan purchase; otherwise it is detached from the account
+when the trial ends.
+
 Prerequisites: an agent from create_agent with no active number (each
-agent has at most one; a second purchase returns HTTP 409), plus a remaining
-subscription number allowance or $3.00 in the wallet
-(HTTP 402 otherwise; see get_account_balance).
+agent has at most one; a second purchase returns HTTP 409), plus the
+trial's free number, a remaining subscription number allowance or $3.00 in
+the wallet (HTTP 402 otherwise; see get_account_balance).
 
 Returns the number's id (num_..., used by release_phone_number and as
 from_number_id), phone_number, country, number_type, status, cost,
