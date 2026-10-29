@@ -84,8 +84,9 @@ class RawNumbersClient:
         outbound calls and answers inbound calls on this number. Existing numbers retain their carrier.
         Each agent can have only one active number.
 
-        Free trial: during the 7-day trial every new account gets its first local
-        number free (cost 0, trial true, trial_ends_at). It stays with the account
+        Free trial: an account that has never paid gets its first local number
+        free (cost 0, trial true, trial_ends_at). That purchase starts a 7-day
+        trial with 10 call minutes and 10 SMS. The number stays with the account
         after a top-up or plan purchase; otherwise it is detached from the account
         when the trial ends.
 
@@ -436,8 +437,9 @@ class AsyncRawNumbersClient:
         outbound calls and answers inbound calls on this number. Existing numbers retain their carrier.
         Each agent can have only one active number.
 
-        Free trial: during the 7-day trial every new account gets its first local
-        number free (cost 0, trial true, trial_ends_at). It stays with the account
+        Free trial: an account that has never paid gets its first local number
+        free (cost 0, trial true, trial_ends_at). That purchase starts a 7-day
+        trial with 10 call minutes and 10 SMS. The number stays with the account
         after a top-up or plan purchase; otherwise it is detached from the account
         when the trial ends.
 

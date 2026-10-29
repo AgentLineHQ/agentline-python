@@ -30,10 +30,11 @@ class BillingClient:
         phone numbers, and SMS, plus what the balance can cover.
         Use this to check affordability before paid telephony operations.
 
-        trial is null, or the account's 7-day free trial: status (active,
-        converted or expired), ends_at, call_seconds_remaining, sms_remaining
-        and number_id of the free trial number. A top-up or plan converts the
-        trial and keeps the number; an expired trial's number is detached.
+        trial is null, or the account's free trial: status (pending until the
+        first number is provisioned, then active for 7 days; converted or
+        expired), ends_at, call_seconds_remaining, sms_remaining and number_id of
+        the free trial number. A top-up or plan converts the trial and keeps the
+        number; an expired trial's number is detached.
 
         Parameters
         ----------
@@ -233,10 +234,11 @@ class AsyncBillingClient:
         phone numbers, and SMS, plus what the balance can cover.
         Use this to check affordability before paid telephony operations.
 
-        trial is null, or the account's 7-day free trial: status (active,
-        converted or expired), ends_at, call_seconds_remaining, sms_remaining
-        and number_id of the free trial number. A top-up or plan converts the
-        trial and keeps the number; an expired trial's number is detached.
+        trial is null, or the account's free trial: status (pending until the
+        first number is provisioned, then active for 7 days; converted or
+        expired), ends_at, call_seconds_remaining, sms_remaining and number_id of
+        the free trial number. A top-up or plan converts the trial and keeps the
+        number; an expired trial's number is detached.
 
         Parameters
         ----------

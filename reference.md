@@ -809,10 +809,11 @@ Returns the current balance, currency, billing rates for calls,
 phone numbers, and SMS, plus what the balance can cover.
 Use this to check affordability before paid telephony operations.
 
-trial is null, or the account's 7-day free trial: status (active,
-converted or expired), ends_at, call_seconds_remaining, sms_remaining
-and number_id of the free trial number. A top-up or plan converts the
-trial and keeps the number; an expired trial's number is detached.
+trial is null, or the account's free trial: status (pending until the
+first number is provisioned, then active for 7 days; converted or
+expired), ends_at, call_seconds_remaining, sms_remaining and number_id of
+the free trial number. A top-up or plan converts the trial and keeps the
+number; an expired trial's number is detached.
 </dd>
 </dl>
 </dd>
@@ -2331,8 +2332,9 @@ uses an included subscription number, or charges $3.00 to the wallet. Once attac
 outbound calls and answers inbound calls on this number. Existing numbers retain their carrier.
 Each agent can have only one active number.
 
-Free trial: during the 7-day trial every new account gets its first local
-number free (cost 0, trial true, trial_ends_at). It stays with the account
+Free trial: an account that has never paid gets its first local number
+free (cost 0, trial true, trial_ends_at). That purchase starts a 7-day
+trial with 10 call minutes and 10 SMS. The number stays with the account
 after a top-up or plan purchase; otherwise it is detached from the account
 when the trial ends.
 
