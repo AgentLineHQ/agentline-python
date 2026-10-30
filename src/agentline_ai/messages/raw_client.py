@@ -11,6 +11,7 @@ from ..core.pydantic_utilities import parse_obj_as
 from ..core.request_options import RequestOptions
 from ..errors.unprocessable_entity_error import UnprocessableEntityError
 from ..types.http_validation_error import HttpValidationError
+from ..types.message_out import MessageOut
 from pydantic import ValidationError
 
 # this is used as the default value for optional parameters
@@ -111,7 +112,7 @@ class RawMessagesClient:
         media_url: typing.Optional[str] = OMIT,
         from_number_id: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> HttpResponse[typing.Any]:
+    ) -> HttpResponse[MessageOut]:
         """
         Send an outbound SMS message from an AI agent's phone number.
 
@@ -139,7 +140,7 @@ class RawMessagesClient:
 
         Returns
         -------
-        HttpResponse[typing.Any]
+        HttpResponse[MessageOut]
             Successful Response
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -159,13 +160,11 @@ class RawMessagesClient:
             omit=OMIT,
         )
         try:
-            if _response is None or not _response.text.strip():
-                return HttpResponse(response=_response, data=None)
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
-                    typing.Any,
+                    MessageOut,
                     parse_obj_as(
-                        type_=typing.Any,  # type: ignore
+                        type_=MessageOut,  # type: ignore
                         object_=_response.json(),
                     ),
                 )
@@ -347,7 +346,7 @@ class AsyncRawMessagesClient:
         media_url: typing.Optional[str] = OMIT,
         from_number_id: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> AsyncHttpResponse[typing.Any]:
+    ) -> AsyncHttpResponse[MessageOut]:
         """
         Send an outbound SMS message from an AI agent's phone number.
 
@@ -375,7 +374,7 @@ class AsyncRawMessagesClient:
 
         Returns
         -------
-        AsyncHttpResponse[typing.Any]
+        AsyncHttpResponse[MessageOut]
             Successful Response
         """
         _response = await self._client_wrapper.httpx_client.request(
@@ -395,13 +394,11 @@ class AsyncRawMessagesClient:
             omit=OMIT,
         )
         try:
-            if _response is None or not _response.text.strip():
-                return AsyncHttpResponse(response=_response, data=None)
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
-                    typing.Any,
+                    MessageOut,
                     parse_obj_as(
-                        type_=typing.Any,  # type: ignore
+                        type_=MessageOut,  # type: ignore
                         object_=_response.json(),
                     ),
                 )

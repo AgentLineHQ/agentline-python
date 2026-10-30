@@ -4,6 +4,7 @@ import typing
 
 from ..core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ..core.request_options import RequestOptions
+from ..types.message_out import MessageOut
 from .raw_client import AsyncRawMessagesClient, RawMessagesClient
 
 # this is used as the default value for optional parameters
@@ -90,7 +91,7 @@ class MessagesClient:
         media_url: typing.Optional[str] = OMIT,
         from_number_id: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> typing.Any:
+    ) -> MessageOut:
         """
         Send an outbound SMS message from an AI agent's phone number.
 
@@ -118,7 +119,7 @@ class MessagesClient:
 
         Returns
         -------
-        typing.Any
+        MessageOut
             Successful Response
 
         Examples
@@ -267,7 +268,7 @@ class AsyncMessagesClient:
         media_url: typing.Optional[str] = OMIT,
         from_number_id: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> typing.Any:
+    ) -> MessageOut:
         """
         Send an outbound SMS message from an AI agent's phone number.
 
@@ -295,7 +296,7 @@ class AsyncMessagesClient:
 
         Returns
         -------
-        typing.Any
+        MessageOut
             Successful Response
 
         Examples

@@ -1509,14 +1509,10 @@ Do the work, then push the facts; they reach the call immediately. The
 hosted voice phrases them in its own words (it never reads your text
 aloud) and keeps them for the rest of the call.
 
-Body fields (send as arguments next to call_id):
-  - context: the facts, e.g. "John emailed yesterday about an invoice."
-    Aliases: summary, answer, response, reply, text, result, message.
-  - disposition: partial (one real fact so far; spoken now, task stays
-    open), progress (a note, not spoken, task stays open), done (default),
-    failed or noop (settle the task; noop needs no context), or facts
-    (call facts at any time without turn_id, e.g. a call-start briefing).
-  - turn_id, push_token: as the parameters below.
+Arguments: call_id, turn_id and token from the event; context (the
+facts) and disposition (partial, progress, done, failed, noop or facts).
+context is required unless disposition is noop. turn_id is required
+unless disposition is facts.
 
 Auth: pass the event's push_token as token. An AgentLine API key as
 Authorization: Bearer also works; OAuth tokens do not.
@@ -1549,9 +1545,6 @@ client = AgentLine(
 
 client.calls.push_context(
     call_id="call_id",
-    request={
-        "key": "value"
-    },
 )
 
 ```
@@ -1576,7 +1569,7 @@ client.calls.push_context(
 <dl>
 <dd>
 
-**request:** `typing.Dict[str, typing.Any]` 
+**token:** `typing.Optional[str]` — The push_token from the call.utterance or call.task.open event. Authorizes this push for that call; same as the X-Push-Token header.
     
 </dd>
 </dl>
@@ -1584,15 +1577,7 @@ client.calls.push_context(
 <dl>
 <dd>
 
-**token:** `typing.Optional[str]` — The push_token from the call.utterance or call.task.open event. Authorizes this push for that call; same as the X-Push-Token header or a push_token body field.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**turn_id:** `typing.Optional[str]` — The exact turn_id from the event, identifying the question being answered. Can also be sent in the body. Required except for disposition=facts.
+**turn_id:** `typing.Optional[str]` — The exact turn_id from the event, identifying the question being answered. Required except for disposition=facts.
     
 </dd>
 </dl>
@@ -1601,6 +1586,22 @@ client.calls.push_context(
 <dd>
 
 **push_token:** `typing.Optional[str]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**context:** `typing.Optional[str]` — The facts for the caller, in plain text, e.g. "John emailed yesterday about an invoice." The hosted voice rephrases them. Required unless disposition is noop.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**disposition:** `typing.Optional[CallContextPushDisposition]` — What this push does with the open task. partial: one real fact so far, spoken now, task stays open. progress: a note for the voice, not spoken, task stays open. done (default): final facts, settles the task. failed: could not do it, settles the task. noop: settle the task with nothing to say; context not needed. facts: a briefing for the whole call at any time, no turn_id needed.
     
 </dd>
 </dl>
@@ -2061,7 +2062,7 @@ client.messages.list()
 </dl>
 </details>
 
-<details><summary><code>client.messages.<a href="src/agentline_ai/messages/client.py">send</a>(...) -> typing.Any</code></summary>
+<details><summary><code>client.messages.<a href="src/agentline_ai/messages/client.py">send</a>(...) -> MessageOut</code></summary>
 <dl>
 <dd>
 

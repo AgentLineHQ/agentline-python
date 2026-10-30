@@ -5,6 +5,7 @@ import typing
 from ..core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ..core.request_options import RequestOptions
 from .raw_client import AsyncRawCallsClient, RawCallsClient
+from .types.call_context_push_disposition import CallContextPushDisposition
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -202,10 +203,11 @@ class CallsClient:
         self,
         call_id: str,
         *,
-        request: typing.Dict[str, typing.Any],
         token: typing.Optional[str] = None,
         turn_id: typing.Optional[str] = None,
         push_token: typing.Optional[str] = None,
+        context: typing.Optional[str] = OMIT,
+        disposition: typing.Optional[CallContextPushDisposition] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> typing.Any:
         """
@@ -216,14 +218,10 @@ class CallsClient:
         hosted voice phrases them in its own words (it never reads your text
         aloud) and keeps them for the rest of the call.
 
-        Body fields (send as arguments next to call_id):
-          - context: the facts, e.g. "John emailed yesterday about an invoice."
-            Aliases: summary, answer, response, reply, text, result, message.
-          - disposition: partial (one real fact so far; spoken now, task stays
-            open), progress (a note, not spoken, task stays open), done (default),
-            failed or noop (settle the task; noop needs no context), or facts
-            (call facts at any time without turn_id, e.g. a call-start briefing).
-          - turn_id, push_token: as the parameters below.
+        Arguments: call_id, turn_id and token from the event; context (the
+        facts) and disposition (partial, progress, done, failed, noop or facts).
+        context is required unless disposition is noop. turn_id is required
+        unless disposition is facts.
 
         Auth: pass the event's push_token as token. An AgentLine API key as
         Authorization: Bearer also works; OAuth tokens do not.
@@ -238,15 +236,19 @@ class CallsClient:
         call_id : str
             ID (call_...) of the live call, from the call.utterance or call.task.open event.
 
-        request : typing.Dict[str, typing.Any]
-
         token : typing.Optional[str]
-            The push_token from the call.utterance or call.task.open event. Authorizes this push for that call; same as the X-Push-Token header or a push_token body field.
+            The push_token from the call.utterance or call.task.open event. Authorizes this push for that call; same as the X-Push-Token header.
 
         turn_id : typing.Optional[str]
-            The exact turn_id from the event, identifying the question being answered. Can also be sent in the body. Required except for disposition=facts.
+            The exact turn_id from the event, identifying the question being answered. Required except for disposition=facts.
 
         push_token : typing.Optional[str]
+
+        context : typing.Optional[str]
+            The facts for the caller, in plain text, e.g. "John emailed yesterday about an invoice." The hosted voice rephrases them. Required unless disposition is noop.
+
+        disposition : typing.Optional[CallContextPushDisposition]
+            What this push does with the open task. partial: one real fact so far, spoken now, task stays open. progress: a note for the voice, not spoken, task stays open. done (default): final facts, settles the task. failed: could not do it, settles the task. noop: settle the task with nothing to say; context not needed. facts: a briefing for the whole call at any time, no turn_id needed.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -265,15 +267,15 @@ class CallsClient:
         )
         client.calls.push_context(
             call_id="call_id",
-            request={"key": "value"},
         )
         """
         _response = self._raw_client.push_context(
             call_id,
-            request=request,
             token=token,
             turn_id=turn_id,
             push_token=push_token,
+            context=context,
+            disposition=disposition,
             request_options=request_options,
         )
         return _response.data
@@ -567,10 +569,11 @@ class AsyncCallsClient:
         self,
         call_id: str,
         *,
-        request: typing.Dict[str, typing.Any],
         token: typing.Optional[str] = None,
         turn_id: typing.Optional[str] = None,
         push_token: typing.Optional[str] = None,
+        context: typing.Optional[str] = OMIT,
+        disposition: typing.Optional[CallContextPushDisposition] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> typing.Any:
         """
@@ -581,14 +584,10 @@ class AsyncCallsClient:
         hosted voice phrases them in its own words (it never reads your text
         aloud) and keeps them for the rest of the call.
 
-        Body fields (send as arguments next to call_id):
-          - context: the facts, e.g. "John emailed yesterday about an invoice."
-            Aliases: summary, answer, response, reply, text, result, message.
-          - disposition: partial (one real fact so far; spoken now, task stays
-            open), progress (a note, not spoken, task stays open), done (default),
-            failed or noop (settle the task; noop needs no context), or facts
-            (call facts at any time without turn_id, e.g. a call-start briefing).
-          - turn_id, push_token: as the parameters below.
+        Arguments: call_id, turn_id and token from the event; context (the
+        facts) and disposition (partial, progress, done, failed, noop or facts).
+        context is required unless disposition is noop. turn_id is required
+        unless disposition is facts.
 
         Auth: pass the event's push_token as token. An AgentLine API key as
         Authorization: Bearer also works; OAuth tokens do not.
@@ -603,15 +602,19 @@ class AsyncCallsClient:
         call_id : str
             ID (call_...) of the live call, from the call.utterance or call.task.open event.
 
-        request : typing.Dict[str, typing.Any]
-
         token : typing.Optional[str]
-            The push_token from the call.utterance or call.task.open event. Authorizes this push for that call; same as the X-Push-Token header or a push_token body field.
+            The push_token from the call.utterance or call.task.open event. Authorizes this push for that call; same as the X-Push-Token header.
 
         turn_id : typing.Optional[str]
-            The exact turn_id from the event, identifying the question being answered. Can also be sent in the body. Required except for disposition=facts.
+            The exact turn_id from the event, identifying the question being answered. Required except for disposition=facts.
 
         push_token : typing.Optional[str]
+
+        context : typing.Optional[str]
+            The facts for the caller, in plain text, e.g. "John emailed yesterday about an invoice." The hosted voice rephrases them. Required unless disposition is noop.
+
+        disposition : typing.Optional[CallContextPushDisposition]
+            What this push does with the open task. partial: one real fact so far, spoken now, task stays open. progress: a note for the voice, not spoken, task stays open. done (default): final facts, settles the task. failed: could not do it, settles the task. noop: settle the task with nothing to say; context not needed. facts: a briefing for the whole call at any time, no turn_id needed.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -635,7 +638,6 @@ class AsyncCallsClient:
         async def main() -> None:
             await client.calls.push_context(
                 call_id="call_id",
-                request={"key": "value"},
             )
 
 
@@ -643,10 +645,11 @@ class AsyncCallsClient:
         """
         _response = await self._raw_client.push_context(
             call_id,
-            request=request,
             token=token,
             turn_id=turn_id,
             push_token=push_token,
+            context=context,
+            disposition=disposition,
             request_options=request_options,
         )
         return _response.data

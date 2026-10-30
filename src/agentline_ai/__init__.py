@@ -33,6 +33,7 @@ if typing.TYPE_CHECKING:
         KeylessRenewBody,
         KeylessTranscriptBody,
         KeylessWebhookBody,
+        MessageOut,
         OtpRequest,
         PayDiscoveryBody,
         ValidationError,
@@ -44,6 +45,7 @@ if typing.TYPE_CHECKING:
     from .errors import UnprocessableEntityError
     from . import agents, billing, calls, events, messages, numbers, voice, webhooks
     from ._default_clients import DefaultAioHttpClient, DefaultAsyncHttpxClient
+    from .calls import CallContextPushDisposition
     from .client import AgentLine, AsyncAgentLine
     from .environment import AgentLineEnvironment
     from .version import __version__
@@ -60,6 +62,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "AsyncAgentLine": ".client",
     "CallContext": ".types",
     "CallContextDisposition": ".types",
+    "CallContextPushDisposition": ".calls",
     "ContactCreate": ".types",
     "ContactList": ".types",
     "ContactOut": ".types",
@@ -80,6 +83,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "KeylessRenewBody": ".types",
     "KeylessTranscriptBody": ".types",
     "KeylessWebhookBody": ".types",
+    "MessageOut": ".types",
     "OtpRequest": ".types",
     "PayDiscoveryBody": ".types",
     "UnprocessableEntityError": ".errors",
@@ -134,6 +138,7 @@ __all__ = [
     "AsyncAgentLine",
     "CallContext",
     "CallContextDisposition",
+    "CallContextPushDisposition",
     "ContactCreate",
     "ContactList",
     "ContactOut",
@@ -154,6 +159,7 @@ __all__ = [
     "KeylessRenewBody",
     "KeylessTranscriptBody",
     "KeylessWebhookBody",
+    "MessageOut",
     "OtpRequest",
     "PayDiscoveryBody",
     "UnprocessableEntityError",

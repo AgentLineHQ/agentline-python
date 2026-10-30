@@ -12,6 +12,7 @@ from ..core.pydantic_utilities import parse_obj_as
 from ..core.request_options import RequestOptions
 from ..errors.unprocessable_entity_error import UnprocessableEntityError
 from ..types.http_validation_error import HttpValidationError
+from .types.call_context_push_disposition import CallContextPushDisposition
 from pydantic import ValidationError
 
 # this is used as the default value for optional parameters
@@ -277,10 +278,11 @@ class RawCallsClient:
         self,
         call_id: str,
         *,
-        request: typing.Dict[str, typing.Any],
         token: typing.Optional[str] = None,
         turn_id: typing.Optional[str] = None,
         push_token: typing.Optional[str] = None,
+        context: typing.Optional[str] = OMIT,
+        disposition: typing.Optional[CallContextPushDisposition] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[typing.Any]:
         """
@@ -291,14 +293,10 @@ class RawCallsClient:
         hosted voice phrases them in its own words (it never reads your text
         aloud) and keeps them for the rest of the call.
 
-        Body fields (send as arguments next to call_id):
-          - context: the facts, e.g. "John emailed yesterday about an invoice."
-            Aliases: summary, answer, response, reply, text, result, message.
-          - disposition: partial (one real fact so far; spoken now, task stays
-            open), progress (a note, not spoken, task stays open), done (default),
-            failed or noop (settle the task; noop needs no context), or facts
-            (call facts at any time without turn_id, e.g. a call-start briefing).
-          - turn_id, push_token: as the parameters below.
+        Arguments: call_id, turn_id and token from the event; context (the
+        facts) and disposition (partial, progress, done, failed, noop or facts).
+        context is required unless disposition is noop. turn_id is required
+        unless disposition is facts.
 
         Auth: pass the event's push_token as token. An AgentLine API key as
         Authorization: Bearer also works; OAuth tokens do not.
@@ -313,15 +311,19 @@ class RawCallsClient:
         call_id : str
             ID (call_...) of the live call, from the call.utterance or call.task.open event.
 
-        request : typing.Dict[str, typing.Any]
-
         token : typing.Optional[str]
-            The push_token from the call.utterance or call.task.open event. Authorizes this push for that call; same as the X-Push-Token header or a push_token body field.
+            The push_token from the call.utterance or call.task.open event. Authorizes this push for that call; same as the X-Push-Token header.
 
         turn_id : typing.Optional[str]
-            The exact turn_id from the event, identifying the question being answered. Can also be sent in the body. Required except for disposition=facts.
+            The exact turn_id from the event, identifying the question being answered. Required except for disposition=facts.
 
         push_token : typing.Optional[str]
+
+        context : typing.Optional[str]
+            The facts for the caller, in plain text, e.g. "John emailed yesterday about an invoice." The hosted voice rephrases them. Required unless disposition is noop.
+
+        disposition : typing.Optional[CallContextPushDisposition]
+            What this push does with the open task. partial: one real fact so far, spoken now, task stays open. progress: a note for the voice, not spoken, task stays open. done (default): final facts, settles the task. failed: could not do it, settles the task. noop: settle the task with nothing to say; context not needed. facts: a briefing for the whole call at any time, no turn_id needed.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -338,7 +340,10 @@ class RawCallsClient:
                 "token": token,
                 "turn_id": turn_id,
             },
-            json=request,
+            json={
+                "context": context,
+                "disposition": disposition,
+            },
             headers={
                 "content-type": "application/json",
                 "X-Push-Token": str(push_token) if push_token is not None else None,
@@ -762,10 +767,11 @@ class AsyncRawCallsClient:
         self,
         call_id: str,
         *,
-        request: typing.Dict[str, typing.Any],
         token: typing.Optional[str] = None,
         turn_id: typing.Optional[str] = None,
         push_token: typing.Optional[str] = None,
+        context: typing.Optional[str] = OMIT,
+        disposition: typing.Optional[CallContextPushDisposition] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[typing.Any]:
         """
@@ -776,14 +782,10 @@ class AsyncRawCallsClient:
         hosted voice phrases them in its own words (it never reads your text
         aloud) and keeps them for the rest of the call.
 
-        Body fields (send as arguments next to call_id):
-          - context: the facts, e.g. "John emailed yesterday about an invoice."
-            Aliases: summary, answer, response, reply, text, result, message.
-          - disposition: partial (one real fact so far; spoken now, task stays
-            open), progress (a note, not spoken, task stays open), done (default),
-            failed or noop (settle the task; noop needs no context), or facts
-            (call facts at any time without turn_id, e.g. a call-start briefing).
-          - turn_id, push_token: as the parameters below.
+        Arguments: call_id, turn_id and token from the event; context (the
+        facts) and disposition (partial, progress, done, failed, noop or facts).
+        context is required unless disposition is noop. turn_id is required
+        unless disposition is facts.
 
         Auth: pass the event's push_token as token. An AgentLine API key as
         Authorization: Bearer also works; OAuth tokens do not.
@@ -798,15 +800,19 @@ class AsyncRawCallsClient:
         call_id : str
             ID (call_...) of the live call, from the call.utterance or call.task.open event.
 
-        request : typing.Dict[str, typing.Any]
-
         token : typing.Optional[str]
-            The push_token from the call.utterance or call.task.open event. Authorizes this push for that call; same as the X-Push-Token header or a push_token body field.
+            The push_token from the call.utterance or call.task.open event. Authorizes this push for that call; same as the X-Push-Token header.
 
         turn_id : typing.Optional[str]
-            The exact turn_id from the event, identifying the question being answered. Can also be sent in the body. Required except for disposition=facts.
+            The exact turn_id from the event, identifying the question being answered. Required except for disposition=facts.
 
         push_token : typing.Optional[str]
+
+        context : typing.Optional[str]
+            The facts for the caller, in plain text, e.g. "John emailed yesterday about an invoice." The hosted voice rephrases them. Required unless disposition is noop.
+
+        disposition : typing.Optional[CallContextPushDisposition]
+            What this push does with the open task. partial: one real fact so far, spoken now, task stays open. progress: a note for the voice, not spoken, task stays open. done (default): final facts, settles the task. failed: could not do it, settles the task. noop: settle the task with nothing to say; context not needed. facts: a briefing for the whole call at any time, no turn_id needed.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -823,7 +829,10 @@ class AsyncRawCallsClient:
                 "token": token,
                 "turn_id": turn_id,
             },
-            json=request,
+            json={
+                "context": context,
+                "disposition": disposition,
+            },
             headers={
                 "content-type": "application/json",
                 "X-Push-Token": str(push_token) if push_token is not None else None,
