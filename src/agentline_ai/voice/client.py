@@ -138,21 +138,41 @@ class VoiceClient:
         _response = self._raw_client.set(voice_id=voice_id, request_options=request_options)
         return _response.data
 
-    def list(self, *, request_options: typing.Optional[RequestOptions] = None) -> typing.Any:
+    def list(
+        self,
+        *,
+        gender: typing.Optional[str] = None,
+        language: typing.Optional[str] = None,
+        q: typing.Optional[str] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> typing.Any:
         """
-        List all available voice presets for AI phone agents.
+        List the voices an AI phone agent can speak with.
 
-        Returns named TTS (text-to-speech) voice presets that can be used
-        when configuring AI agents or making phone calls. Each voice defines
-        how your AI agent sounds on the phone.
+        Returns the six built-in voices — female-1, female-2, female-3, male-1,
+        male-2, male-3 — plus the speech languages an agent can be pinned to and
+        the speaking-speed range. The owner can pick from many more voices
+        (accents and languages) in the AgentLine dashboard; an agent set to one
+        of those keeps it.
 
-        Returns {"voices": [...], "default_voice_id", "usage_hint"}: each voice
-        has preset_name (e.g. "female-1"), voice_id (UUID), name and description.
+        Returns {"voices": [...], "languages": [...], "speaking_speed": {...},
+        "default_voice_id", "usage_hint"}. Each voice has preset_name
+        (e.g. "female-1"), voice_id, name, tagline, description, gender, accent,
+        locale, language and has_preview.
         Pass either preset_name or voice_id as voice_id to create_agent,
         update_agent, make_outbound_call or set_account_voice.
 
         Parameters
         ----------
+        gender : typing.Optional[str]
+            feminine | masculine | neutral
+
+        language : typing.Optional[str]
+            Language ('en') or locale ('en-GB') to filter by.
+
+        q : typing.Optional[str]
+            Free-text search over name, tagline, description and accent.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -170,7 +190,7 @@ class VoiceClient:
         )
         client.voice.list()
         """
-        _response = self._raw_client.list(request_options=request_options)
+        _response = self._raw_client.list(gender=gender, language=language, q=q, request_options=request_options)
         return _response.data
 
 
@@ -326,21 +346,41 @@ class AsyncVoiceClient:
         _response = await self._raw_client.set(voice_id=voice_id, request_options=request_options)
         return _response.data
 
-    async def list(self, *, request_options: typing.Optional[RequestOptions] = None) -> typing.Any:
+    async def list(
+        self,
+        *,
+        gender: typing.Optional[str] = None,
+        language: typing.Optional[str] = None,
+        q: typing.Optional[str] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> typing.Any:
         """
-        List all available voice presets for AI phone agents.
+        List the voices an AI phone agent can speak with.
 
-        Returns named TTS (text-to-speech) voice presets that can be used
-        when configuring AI agents or making phone calls. Each voice defines
-        how your AI agent sounds on the phone.
+        Returns the six built-in voices — female-1, female-2, female-3, male-1,
+        male-2, male-3 — plus the speech languages an agent can be pinned to and
+        the speaking-speed range. The owner can pick from many more voices
+        (accents and languages) in the AgentLine dashboard; an agent set to one
+        of those keeps it.
 
-        Returns {"voices": [...], "default_voice_id", "usage_hint"}: each voice
-        has preset_name (e.g. "female-1"), voice_id (UUID), name and description.
+        Returns {"voices": [...], "languages": [...], "speaking_speed": {...},
+        "default_voice_id", "usage_hint"}. Each voice has preset_name
+        (e.g. "female-1"), voice_id, name, tagline, description, gender, accent,
+        locale, language and has_preview.
         Pass either preset_name or voice_id as voice_id to create_agent,
         update_agent, make_outbound_call or set_account_voice.
 
         Parameters
         ----------
+        gender : typing.Optional[str]
+            feminine | masculine | neutral
+
+        language : typing.Optional[str]
+            Language ('en') or locale ('en-GB') to filter by.
+
+        q : typing.Optional[str]
+            Free-text search over name, tagline, description and accent.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -366,5 +406,5 @@ class AsyncVoiceClient:
 
         asyncio.run(main())
         """
-        _response = await self._raw_client.list(request_options=request_options)
+        _response = await self._raw_client.list(gender=gender, language=language, q=q, request_options=request_options)
         return _response.data

@@ -74,6 +74,8 @@ class RawAgentsClient:
         system_prompt: typing.Optional[str] = OMIT,
         initial_greeting: typing.Optional[str] = OMIT,
         voice_id: typing.Optional[str] = OMIT,
+        speech_language: typing.Optional[str] = OMIT,
+        speaking_speed: typing.Optional[float] = OMIT,
         transfer_number: typing.Optional[str] = OMIT,
         voicemail_message: typing.Optional[str] = OMIT,
         owner_phone: typing.Optional[str] = OMIT,
@@ -102,7 +104,13 @@ class RawAgentsClient:
             Default opening line spoken on ALL calls (inbound and outbound), e.g. 'Hello, how can I help you today?'. Can be overridden per-call via POST /v1/calls.
 
         voice_id : typing.Optional[str]
-            TTS voice preset name (e.g. 'female-1', 'male-1') or a voice UUID; defaults to system voice if not set
+            Voice the agent speaks with: a voice_id from list_available_voices or a legacy preset name (e.g. 'female-1'); defaults to the system voice if not set
+
+        speech_language : typing.Optional[str]
+            BCP-47 locale the agent listens and speaks in, e.g. 'en-US', 'hi-IN'. 'auto' (or unset) keeps multilingual auto-detection. Allowed values are listed under 'languages' by list_available_voices.
+
+        speaking_speed : typing.Optional[float]
+            Speaking pace multiplier from 0.6 (slower) to 1.5 (faster); 1.0 is the voice's natural pace.
 
         transfer_number : typing.Optional[str]
             Number a live call is transferred to. Only the owner phone is allowed, so leave it out or send the same E.164 number as owner_phone; setting owner_phone fills it in.
@@ -129,6 +137,8 @@ class RawAgentsClient:
                 "system_prompt": system_prompt,
                 "initial_greeting": initial_greeting,
                 "voice_id": voice_id,
+                "speech_language": speech_language,
+                "speaking_speed": speaking_speed,
                 "transfer_number": transfer_number,
                 "voicemail_message": voicemail_message,
                 "owner_phone": owner_phone,
@@ -299,6 +309,8 @@ class RawAgentsClient:
         system_prompt: typing.Optional[str] = OMIT,
         initial_greeting: typing.Optional[str] = OMIT,
         voice_id: typing.Optional[str] = OMIT,
+        speech_language: typing.Optional[str] = OMIT,
+        speaking_speed: typing.Optional[float] = OMIT,
         transfer_number: typing.Optional[str] = OMIT,
         voicemail_message: typing.Optional[str] = OMIT,
         owner_phone: typing.Optional[str] = OMIT,
@@ -329,7 +341,13 @@ class RawAgentsClient:
             Updated default greeting for ALL future calls (inbound and outbound)
 
         voice_id : typing.Optional[str]
-            New TTS voice preset name or voice UUID
+            New voice: a voice_id from list_available_voices or a legacy preset name
+
+        speech_language : typing.Optional[str]
+            BCP-47 locale the agent listens and speaks in, e.g. 'en-US', 'hi-IN'. 'auto' (or unset) keeps multilingual auto-detection. Allowed values are listed under 'languages' by list_available_voices. Send null to go back to auto-detection.
+
+        speaking_speed : typing.Optional[float]
+            Speaking pace multiplier from 0.6 (slower) to 1.5 (faster); 1.0 is the voice's natural pace. Send null to go back to 1.0.
 
         transfer_number : typing.Optional[str]
             Number a live call is transferred to. Only the owner phone is allowed, so send the same E.164 number as owner_phone (current or in this request); setting owner_phone updates it automatically.
@@ -356,6 +374,8 @@ class RawAgentsClient:
                 "system_prompt": system_prompt,
                 "initial_greeting": initial_greeting,
                 "voice_id": voice_id,
+                "speech_language": speech_language,
+                "speaking_speed": speaking_speed,
                 "transfer_number": transfer_number,
                 "voicemail_message": voicemail_message,
                 "owner_phone": owner_phone,
@@ -454,6 +474,8 @@ class AsyncRawAgentsClient:
         system_prompt: typing.Optional[str] = OMIT,
         initial_greeting: typing.Optional[str] = OMIT,
         voice_id: typing.Optional[str] = OMIT,
+        speech_language: typing.Optional[str] = OMIT,
+        speaking_speed: typing.Optional[float] = OMIT,
         transfer_number: typing.Optional[str] = OMIT,
         voicemail_message: typing.Optional[str] = OMIT,
         owner_phone: typing.Optional[str] = OMIT,
@@ -482,7 +504,13 @@ class AsyncRawAgentsClient:
             Default opening line spoken on ALL calls (inbound and outbound), e.g. 'Hello, how can I help you today?'. Can be overridden per-call via POST /v1/calls.
 
         voice_id : typing.Optional[str]
-            TTS voice preset name (e.g. 'female-1', 'male-1') or a voice UUID; defaults to system voice if not set
+            Voice the agent speaks with: a voice_id from list_available_voices or a legacy preset name (e.g. 'female-1'); defaults to the system voice if not set
+
+        speech_language : typing.Optional[str]
+            BCP-47 locale the agent listens and speaks in, e.g. 'en-US', 'hi-IN'. 'auto' (or unset) keeps multilingual auto-detection. Allowed values are listed under 'languages' by list_available_voices.
+
+        speaking_speed : typing.Optional[float]
+            Speaking pace multiplier from 0.6 (slower) to 1.5 (faster); 1.0 is the voice's natural pace.
 
         transfer_number : typing.Optional[str]
             Number a live call is transferred to. Only the owner phone is allowed, so leave it out or send the same E.164 number as owner_phone; setting owner_phone fills it in.
@@ -509,6 +537,8 @@ class AsyncRawAgentsClient:
                 "system_prompt": system_prompt,
                 "initial_greeting": initial_greeting,
                 "voice_id": voice_id,
+                "speech_language": speech_language,
+                "speaking_speed": speaking_speed,
                 "transfer_number": transfer_number,
                 "voicemail_message": voicemail_message,
                 "owner_phone": owner_phone,
@@ -679,6 +709,8 @@ class AsyncRawAgentsClient:
         system_prompt: typing.Optional[str] = OMIT,
         initial_greeting: typing.Optional[str] = OMIT,
         voice_id: typing.Optional[str] = OMIT,
+        speech_language: typing.Optional[str] = OMIT,
+        speaking_speed: typing.Optional[float] = OMIT,
         transfer_number: typing.Optional[str] = OMIT,
         voicemail_message: typing.Optional[str] = OMIT,
         owner_phone: typing.Optional[str] = OMIT,
@@ -709,7 +741,13 @@ class AsyncRawAgentsClient:
             Updated default greeting for ALL future calls (inbound and outbound)
 
         voice_id : typing.Optional[str]
-            New TTS voice preset name or voice UUID
+            New voice: a voice_id from list_available_voices or a legacy preset name
+
+        speech_language : typing.Optional[str]
+            BCP-47 locale the agent listens and speaks in, e.g. 'en-US', 'hi-IN'. 'auto' (or unset) keeps multilingual auto-detection. Allowed values are listed under 'languages' by list_available_voices. Send null to go back to auto-detection.
+
+        speaking_speed : typing.Optional[float]
+            Speaking pace multiplier from 0.6 (slower) to 1.5 (faster); 1.0 is the voice's natural pace. Send null to go back to 1.0.
 
         transfer_number : typing.Optional[str]
             Number a live call is transferred to. Only the owner phone is allowed, so send the same E.164 number as owner_phone (current or in this request); setting owner_phone updates it automatically.
@@ -736,6 +774,8 @@ class AsyncRawAgentsClient:
                 "system_prompt": system_prompt,
                 "initial_greeting": initial_greeting,
                 "voice_id": voice_id,
+                "speech_language": speech_language,
+                "speaking_speed": speaking_speed,
                 "transfer_number": transfer_number,
                 "voicemail_message": voicemail_message,
                 "owner_phone": owner_phone,

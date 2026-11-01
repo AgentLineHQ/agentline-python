@@ -229,7 +229,7 @@ client.voice.set(
 </dl>
 </details>
 
-<details><summary><code>client.voice.<a href="src/agentline_ai/voice/client.py">list</a>() -> typing.Any</code></summary>
+<details><summary><code>client.voice.<a href="src/agentline_ai/voice/client.py">list</a>(...) -> typing.Any</code></summary>
 <dl>
 <dd>
 
@@ -241,14 +241,18 @@ client.voice.set(
 <dl>
 <dd>
 
-List all available voice presets for AI phone agents.
+List the voices an AI phone agent can speak with.
 
-Returns named TTS (text-to-speech) voice presets that can be used
-when configuring AI agents or making phone calls. Each voice defines
-how your AI agent sounds on the phone.
+Returns the six built-in voices — female-1, female-2, female-3, male-1,
+male-2, male-3 — plus the speech languages an agent can be pinned to and
+the speaking-speed range. The owner can pick from many more voices
+(accents and languages) in the AgentLine dashboard; an agent set to one
+of those keeps it.
 
-Returns {"voices": [...], "default_voice_id", "usage_hint"}: each voice
-has preset_name (e.g. "female-1"), voice_id (UUID), name and description.
+Returns {"voices": [...], "languages": [...], "speaking_speed": {...},
+"default_voice_id", "usage_hint"}. Each voice has preset_name
+(e.g. "female-1"), voice_id, name, tagline, description, gender, accent,
+locale, language and has_preview.
 Pass either preset_name or voice_id as voice_id to create_agent,
 update_agent, make_outbound_call or set_account_voice.
 </dd>
@@ -285,6 +289,30 @@ client.voice.list()
 
 <dl>
 <dd>
+
+<dl>
+<dd>
+
+**gender:** `typing.Optional[str]` — feminine | masculine | neutral
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**language:** `typing.Optional[str]` — Language ('en') or locale ('en-GB') to filter by.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**q:** `typing.Optional[str]` — Free-text search over name, tagline, description and accent.
+    
+</dd>
+</dl>
 
 <dl>
 <dd>
@@ -454,7 +482,23 @@ client.agents.create(
 <dl>
 <dd>
 
-**voice_id:** `typing.Optional[str]` — TTS voice preset name (e.g. 'female-1', 'male-1') or a voice UUID; defaults to system voice if not set
+**voice_id:** `typing.Optional[str]` — Voice the agent speaks with: a voice_id from list_available_voices or a legacy preset name (e.g. 'female-1'); defaults to the system voice if not set
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**speech_language:** `typing.Optional[str]` — BCP-47 locale the agent listens and speaks in, e.g. 'en-US', 'hi-IN'. 'auto' (or unset) keeps multilingual auto-detection. Allowed values are listed under 'languages' by list_available_voices.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**speaking_speed:** `typing.Optional[float]` — Speaking pace multiplier from 0.6 (slower) to 1.5 (faster); 1.0 is the voice's natural pace.
     
 </dd>
 </dl>
@@ -746,7 +790,23 @@ client.agents.update(
 <dl>
 <dd>
 
-**voice_id:** `typing.Optional[str]` — New TTS voice preset name or voice UUID
+**voice_id:** `typing.Optional[str]` — New voice: a voice_id from list_available_voices or a legacy preset name
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**speech_language:** `typing.Optional[str]` — BCP-47 locale the agent listens and speaks in, e.g. 'en-US', 'hi-IN'. 'auto' (or unset) keeps multilingual auto-detection. Allowed values are listed under 'languages' by list_available_voices. Send null to go back to auto-detection.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**speaking_speed:** `typing.Optional[float]` — Speaking pace multiplier from 0.6 (slower) to 1.5 (faster); 1.0 is the voice's natural pace. Send null to go back to 1.0.
     
 </dd>
 </dl>

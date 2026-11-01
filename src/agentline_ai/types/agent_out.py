@@ -35,7 +35,17 @@ class AgentOut(UniversalBaseModel):
 
     voice_id: typing.Optional[str] = pydantic.Field(default=None)
     """
-    TTS voice preset or voice UUID
+    Voice the agent speaks with (voice_id or legacy preset name)
+    """
+
+    speech_language: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    Pinned speech locale, or null for multilingual auto-detection
+    """
+
+    speaking_speed: typing.Optional[float] = pydantic.Field(default=None)
+    """
+    Speaking pace multiplier; null means the natural pace (1.0)
     """
 
     transfer_number: typing.Optional[str] = pydantic.Field(default=None)
