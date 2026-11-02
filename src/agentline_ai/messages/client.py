@@ -95,7 +95,8 @@ class MessagesClient:
         """
         Send an outbound SMS message from an AI agent's phone number.
 
-        Each account can send 250 texts per UTC day across all its agents.
+        Each account can send 250 texts per UTC day across all its agents,
+        unless the account has a raised limit.
 
         Parameters
         ----------
@@ -272,7 +273,8 @@ class AsyncMessagesClient:
         """
         Send an outbound SMS message from an AI agent's phone number.
 
-        Each account can send 250 texts per UTC day across all its agents.
+        Each account can send 250 texts per UTC day across all its agents,
+        unless the account has a raised limit.
 
         Parameters
         ----------
