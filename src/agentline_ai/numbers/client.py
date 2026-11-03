@@ -87,8 +87,9 @@ class NumbersClient:
         Returns the number's id (num_..., used by release_phone_number and as
         from_number_id), phone_number, country, number_type, status, cost,
         balance_remaining and a private number card link (card_url,
-        card_image_url, card_url_expires_at). If the account has an owner email,
-        the card link is also emailed there.
+        card_image_url, card_url_expires_at). After the purchase, tell the human
+        about the card: card_message says what to pass on. If the account has an
+        owner email, the card link is also emailed there.
 
         Parameters
         ----------
@@ -343,8 +344,9 @@ class AsyncNumbersClient:
         Returns the number's id (num_..., used by release_phone_number and as
         from_number_id), phone_number, country, number_type, status, cost,
         balance_remaining and a private number card link (card_url,
-        card_image_url, card_url_expires_at). If the account has an owner email,
-        the card link is also emailed there.
+        card_image_url, card_url_expires_at). After the purchase, tell the human
+        about the card: card_message says what to pass on. If the account has an
+        owner email, the card link is also emailed there.
 
         Parameters
         ----------
