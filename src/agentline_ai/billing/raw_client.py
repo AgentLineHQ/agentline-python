@@ -30,7 +30,8 @@ class RawBillingClient:
         first number is provisioned, then active for 7 days; converted or
         expired), ends_at, call_seconds_remaining, sms_remaining and number_id of
         the free trial number. A top-up or plan converts the trial and keeps the
-        number; an expired trial's number is detached.
+        number, as does a balance that covers the number fee when the trial ends
+        (the fee is charged then); otherwise an expired trial's number is detached.
 
         Parameters
         ----------
@@ -353,7 +354,8 @@ class AsyncRawBillingClient:
         first number is provisioned, then active for 7 days; converted or
         expired), ends_at, call_seconds_remaining, sms_remaining and number_id of
         the free trial number. A top-up or plan converts the trial and keeps the
-        number; an expired trial's number is detached.
+        number, as does a balance that covers the number fee when the trial ends
+        (the fee is charged then); otherwise an expired trial's number is detached.
 
         Parameters
         ----------

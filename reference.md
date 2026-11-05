@@ -873,7 +873,8 @@ trial is null, or the account's free trial: status (pending until the
 first number is provisioned, then active for 7 days; converted or
 expired), ends_at, call_seconds_remaining, sms_remaining and number_id of
 the free trial number. A top-up or plan converts the trial and keeps the
-number; an expired trial's number is detached.
+number, as does a balance that covers the number fee when the trial ends
+(the fee is charged then); otherwise an expired trial's number is detached.
 </dd>
 </dl>
 </dd>
@@ -2397,8 +2398,9 @@ Each agent can have only one active number.
 Free trial: an account that has never paid gets its first local number
 free (cost 0, trial true, trial_ends_at). That purchase starts a 7-day
 trial with 10 call minutes and 10 SMS. The number stays with the account
-after a top-up or plan purchase; otherwise it is detached from the account
-when the trial ends.
+after a top-up or plan purchase, or when the balance covers the monthly
+number fee as the trial ends (the fee is charged then); otherwise it is
+detached from the account when the trial ends.
 
 Prerequisites: an agent from create_agent with no active number (each
 agent has at most one; a second purchase returns HTTP 409), plus the

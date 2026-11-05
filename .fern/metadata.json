@@ -7,9 +7,9 @@
     "package_name": "agentline_ai",
     "timeout_in_seconds": 60
   },
-  "originGitCommit": "226c2f4c83966acaddf78ff79220820d73f15c15",
+  "originGitCommit": "43bf820ec6da4561128829f65c75d0f978eef480",
   "originGitCommitIsDirty": false,
   "invokedBy": "ci",
   "ciProvider": "github",
-  "sdkVersion": "0.0.43"
+  "sdkVersion": "0.0.44"
 }
