@@ -27,6 +27,11 @@ class KeylessWebhookBody(UniversalBaseModel):
     HMAC header name (default 'X-Webhook-Signature')
     """
 
+    headers: typing.Optional[typing.Dict[str, typing.Optional[str]]] = pydantic.Field(default=None)
+    """
+    Extra headers sent with every delivery, e.g. {"Authorization": "Bearer <key>"} for a receiver that needs its own credential. Omit to keep; {} clears. Masked on reads.
+    """
+
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
     else:

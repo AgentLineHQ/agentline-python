@@ -4,7 +4,7 @@ dynamic = ["version"]
 
 [tool.poetry]
 name = "agentline-ai"
-version = "0.0.44"
+version = "0.0.45"
 description = ""
 readme = "README.md"
 authors = []

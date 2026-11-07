@@ -76,6 +76,7 @@ class WebhooksClient:
         signature_header: typing.Optional[str] = OMIT,
         protocol: typing.Optional[WebhookConfigProtocol] = OMIT,
         capabilities: typing.Optional[WebhookCapabilities] = OMIT,
+        headers: typing.Optional[typing.Dict[str, typing.Optional[str]]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> WebhookCreated:
         """
@@ -88,8 +89,11 @@ class WebhooksClient:
         signature_header, protocol and capabilities keep their current values.
 
         Returns agent_id, url, the full secret (shown only here; get_webhook
-        masks it), signature_header, protocol, capabilities and created_at.
-        Store the secret to verify the signature header on deliveries.
+        masks it), signature_header, protocol, capabilities, headers and
+        created_at. Store the secret to verify the signature header on deliveries.
+
+        `headers` adds the receiver's own credential to every delivery, e.g.
+        {"Authorization": "Bearer <key>"} for a Grok Bot (Cursor) webhook routine.
 
         Parameters
         ----------
@@ -110,6 +114,9 @@ class WebhooksClient:
 
         capabilities : typing.Optional[WebhookCapabilities]
             Relay v2 capabilities. Omit to keep the existing value when updating.
+
+        headers : typing.Optional[typing.Dict[str, typing.Optional[str]]]
+            Extra HTTP headers sent with every delivery, as {name: value}. Use this when the receiver needs its own credential: for example {"Authorization": "Bearer <key>"} for a Grok Bot (Cursor) webhook routine, or an API-key header for n8n, Make or Zapier. Values are returned in full only by this call and masked on reads. Omit to keep the current headers when updating; pass {} to remove them all. At most 10 headers; Content-Type, Host, X-AgentLine-* and the signature header cannot be set here.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -138,6 +145,7 @@ class WebhooksClient:
             signature_header=signature_header,
             protocol=protocol,
             capabilities=capabilities,
+            headers=headers,
             request_options=request_options,
         )
         return _response.data
@@ -281,6 +289,7 @@ class AsyncWebhooksClient:
         signature_header: typing.Optional[str] = OMIT,
         protocol: typing.Optional[WebhookConfigProtocol] = OMIT,
         capabilities: typing.Optional[WebhookCapabilities] = OMIT,
+        headers: typing.Optional[typing.Dict[str, typing.Optional[str]]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> WebhookCreated:
         """
@@ -293,8 +302,11 @@ class AsyncWebhooksClient:
         signature_header, protocol and capabilities keep their current values.
 
         Returns agent_id, url, the full secret (shown only here; get_webhook
-        masks it), signature_header, protocol, capabilities and created_at.
-        Store the secret to verify the signature header on deliveries.
+        masks it), signature_header, protocol, capabilities, headers and
+        created_at. Store the secret to verify the signature header on deliveries.
+
+        `headers` adds the receiver's own credential to every delivery, e.g.
+        {"Authorization": "Bearer <key>"} for a Grok Bot (Cursor) webhook routine.
 
         Parameters
         ----------
@@ -315,6 +327,9 @@ class AsyncWebhooksClient:
 
         capabilities : typing.Optional[WebhookCapabilities]
             Relay v2 capabilities. Omit to keep the existing value when updating.
+
+        headers : typing.Optional[typing.Dict[str, typing.Optional[str]]]
+            Extra HTTP headers sent with every delivery, as {name: value}. Use this when the receiver needs its own credential: for example {"Authorization": "Bearer <key>"} for a Grok Bot (Cursor) webhook routine, or an API-key header for n8n, Make or Zapier. Values are returned in full only by this call and masked on reads. Omit to keep the current headers when updating; pass {} to remove them all. At most 10 headers; Content-Type, Host, X-AgentLine-* and the signature header cannot be set here.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -351,6 +366,7 @@ class AsyncWebhooksClient:
             signature_header=signature_header,
             protocol=protocol,
             capabilities=capabilities,
+            headers=headers,
             request_options=request_options,
         )
         return _response.data

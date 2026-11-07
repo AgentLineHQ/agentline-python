@@ -42,6 +42,11 @@ class WebhookCreated(UniversalBaseModel):
     Declared relay v2 capabilities.
     """
 
+    headers: typing.Optional[typing.Dict[str, str]] = pydantic.Field(default=None)
+    """
+    Custom delivery headers with full values. Masked on subsequent reads.
+    """
+
     created_at: typing.Optional[dt.datetime] = pydantic.Field(default=None)
     """
     When the webhook was last (re)configured
