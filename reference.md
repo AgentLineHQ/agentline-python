@@ -1575,6 +1575,11 @@ facts) and disposition (partial, progress, done, failed, noop or facts).
 context is required unless disposition is noop. turn_id is required
 unless disposition is facts.
 
+Optional remember, with done or facts: keeps the answer in the agent's
+knowledge store so the hosted voice answers the same question itself on
+later calls. "everyone" (any caller may hear it), "everyone static"
+(rarely changes) or "caller" (this call's number only).
+
 Auth: pass the event's push_token as token. An AgentLine API key as
 Authorization: Bearer also works; OAuth tokens do not.
 
@@ -1663,6 +1668,14 @@ client.calls.push_context(
 <dd>
 
 **disposition:** `typing.Optional[CallContextPushDisposition]` — What this push does with the open task. partial: one real fact so far, spoken now, task stays open. progress: a note for the voice, not spoken, task stays open. done (default): final facts, settles the task. failed: could not do it, settles the task. noop: settle the task with nothing to say; context not needed. facts: a briefing for the whole call at any time, no turn_id needed.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**remember:** `typing.Optional[CallContextPushRemember]` — With done or facts: keep this answer so the hosted voice can answer the same question at once on later calls, without asking you. "everyone": true for any caller (hours, prices, policies); add " static" if it rarely changes. "caller": about this call's number only (their appointment, order). Omit for anything one-off or private to someone else. Keys and expiry are handled for you. Ignored unless the knowledge store is on for the agent.
     
 </dd>
 </dl>

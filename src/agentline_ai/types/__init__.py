@@ -11,10 +11,14 @@ if typing.TYPE_CHECKING:
     from .agent_id_poll_request import AgentIdPollRequest
     from .agent_id_start_request import AgentIdStartRequest
     from .agent_out import AgentOut
+    from .agent_voice_update import AgentVoiceUpdate
     from .api_key_webhook_config import ApiKeyWebhookConfig
     from .call_context import CallContext
     from .call_context_disposition import CallContextDisposition
     from .contact_create import ContactCreate
+    from .contact_fact_list import ContactFactList
+    from .contact_fact_out import ContactFactOut
+    from .contact_fact_write import ContactFactWrite
     from .contact_list import ContactList
     from .contact_out import ContactOut
     from .contact_update import ContactUpdate
@@ -32,6 +36,14 @@ if typing.TYPE_CHECKING:
     from .keyless_renew_body import KeylessRenewBody
     from .keyless_transcript_body import KeylessTranscriptBody
     from .keyless_webhook_body import KeylessWebhookBody
+    from .knowledge_fact_list import KnowledgeFactList
+    from .knowledge_fact_out import KnowledgeFactOut
+    from .knowledge_fact_save import KnowledgeFactSave
+    from .knowledge_fact_save_kind import KnowledgeFactSaveKind
+    from .knowledge_fact_write import KnowledgeFactWrite
+    from .knowledge_fact_write_kind import KnowledgeFactWriteKind
+    from .knowledge_match import KnowledgeMatch
+    from .knowledge_search_result import KnowledgeSearchResult
     from .message_out import MessageOut
     from .otp_request import OtpRequest
     from .pay_discovery_body import PayDiscoveryBody
@@ -46,10 +58,14 @@ _dynamic_imports: typing.Dict[str, str] = {
     "AgentIdPollRequest": ".agent_id_poll_request",
     "AgentIdStartRequest": ".agent_id_start_request",
     "AgentOut": ".agent_out",
+    "AgentVoiceUpdate": ".agent_voice_update",
     "ApiKeyWebhookConfig": ".api_key_webhook_config",
     "CallContext": ".call_context",
     "CallContextDisposition": ".call_context_disposition",
     "ContactCreate": ".contact_create",
+    "ContactFactList": ".contact_fact_list",
+    "ContactFactOut": ".contact_fact_out",
+    "ContactFactWrite": ".contact_fact_write",
     "ContactList": ".contact_list",
     "ContactOut": ".contact_out",
     "ContactUpdate": ".contact_update",
@@ -67,6 +83,14 @@ _dynamic_imports: typing.Dict[str, str] = {
     "KeylessRenewBody": ".keyless_renew_body",
     "KeylessTranscriptBody": ".keyless_transcript_body",
     "KeylessWebhookBody": ".keyless_webhook_body",
+    "KnowledgeFactList": ".knowledge_fact_list",
+    "KnowledgeFactOut": ".knowledge_fact_out",
+    "KnowledgeFactSave": ".knowledge_fact_save",
+    "KnowledgeFactSaveKind": ".knowledge_fact_save_kind",
+    "KnowledgeFactWrite": ".knowledge_fact_write",
+    "KnowledgeFactWriteKind": ".knowledge_fact_write_kind",
+    "KnowledgeMatch": ".knowledge_match",
+    "KnowledgeSearchResult": ".knowledge_search_result",
     "MessageOut": ".message_out",
     "OtpRequest": ".otp_request",
     "PayDiscoveryBody": ".pay_discovery_body",
@@ -105,10 +129,14 @@ __all__ = [
     "AgentIdPollRequest",
     "AgentIdStartRequest",
     "AgentOut",
+    "AgentVoiceUpdate",
     "ApiKeyWebhookConfig",
     "CallContext",
     "CallContextDisposition",
     "ContactCreate",
+    "ContactFactList",
+    "ContactFactOut",
+    "ContactFactWrite",
     "ContactList",
     "ContactOut",
     "ContactUpdate",
@@ -126,6 +154,14 @@ __all__ = [
     "KeylessRenewBody",
     "KeylessTranscriptBody",
     "KeylessWebhookBody",
+    "KnowledgeFactList",
+    "KnowledgeFactOut",
+    "KnowledgeFactSave",
+    "KnowledgeFactSaveKind",
+    "KnowledgeFactWrite",
+    "KnowledgeFactWriteKind",
+    "KnowledgeMatch",
+    "KnowledgeSearchResult",
     "MessageOut",
     "OtpRequest",
     "PayDiscoveryBody",
