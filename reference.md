@@ -514,7 +514,7 @@ client.agents.create(
 <dl>
 <dd>
 
-**voicemail_message:** `typing.Optional[str]` — Message the AI agent leaves if the call goes to voicemail
+**voicemail_message:** `typing.Optional[str]` — Exact message the AI agent leaves if an outbound call goes to voicemail. Optional: when empty, each outbound call leaves a message written from that call's prompt.
     
 </dd>
 </dl>

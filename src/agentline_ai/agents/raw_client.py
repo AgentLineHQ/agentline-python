@@ -116,7 +116,7 @@ class RawAgentsClient:
             Number a live call is transferred to. Only the owner phone is allowed, so leave it out or send the same E.164 number as owner_phone; setting owner_phone fills it in.
 
         voicemail_message : typing.Optional[str]
-            Message the AI agent leaves if the call goes to voicemail
+            Exact message the AI agent leaves if an outbound call goes to voicemail. Optional: when empty, each outbound call leaves a message written from that call's prompt.
 
         owner_phone : typing.Optional[str]
             Owner's phone number in E.164 format (e.g. '+12125551234'). Calls from this number enter task mode. This is also the only number a live call can be transferred to.
@@ -516,7 +516,7 @@ class AsyncRawAgentsClient:
             Number a live call is transferred to. Only the owner phone is allowed, so leave it out or send the same E.164 number as owner_phone; setting owner_phone fills it in.
 
         voicemail_message : typing.Optional[str]
-            Message the AI agent leaves if the call goes to voicemail
+            Exact message the AI agent leaves if an outbound call goes to voicemail. Optional: when empty, each outbound call leaves a message written from that call's prompt.
 
         owner_phone : typing.Optional[str]
             Owner's phone number in E.164 format (e.g. '+12125551234'). Calls from this number enter task mode. This is also the only number a live call can be transferred to.
