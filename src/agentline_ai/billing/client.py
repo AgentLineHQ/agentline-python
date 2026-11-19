@@ -24,11 +24,22 @@ class BillingClient:
 
     def get_balance(self, *, request_options: typing.Optional[RequestOptions] = None) -> typing.Any:
         """
-        Get your AI telephony account balance and rate card.
+        Get your AI telephony account balance, plan allowance and rate card.
 
-        Returns the current balance, currency, billing rates for calls,
+        Returns the current wallet balance, currency, billing rates for calls,
         phone numbers, and SMS, plus what the balance can cover.
         Use this to check affordability before paid telephony operations.
+
+        plan is null, or the monthly plan in force: key, name, billing_period,
+        price, status, current_period_start/end, next_payment_at,
+        cancel_at_period_end and ends_at, and allowance with included, used and
+        remaining call seconds, SMS and plan numbers for usage_period. The plan
+        allowance is used before the wallet and resets at allowance.resets_at
+        (the 1st of each month, 00:00 UTC), not on the payment date.
+
+        number_renewals lists each active number's next 30-day renewal: renews_at,
+        covered_by_plan and renewal_fee (charged to the wallet when not covered),
+        plus release_due_at when an unpaid number is scheduled for release.
 
         trial is null, or the account's free trial: status (pending until the
         first number is provisioned, then active for 7 days; converted or
@@ -229,11 +240,22 @@ class AsyncBillingClient:
 
     async def get_balance(self, *, request_options: typing.Optional[RequestOptions] = None) -> typing.Any:
         """
-        Get your AI telephony account balance and rate card.
+        Get your AI telephony account balance, plan allowance and rate card.
 
-        Returns the current balance, currency, billing rates for calls,
+        Returns the current wallet balance, currency, billing rates for calls,
         phone numbers, and SMS, plus what the balance can cover.
         Use this to check affordability before paid telephony operations.
+
+        plan is null, or the monthly plan in force: key, name, billing_period,
+        price, status, current_period_start/end, next_payment_at,
+        cancel_at_period_end and ends_at, and allowance with included, used and
+        remaining call seconds, SMS and plan numbers for usage_period. The plan
+        allowance is used before the wallet and resets at allowance.resets_at
+        (the 1st of each month, 00:00 UTC), not on the payment date.
+
+        number_renewals lists each active number's next 30-day renewal: renews_at,
+        covered_by_plan and renewal_fee (charged to the wallet when not covered),
+        plus release_due_at when an unpaid number is scheduled for release.
 
         trial is null, or the account's free trial: status (pending until the
         first number is provisioned, then active for 7 days; converted or
