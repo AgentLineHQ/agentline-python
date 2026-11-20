@@ -98,13 +98,17 @@ class MessagesClient:
         Each account can send 250 texts per UTC day across all its agents,
         unless the account has a raised limit.
 
+        Test line: any +1 555 number (e.g. +15555550100) reaches no one. The text
+        is not sent or billed and returns status 'delivered' with test=true; the
+        test line then texts back once, which arrives as sms.received.
+
         Parameters
         ----------
         agent_id : str
             ID of the AI agent sending the SMS (e.g. 'agt_abc123')
 
         to_number : str
-            Destination phone number in E.164 format (e.g. '+12125551234')
+            Destination phone number in E.164 format (e.g. '+12125551234'). Any +1 555 number, e.g. '+15555550100', is the test line: not sent or billed, and it texts back once.
 
         body : str
             SMS message text content
@@ -276,13 +280,17 @@ class AsyncMessagesClient:
         Each account can send 250 texts per UTC day across all its agents,
         unless the account has a raised limit.
 
+        Test line: any +1 555 number (e.g. +15555550100) reaches no one. The text
+        is not sent or billed and returns status 'delivered' with test=true; the
+        test line then texts back once, which arrives as sms.received.
+
         Parameters
         ----------
         agent_id : str
             ID of the AI agent sending the SMS (e.g. 'agt_abc123')
 
         to_number : str
-            Destination phone number in E.164 format (e.g. '+12125551234')
+            Destination phone number in E.164 format (e.g. '+12125551234'). Any +1 555 number, e.g. '+15555550100', is the test line: not sent or billed, and it texts back once.
 
         body : str
             SMS message text content

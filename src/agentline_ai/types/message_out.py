@@ -53,6 +53,11 @@ class MessageOut(UniversalBaseModel):
     When the message was sent
     """
 
+    test: typing.Optional[bool] = pydantic.Field(default=None)
+    """
+    True when sent to the test line (any +1 555 number): nothing was sent or billed
+    """
+
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
     else:

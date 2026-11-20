@@ -114,13 +114,17 @@ class CallsClient:
         on its own. Check get_call_details for progress and call
         get_call_transcript once status is completed.
 
+        Test line: any +1 555 number (e.g. +15555550100) reaches no one. The call
+        is not dialled or billed; it returns status 'completed' with test=true
+        and a short transcript, and fires call.completed. Use it to test.
+
         Parameters
         ----------
         agent_id : str
             ID of the AI agent making the call (e.g. 'agt_abc123')
 
         to_number : str
-            Destination phone number in E.164 format (e.g. '+12125551234')
+            Destination phone number in E.164 format (e.g. '+12125551234'). Any +1 555 number, e.g. '+15555550100', is the test line: not dialled or billed.
 
         system_prompt : typing.Optional[str]
             Per-call system prompt override. Replaces the agent's default prompt for this call ONLY. If omitted, the agent's default system_prompt is used.
@@ -474,13 +478,17 @@ class AsyncCallsClient:
         on its own. Check get_call_details for progress and call
         get_call_transcript once status is completed.
 
+        Test line: any +1 555 number (e.g. +15555550100) reaches no one. The call
+        is not dialled or billed; it returns status 'completed' with test=true
+        and a short transcript, and fires call.completed. Use it to test.
+
         Parameters
         ----------
         agent_id : str
             ID of the AI agent making the call (e.g. 'agt_abc123')
 
         to_number : str
-            Destination phone number in E.164 format (e.g. '+12125551234')
+            Destination phone number in E.164 format (e.g. '+12125551234'). Any +1 555 number, e.g. '+15555550100', is the test line: not dialled or billed.
 
         system_prompt : typing.Optional[str]
             Per-call system prompt override. Replaces the agent's default prompt for this call ONLY. If omitted, the agent's default system_prompt is used.
