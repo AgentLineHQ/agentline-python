@@ -98,9 +98,25 @@ class MessagesClient:
         Each account can send 250 texts per UTC day across all its agents,
         unless the account has a raised limit.
 
+        Every text is reviewed before it is sent. Numbers are registered for
+        conversational messaging, so a text is refused with a 403 (not sent, not
+        billed) when it contains content carriers prohibit (sexual content,
+        cannabis, drugs, alcohol or tobacco promotion, firearms, gambling, hate,
+        harassment, fraud, high-risk loan offers), bulk marketing, a public link
+        shortener, or when the same text already went to 25 other recipients in
+        24 hours.
+
+        Opt-out: a recipient who replied STOP (or UNSUBSCRIBE, CANCEL, END, QUIT)
+        to any of the account's numbers is not texted again; the send returns
+        409 until they reply START.
+
         Test line: any +1 555 number (e.g. +15555550100) reaches no one. The text
         is not sent or billed and returns status 'delivered' with test=true; the
         test line then texts back once, which arrives as sms.received.
+
+        The response reports segments (how many SMS the text was sent as) and
+        cost (USD this send was charged at: $0.02 for up to two segments, then
+        $0.02 per segment; 0 when a trial or the test line covered it).
 
         Parameters
         ----------
@@ -280,9 +296,25 @@ class AsyncMessagesClient:
         Each account can send 250 texts per UTC day across all its agents,
         unless the account has a raised limit.
 
+        Every text is reviewed before it is sent. Numbers are registered for
+        conversational messaging, so a text is refused with a 403 (not sent, not
+        billed) when it contains content carriers prohibit (sexual content,
+        cannabis, drugs, alcohol or tobacco promotion, firearms, gambling, hate,
+        harassment, fraud, high-risk loan offers), bulk marketing, a public link
+        shortener, or when the same text already went to 25 other recipients in
+        24 hours.
+
+        Opt-out: a recipient who replied STOP (or UNSUBSCRIBE, CANCEL, END, QUIT)
+        to any of the account's numbers is not texted again; the send returns
+        409 until they reply START.
+
         Test line: any +1 555 number (e.g. +15555550100) reaches no one. The text
         is not sent or billed and returns status 'delivered' with test=true; the
         test line then texts back once, which arrives as sms.received.
+
+        The response reports segments (how many SMS the text was sent as) and
+        cost (USD this send was charged at: $0.02 for up to two segments, then
+        $0.02 per segment; 0 when a trial or the test line covered it).
 
         Parameters
         ----------

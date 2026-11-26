@@ -58,6 +58,16 @@ class MessageOut(UniversalBaseModel):
     True when sent to the test line (any +1 555 number): nothing was sent or billed
     """
 
+    segments: typing.Optional[int] = pydantic.Field(default=None)
+    """
+    How many SMS the text was sent as (1 for a short text or an MMS)
+    """
+
+    cost: typing.Optional[float] = pydantic.Field(default=None)
+    """
+    USD this send was charged at: $0.02 for up to two segments, then $0.02 per segment; 0 when a trial or the test line covered it
+    """
+
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
     else:
